@@ -17,6 +17,13 @@
   margin-top: -15px;
 }
 
+/* Dialog footers: Vuetify pads them 8px, which makes the buttons sit closer to
+   the card edge than the 16px body above them. Match the body inset. Declared
+   before the flush tile bar below so that bar keeps its zero padding. */
+.v-card > .v-card-actions {
+  padding: 8px 16px 16px;
+}
+
 /* Resource tile action bars sit flush with the card edges. */
 .v-card-actions.card-actions--flush {
   padding: 0;
@@ -32,6 +39,13 @@
 .v-card-text.card-text--standard {
   padding: 16px;
   overflow-y: auto;
+}
+
+/* A row whose children were all removed by v-if still paints its padding and
+   margin, leaving a blank strip between sections. v-if leaves a comment node
+   behind, so :empty cannot be used; collapse rows with no elements instead. */
+.v-row:not(:has(*)) {
+  display: none;
 }
 
 /* Small cards nested inside service tiles. */

@@ -1,8 +1,7 @@
 <template>
   <v-card
-    style="padding: 8px;"
+    class="border service-card"
     rounded="xl"
-    class="border"
   >
     <v-card-subtitle>
       Shadowsocks API

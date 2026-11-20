@@ -51,60 +51,60 @@
         >
           <v-window-item value="sub">
             <v-row>
-              <v-col style="text-align: center;">
+              <v-col class="text-center">
                 <v-chip>{{ $t('setting.sub') }}</v-chip><br>
                 <QrcodeVue
                   :value="clientSub"
                   :size="size"
                   :margin="1"
-                  style="border-radius: 1rem; cursor: copy;"
+                  class="qr-code"
                   @click="copyToClipboard(clientSub)"
                 />
               </v-col>
             </v-row>
             <v-row>
-              <v-col style="text-align: center;">
+              <v-col class="text-center">
                 <v-chip>{{ $t('setting.jsonSub') }}</v-chip><br>
                 <QrcodeVue
                   :value="clientSub + '?format=json'"
                   :size="size"
                   :margin="1"
-                  style="border-radius: 1rem; cursor: copy;"
+                  class="qr-code"
                   @click="copyToClipboard(clientSub + '?format=json')"
                 />
               </v-col>
             </v-row>
             <v-row>
-              <v-col style="text-align: center;">
+              <v-col class="text-center">
                 <v-chip>{{ $t('setting.clashSub') }}</v-chip><br>
                 <QrcodeVue
                   :value="clientSub + '?format=clash'"
                   :size="size"
                   :margin="1"
-                  style="border-radius: 1rem; cursor: copy;"
+                  class="qr-code"
                   @click="copyToClipboard(clientSub + '?format=clash')"
                 />
               </v-col>
             </v-row>
             <v-row>
-              <v-col style="text-align: center;">
+              <v-col class="text-center">
                 <v-chip>SING-BOX (scan only)</v-chip><br>
                 <QrcodeVue
                   :value="singbox"
                   :size="size"
                   :margin="1"
-                  style="border-radius: .8rem; cursor: not-allowed;"
+                  class="qr-code--static"
                 />
               </v-col>
             </v-row>
             <v-row>
-              <v-col style="text-align: center;">
+              <v-col class="text-center">
                 <v-chip>HAPP (scan only)</v-chip><br>
                 <QrcodeVue
                   :value="happ"
                   :size="size"
                   :margin="1"
-                  style="border-radius: .8rem; cursor: not-allowed;"
+                  class="qr-code--static"
                 />
               </v-col>
             </v-row>
@@ -114,13 +114,13 @@
               v-for="(l, index) in clientLinks"
               :key="index"
             >
-              <v-col style="text-align: center;">
+              <v-col class="text-center">
                 <v-chip>{{ l.remark?? $t('client.' + l.type) }}</v-chip><br>
                 <QrcodeVue
                   :value="l.uri"
                   :size="size"
                   :margin="1"
-                  style="border-radius: .5rem; cursor: copy;"
+                  class="qr-code"
                   @click="copyToClipboard(l.uri)"
                 />
               </v-col>

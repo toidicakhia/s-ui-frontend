@@ -46,7 +46,7 @@
           </v-col>
         </v-row>
       </v-card-title>
-      <v-card-subtitle style="margin-top: -20px">
+      <v-card-subtitle class="card-subtitle--compact">
         {{ $t('objects.' + resource) + " : " + tag }}
       </v-card-subtitle>
       <v-card-text
@@ -189,6 +189,7 @@ import { ref } from 'vue'
 import { useTheme } from 'vuetify'
 import { Line } from 'vue-chartjs'
 import DatePick from '@/components/DateTime.vue'
+import { chartSeriesColors, chartTheme } from '@/plugins/chartTheme'
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -277,9 +278,6 @@ export default {
         },
         scales: {
           y: {
-            grid: {
-              color: '#777777',
-            },
             beginAtZero: true,
             ticks: {
               callback: function(label: string | number) {
@@ -295,11 +293,8 @@ export default {
   },
   computed: {
     options() {
-      const onSurface = this.theme.current.colors['on-surface']
-      const dark = this.theme.current.dark
-      const text = onSurface
-      const gridY = dark ? '#333333' : '#88888850'
-      const gridX = dark ? '#333333' : '#88888850'
+      const onSurface = <string>this.theme.current.colors['on-surface']
+      const { text, gridY, gridX } = chartTheme(this.theme.current.dark, onSurface)
       return {
         ...this.baseOptions,
         plugins: {
@@ -392,15 +387,13 @@ export default {
           datasets: [
             {
               label: i18n.global.t('stats.upload'),
-              backgroundColor: 'rgba(255, 165, 0, 0.4)',
-              borderColor: 'rgba(255, 165, 0)',
+              ...chartSeriesColors.upload,
               fill: true,
               data: uplinkData
             },
             {
               label: i18n.global.t('stats.download'),
-              backgroundColor: 'rgba(0, 128, 0, 0.2)',
-              borderColor: 'rgba(0, 128, 0)',
+              ...chartSeriesColors.download,
               fill: true,
               data: downlinkData
             }

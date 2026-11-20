@@ -28,7 +28,7 @@
       >
         <v-col
           v-if="l.length>0"
-          style="text-align: center;"
+          class="text-center"
         >
           <v-chip>{{ $t('types.wg.peer') + ' ' + (i+1) }}</v-chip> <v-icon
             :aria-label="$t('a11y.download')"
@@ -39,7 +39,7 @@
             :value="l"
             :size="size"
             :margin="1"
-            style="border-radius: .5rem; cursor: copy;"
+            class="qr-code"
             @click="copyToClipboard(l)"
           />
         </v-col>

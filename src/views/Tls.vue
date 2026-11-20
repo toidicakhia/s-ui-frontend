@@ -17,12 +17,11 @@
     @close="closeProviderModal"
     @save="saveProviderModal"
   />
-  <v-row>
-    <v-col
-      cols="12"
-      justify="center"
-      align="center"
-    >
+  <v-row
+    justify="center"
+    align="center"
+  >
+    <v-col cols="auto">
       <v-btn
         color="primary"
         @click="showModal(0)"
@@ -46,7 +45,7 @@
         min-width="200"
         :title="item.name"
       >
-        <v-card-subtitle style="margin-top: -15px;">
+        <v-card-subtitle class="card-subtitle--compact">
           {{ item.server?.server_name?.length>0 ? item.server.server_name : "-" }}
         </v-card-subtitle>
         <v-card-text>
@@ -89,7 +88,7 @@
           </v-row>
         </v-card-text>
         <v-divider />
-        <v-card-actions style="padding: 0;">
+        <v-card-actions class="card-actions--flush">
           <v-btn
             :aria-label="$t('actions.edit')"
             icon="mdi-file-edit"
@@ -106,7 +105,7 @@
             v-if="tlsInbounds(item.id).length == 0"
             :aria-label="$t('actions.del')"
             icon="mdi-file-remove"
-            style="margin-inline-start:0;"
+            class="action-btn--flush"
             color="warning"
             @click="delOverlay[index] = true"
           >
@@ -203,7 +202,7 @@
         min-width="200"
         :title="item.tag"
       >
-        <v-card-subtitle style="margin-top: -15px;">
+        <v-card-subtitle class="card-subtitle--compact">
           {{ providerTypeName(item.type) }}
         </v-card-subtitle>
         <v-card-text>
@@ -251,7 +250,7 @@
           </v-row>
         </v-card-text>
         <v-divider />
-        <v-card-actions style="padding: 0;">
+        <v-card-actions class="card-actions--flush">
           <v-btn
             :aria-label="$t('actions.edit')"
             icon="mdi-file-edit"
@@ -270,7 +269,7 @@
             v-if="providerUsers(item.tag).length == 0"
             :aria-label="$t('actions.del')"
             icon="mdi-file-remove"
-            style="margin-inline-start:0;"
+            class="action-btn--flush"
             color="warning"
             @click="delProviderOverlay[index] = true"
           >

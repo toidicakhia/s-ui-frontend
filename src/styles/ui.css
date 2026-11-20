@@ -1,0 +1,58 @@
+/**
+ * Shared UI styling utilities.
+ *
+ * The same element should look the same on every page. Instead of repeating
+ * inline styles in each component, use these semantic classes so a visual
+ * change only has to be made in one place.
+ */
+
+/* A nested card that blends into the surface of its parent (modal sections,
+   rule/dial rows, TLS option groups). */
+.nested-card {
+  background-color: inherit;
+}
+
+/* Resource tiles show the protocol/type directly under the title. */
+.v-card-subtitle.card-subtitle--compact {
+  margin-top: -15px;
+}
+
+/* Resource tile action bars sit flush with the card edges. */
+.v-card-actions.card-actions--flush {
+  padding: 0;
+}
+
+/* Follow-up icon buttons in a tile action bar stay tight to the first one. */
+.v-btn.action-btn--flush {
+  margin-inline-start: 0;
+}
+
+/* Card bodies: identical horizontal padding everywhere, and a scrollbar only
+   when the content actually overflows (instead of a permanently reserved one). */
+.v-card-text.card-text--standard {
+  padding: 0 16px;
+  overflow-y: auto;
+}
+
+/* Small cards nested inside service tiles. */
+.service-card {
+  margin: 4px;
+  padding: 8px;
+}
+
+/* Every QR code uses the same corner radius; only the cursor differs between
+   codes that can be copied and scan-only ones. */
+.qr-code {
+  border-radius: 8px;
+  cursor: copy;
+}
+
+.qr-code--static {
+  border-radius: 8px;
+  cursor: not-allowed;
+}
+
+/* Rulesets that already exist are dimmed in the import dialogs. */
+.is-existing {
+  opacity: 0.4;
+}

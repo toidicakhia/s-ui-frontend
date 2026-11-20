@@ -21,6 +21,7 @@ import {
   Filler,
 } from 'chart.js'
 import { HumanReadable } from '@/plugins/utils'
+import { chartSeriesColors, chartTheme } from '@/plugins/chartTheme'
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -149,9 +150,6 @@ export default {
           y: {
             min: 0,
             max: 100,
-            grid: {
-              color: '#777777',
-            },
             beginAtZero: true,
             ticks: {
                 beginAtZero: true,
@@ -184,9 +182,6 @@ export default {
         },
         scales: {
           y: {
-            grid: {
-              color: '#777777',
-            },
             beginAtZero: true,
             ticks: {
               callback: (label:number) => { return parseInt(String(label)).toString() },
@@ -203,12 +198,7 @@ export default {
       // Vuetify types a theme colour as a string or one of its object forms;
       // the palette this app defines holds CSS colour strings throughout.
       const onSurface = <string>this.theme.current.colors['on-surface']
-      const dark = this.theme.current.dark
-      return {
-        text: onSurface,
-        gridY: dark ? '#333333' : '#88888850',
-        gridX: dark ? '#333333' : '#88888850',
-      }
+      return chartTheme(this.theme.current.dark, onSurface)
     },
     options() {
       const { text, gridY, gridX } = this.chartColors
@@ -284,8 +274,7 @@ export default {
         datasets: [
           {
             label: '',
-            backgroundColor: 'rgba(255, 165, 0, 0.2)',
-            borderColor: 'rgba(255, 165, 0,0.8)',
+            ...chartSeriesColors.upload,
             fill: true,
             data: newData
           }
@@ -307,15 +296,13 @@ export default {
         datasets: [
           {
             label: '',
-            backgroundColor: 'rgba(255, 165, 0, 0.2)',
-            borderColor: 'rgba(255, 165, 0,0.8)',
+            ...chartSeriesColors.upload,
             fill: true,
             data: newData1
           },
           {
             label: '',
-            backgroundColor: 'rgba(0, 128, 0, 0.2)',
-            borderColor: 'rgba(0, 128, 0,0.8)',
+            ...chartSeriesColors.download,
             fill: true,
             data: newData2
           }

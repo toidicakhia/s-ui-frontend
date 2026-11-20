@@ -18,15 +18,14 @@
     :visible="tokenModal.visible"
     @close="closeTokenModal"
   />
-  <v-row>
-    <v-col
-      cols="12"
-      justify="center"
-      align="center"
-    >
+  <v-row
+    justify="center"
+    align="center"
+  >
+    <v-col cols="auto">
       <v-btn
         color="primary"
-        style="margin: 0 5px;"
+        class="mx-1"
         @click="showChangesModal('')"
       >
         {{ $t('admin.changes') }}
@@ -54,7 +53,7 @@
         min-width="200"
         :title="item.username"
       >
-        <v-card-subtitle style="margin-top: -15px;">
+        <v-card-subtitle class="card-subtitle--compact">
           {{ $t('admin.lastLogin') }}
         </v-card-subtitle>
         <v-card-text>
@@ -78,7 +77,7 @@
           </v-row>
         </v-card-text>
         <v-divider />
-        <v-card-actions style="padding: 0;">
+        <v-card-actions class="card-actions--flush">
           <v-btn
             :aria-label="$t('actions.edit')"
             icon="mdi-account-edit"

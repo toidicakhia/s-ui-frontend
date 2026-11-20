@@ -1,5 +1,5 @@
 <template>
-  <v-card style="background-color: inherit;">
+  <v-card class="nested-card">
     <v-row>
       <v-col
         v-if="optionInbound"

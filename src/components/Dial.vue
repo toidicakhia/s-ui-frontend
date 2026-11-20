@@ -1,7 +1,7 @@
 <template>
   <v-card
     :subtitle="$t('objects.dial')"
-    style="background-color: inherit;"
+    class="nested-card"
   >
     <v-row>
       <v-col

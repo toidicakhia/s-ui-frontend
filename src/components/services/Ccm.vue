@@ -47,8 +47,7 @@
     <v-card
       v-for="(user, index) in (data.users || [])"
       :key="index"
-      class="border"
-      style="margin: 4px; padding: 8px;"
+      class="border service-card"
       rounded="xl"
     >
       <v-row>

@@ -228,7 +228,7 @@
         :mobile="smAndDown"
         mobile-breakpoint="sm"
         width="100%"
-        class="elevation-3 rounded"
+        class="elevation-5 rounded-xl"
         @update:items-per-page="setItemPerPage($event)"
       >
         <template #item.enable="{ item }">

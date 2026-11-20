@@ -22,7 +22,7 @@
         </v-row>
       </v-card-title>
       <v-divider />
-      <v-card-text style="padding: 0 16px; overflow-y: scroll;">
+      <v-card-text class="card-text--standard">
         <v-tabs
           v-model="tab"
           @update:model-value="tabChanged"
@@ -146,7 +146,7 @@
               <tr
                 v-for="(item, i) in importPreview"
                 :key="i"
-                :style="item.exists ? 'opacity:0.4' : ''"
+                :class="{ 'is-existing': item.exists }"
               >
                 <td>
                   {{ item.tag }}
@@ -172,7 +172,7 @@
         </template>
       </v-card-text>
       <v-divider />
-      <v-card-actions class="pa-3">
+      <v-card-actions>
         <v-btn
           variant="tonal"
           :disabled="importRawText.trim().length === 0"
@@ -185,14 +185,15 @@
         </v-btn>
         <v-spacer />
         <v-btn
-          variant="text"
+          color="primary"
+          variant="outlined"
           @click="close"
         >
           {{ $t('actions.close') }}
         </v-btn>
         <v-btn
           color="primary"
-          variant="flat"
+          variant="tonal"
           :disabled="newCount === 0"
           @click="save"
         >

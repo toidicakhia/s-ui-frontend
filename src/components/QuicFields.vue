@@ -1,7 +1,7 @@
 <template>
   <v-card
     :subtitle="quic ? 'QUIC' : 'HTTP/2'"
-    style="background-color: inherit;"
+    class="nested-card"
   >
     <v-row>
       <v-col

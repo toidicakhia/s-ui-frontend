@@ -62,8 +62,7 @@
       <v-card
         v-for="clientUrl, index in data.verify_client_url"
         :key="index"
-        class="border"
-        style="padding: 8px;"
+        class="border service-card"
         rounded="xl"
       >
         <v-row>
@@ -113,8 +112,7 @@
       <v-card
         v-for="mesh, index in data.mesh_with"
         :key="index"
-        class="border"
-        style="padding: 8px;"
+        class="border service-card"
         rounded="xl"
       >
         <v-row>
@@ -217,8 +215,7 @@
     <template v-if="optionStun">
       <v-card
         :title="$t('types.derp.stun')"
-        class="border"
-        style="padding: 8px;"
+        class="border service-card"
         rounded="xl"
       >
         <Listen

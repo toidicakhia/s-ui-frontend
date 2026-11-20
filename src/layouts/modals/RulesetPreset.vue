@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     transition="dialog-top-transition"
-    width="600"
+    width="800"
   >
     <v-card class="rounded-lg">
       <v-card-title>
@@ -22,7 +22,7 @@
         </v-row>
       </v-card-title>
       <v-divider />
-      <v-card-text style="padding: 0 16px; overflow-y: scroll;">
+      <v-card-text class="card-text--standard">
         <v-row class="mt-1">
           <v-col cols="12">
             <v-select
@@ -124,7 +124,7 @@
               <tr
                 v-for="(item, i) in preview"
                 :key="i"
-                :style="item.exists ? 'opacity:0.4' : ''"
+                :class="{ 'is-existing': item.exists }"
               >
                 <td>{{ item.tag }}</td>
                 <td
@@ -139,17 +139,18 @@
         </template>
       </v-card-text>
       <v-divider />
-      <v-card-actions class="pa-3">
+      <v-card-actions>
         <v-spacer />
         <v-btn
-          variant="text"
+          color="primary"
+          variant="outlined"
           @click="$emit('close')"
         >
           {{ $t('actions.close') }}
         </v-btn>
         <v-btn
           color="primary"
-          variant="flat"
+          variant="tonal"
           :disabled="newCount === 0 && !(addRoute && routeTo && preview.length > 0)"
           @click="save"
         >

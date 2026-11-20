@@ -45,22 +45,21 @@
     @save="savePresetRulesets"
     @close="presetRulesetsModal.visible = false"
   />
-  <v-row>
-    <v-col
-      cols="12"
-      justify="center"
-      align="center"
-    >
+  <v-row
+    justify="center"
+    align="center"
+  >
+    <v-col cols="auto">
       <v-btn
         color="primary"
-        style="margin: 0 5px;"
+        class="mx-1"
         @click="showRuleModal(-1)"
       >
         {{ $t('rule.add') }}
       </v-btn>
       <v-btn
         color="primary"
-        style="margin: 0 5px;"
+        class="mx-1"
         @click="showRulesetModal(-1)"
       >
         {{ $t('ruleset.add') }}
@@ -251,7 +250,7 @@
         min-width="200"
         :title="item.tag"
       >
-        <v-card-subtitle style="margin-top: -15px;">
+        <v-card-subtitle class="card-subtitle--compact">
           <v-row><v-col>{{ $t('ruleset.' + item.type) }}</v-col></v-row>
         </v-card-subtitle>
         <v-card-text>
@@ -260,7 +259,7 @@
           <v-row><v-col>{{ $t('actions.update') }}</v-col><v-col>{{ item.update_interval ?? '-' }}</v-col></v-row>
         </v-card-text>
         <v-divider />
-        <v-card-actions style="padding: 0;">
+        <v-card-actions class="card-actions--flush">
           <v-btn
             :aria-label="$t('actions.edit')"
             icon="mdi-file-edit"
@@ -275,7 +274,7 @@
           <v-btn
             :aria-label="$t('actions.del')"
             icon="mdi-file-remove"
-            style="margin-inline-start:0;"
+            class="action-btn--flush"
             color="warning"
             @click="delRulesetOverlay[index] = true"
           >
@@ -343,7 +342,7 @@
         min-width="200"
         :title="index+1"
       >
-        <v-card-subtitle style="margin-top: -15px;">
+        <v-card-subtitle class="card-subtitle--compact">
           <v-row><v-col>{{ item.type != undefined ? $t('rule.logical') + ' (' + item.mode + ')' : $t('rule.simple') }}</v-col></v-row>
         </v-card-subtitle>
         <v-card-text>
@@ -353,7 +352,7 @@
           <v-row><v-col>{{ $t('rule.invert') }}</v-col><v-col>{{ $t((item.invert ?? false) ? 'yes' : 'no') }}</v-col></v-row>
         </v-card-text>
         <v-divider />
-        <v-card-actions style="padding: 0;">
+        <v-card-actions class="card-actions--flush">
           <v-btn
             :aria-label="$t('actions.edit')"
             icon="mdi-file-edit"
@@ -368,7 +367,7 @@
           <v-btn
             :aria-label="$t('actions.del')"
             icon="mdi-file-remove"
-            style="margin-inline-start:0;"
+            class="action-btn--flush"
             color="warning"
             @click="delRuleOverlay[index] = true"
           >
@@ -394,7 +393,7 @@
           <v-btn
             :aria-label="$t('actions.moveDown')"
             icon="mdi-arrow-down"
-            style="margin-inline-start:0;"
+            class="action-btn--flush"
             :disabled="index == rules.length - 1"
             @click="moveRule(index, 1)"
           >

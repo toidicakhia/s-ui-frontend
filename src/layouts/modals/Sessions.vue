@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     transition="dialog-bottom-transition"
-    width="750"
+    width="800"
     scrollable
   >
     <v-card
@@ -47,7 +47,7 @@
           </v-col>
         </v-row>
       </v-card-title>
-      <v-card-subtitle style="margin-top: -20px">
+      <v-card-subtitle class="card-subtitle--compact">
         {{ $t('objects.' + resource) + " : " + tag }}
       </v-card-subtitle>
       <v-card-text>

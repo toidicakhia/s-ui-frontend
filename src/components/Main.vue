@@ -131,7 +131,7 @@
           md="3"
         >
           <v-card
-            class="rounded-lg"
+            class="rounded-xl"
             variant="outlined"
             height="210px"
             elevation="5"
@@ -162,7 +162,7 @@
               </template>
             </v-card-title>
             <v-card-text
-              style="padding: 0 16px;"
+              class="card-text--standard"
               align="center"
               justify="center"
             >

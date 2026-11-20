@@ -44,7 +44,7 @@ onMounted(() => { Data().checkUpdate() })
 <style>
 .v-card-subtitle {
   text-align: center;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.12);
   min-height: 20px;
 }
 .v-switch.v-input {

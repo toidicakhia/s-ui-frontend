@@ -19,6 +19,9 @@ import store from './store'
 // Plugins
 import { registerPlugins } from '@/plugins'
 
+// Shared UI styling utilities (loaded after Vuetify so they can override it)
+import '@/styles/ui.css'
+
 // Locale
 import { i18n } from '@/locales'
 import Vue3PersianDatetimePicker from 'vue3-persian-datetime-picker'

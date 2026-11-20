@@ -1,10 +1,10 @@
 <template>
-  <v-row style="margin-bottom: 10px;">
-    <v-col
-      cols="12"
-      justify="center"
-      align="center"
-    >
+  <v-row
+    class="mb-2"
+    justify="center"
+    align="center"
+  >
+    <v-col cols="auto">
       <v-btn
         variant="outlined"
         color="warning"

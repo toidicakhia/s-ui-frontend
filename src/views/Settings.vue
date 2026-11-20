@@ -23,7 +23,7 @@
       <v-row
         align="center"
         justify="center"
-        style="margin-bottom: 10px;"
+        class="mb-2"
       >
         <v-col cols="auto">
           <v-btn

@@ -51,7 +51,7 @@
     >
       <v-icon
         icon="mdi-heart"
-        color="red"
+        color="error"
         size="1.5em"
       />
     </v-btn>

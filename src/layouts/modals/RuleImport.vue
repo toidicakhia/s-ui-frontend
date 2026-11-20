@@ -22,7 +22,7 @@
         </v-row>
       </v-card-title>
       <v-divider />
-      <v-card-text style="padding: 0 16px; overflow-y: scroll;">
+      <v-card-text class="card-text--standard">
         <v-tabs
           v-model="tab"
           @update:model-value="tabChanged"
@@ -214,7 +214,7 @@
               <tr
                 v-for="(rs, i) in parsed.rule_set"
                 :key="i"
-                :style="mode === 'merge' && existingRulesetTags.includes(rs.tag) ? 'opacity:0.4' : ''"
+                :class="{ 'is-existing': mode === 'merge' && existingRulesetTags.includes(rs.tag) }"
               >
                 <td style="font-family: monospace;">
                   {{ rs.tag }}
@@ -240,14 +240,15 @@
         </v-btn>
         <v-spacer />
         <v-btn
-          variant="text"
+          color="primary"
+          variant="outlined"
           @click="close"
         >
           {{ $t('actions.close') }}
         </v-btn>
         <v-btn
           color="primary"
-          variant="flat"
+          variant="tonal"
           :disabled="!parsed"
           @click="save"
         >

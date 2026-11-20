@@ -68,7 +68,7 @@
         min-width="200"
         :title="item.tag"
       >
-        <v-card-subtitle style="margin-top: -15px;">
+        <v-card-subtitle class="card-subtitle--compact">
           <v-row>
             <v-col>{{ item.type }}</v-col>
           </v-row>
@@ -171,7 +171,7 @@
           </v-row>
         </v-card-text>
         <v-divider />
-        <v-card-actions style="padding: 0;">
+        <v-card-actions class="card-actions--flush">
           <v-btn
             :aria-label="$t('actions.edit')"
             icon="mdi-file-edit"
@@ -187,7 +187,7 @@
           <v-btn
             :aria-label="$t('actions.del')"
             icon="mdi-file-remove"
-            style="margin-inline-start:0;"
+            class="action-btn--flush"
             color="warning"
             @click="delOverlay[index] = true"
           >

@@ -1,7 +1,7 @@
 <template>
   <v-card
     subtitle="Cloudflare Origin CA"
-    style="background-color: inherit;"
+    class="nested-card"
   >
     <v-row>
       <v-col cols="12">

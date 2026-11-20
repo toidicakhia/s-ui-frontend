@@ -6,8 +6,7 @@
   >
     <v-col cols="auto">
       <v-btn
-        variant="outlined"
-        color="warning"
+        color="primary"
         :loading="loading"
         :disabled="stateChange"
         @click="saveConfig"

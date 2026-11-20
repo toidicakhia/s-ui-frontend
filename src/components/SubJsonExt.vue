@@ -27,7 +27,6 @@
         cols="12"
         sm="6"
         md="3"
-        lg="2"
       >
         <v-select
           v-model="routeFinal"
@@ -87,7 +86,6 @@
         cols="12"
         sm="6"
         md="3"
-        lg="2"
       >
         <v-select
           v-model="subJsonExt.log!.level"
@@ -100,7 +98,6 @@
         cols="12"
         sm="6"
         md="3"
-        lg="2"
       >
         <v-switch
           v-model="subJsonExt.log!.timestamp"
@@ -115,7 +112,6 @@
         cols="12"
         sm="6"
         md="3"
-        lg="2"
       >
         <v-select
           v-model="subJsonExt.dns!.final"
@@ -128,7 +124,6 @@
         cols="12"
         sm="6"
         md="3"
-        lg="2"
       >
         <SimpleDNS
           :data="proxyDns"
@@ -139,7 +134,6 @@
         cols="12"
         sm="6"
         md="3"
-        lg="2"
       >
         <SimpleDNS
           :data="directDns"
@@ -152,7 +146,6 @@
         cols="12"
         sm="6"
         md="3"
-        lg="2"
       >
         <v-select
           v-model="subJsonExt.default_domain_resolver"
@@ -198,7 +191,6 @@
           cols="12"
           sm="6"
           md="3"
-          lg="2"
         >
           <v-text-field
             v-model.number="inbounds[0].mtu"
@@ -227,7 +219,6 @@
           cols="12"
           sm="6"
           md="3"
-          lg="2"
         >
           <v-switch
             v-model="platformProxy"

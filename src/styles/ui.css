@@ -48,6 +48,12 @@
   display: none;
 }
 
+/* Expansion panel bodies: the same breathing room under the title as the rest
+   of the UI (Vuetify only leaves 8px on top). */
+.v-expansion-panel-text__wrapper {
+  padding: 16px 24px;
+}
+
 /* Small cards nested inside service tiles. */
 .service-card {
   margin: 4px;

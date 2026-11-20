@@ -27,10 +27,10 @@
   margin-inline-start: 0;
 }
 
-/* Card bodies: identical horizontal padding everywhere, and a scrollbar only
-   when the content actually overflows (instead of a permanently reserved one). */
+/* Card bodies: identical padding everywhere (including breathing room below
+   the title divider), and a scrollbar only when the content overflows. */
 .v-card-text.card-text--standard {
-  padding: 0 16px;
+  padding: 16px;
   overflow-y: auto;
 }
 
@@ -38,6 +38,12 @@
 .service-card {
   margin: 4px;
   padding: 8px;
+}
+
+/* Protocol/TLS option groups place rows directly inside a card. Without their
+   own padding the fields hug the card edges (and any divider below them). */
+.v-card > .v-row {
+  padding: 16px;
 }
 
 /* Every QR code uses the same corner radius; only the cursor differs between

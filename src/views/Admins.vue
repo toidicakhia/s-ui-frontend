@@ -92,6 +92,7 @@
           </v-btn>
           <v-btn
             :aria-label="$t('admin.changes')"
+            class="action-btn--flush"
             icon="mdi-list-box-outline"
             @click="showChangesModal(item.username)"
           >

@@ -22,28 +22,30 @@
         </v-row>
       </v-card-title>
       <v-divider />
-      <v-row
-        v-for="(l, i) in wgLinks"
-        :key="i"
-      >
-        <v-col
-          v-if="l.length>0"
-          class="text-center"
+      <v-card-text class="card-text--standard">
+        <v-row
+          v-for="(l, i) in wgLinks"
+          :key="i"
         >
-          <v-chip>{{ $t('types.wg.peer') + ' ' + (i+1) }}</v-chip> <v-icon
-            :aria-label="$t('a11y.download')"
-            icon="mdi-download"
-            @click="download(l,i)"
-          /><br>
-          <QrcodeVue
-            :value="l"
-            :size="size"
-            :margin="1"
-            class="qr-code"
-            @click="copyToClipboard(l)"
-          />
-        </v-col>
-      </v-row>
+          <v-col
+            v-if="l.length>0"
+            class="text-center"
+          >
+            <v-chip>{{ $t('types.wg.peer') + ' ' + (i+1) }}</v-chip> <v-icon
+              :aria-label="$t('a11y.download')"
+              icon="mdi-download"
+              @click="download(l,i)"
+            /><br>
+            <QrcodeVue
+              :value="l"
+              :size="size"
+              :margin="1"
+              class="qr-code"
+              @click="copyToClipboard(l)"
+            />
+          </v-col>
+        </v-row>
+      </v-card-text>
     </v-card>
   </v-dialog>
 </template>

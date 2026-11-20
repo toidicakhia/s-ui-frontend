@@ -10,7 +10,7 @@
         <DocLink section="dnsServer" />
       </v-card-title>
       <v-divider />
-      <v-card-text>
+      <v-card-text class="card-text--standard">
         <v-row>
           <v-col
             cols="12"
@@ -100,7 +100,7 @@
               />
             </v-col>
           </v-row>
-          <v-card>
+          <v-card class="nested-card mb-4">
             <v-card-subtitle>
               Predefined
               <v-chip
@@ -115,6 +115,7 @@
             <v-row
               v-for="(pd, pdIndex) in hostsPredefined"
               :key="pdIndex"
+              class="mt-3"
             >
               <v-col
                 cols="12"

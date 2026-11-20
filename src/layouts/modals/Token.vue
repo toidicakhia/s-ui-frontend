@@ -21,7 +21,7 @@
         </v-row>
       </v-card-title>
       <v-divider />
-      <v-card-text>
+      <v-card-text class="card-text--standard">
         <v-alert
           v-if="newToken.token.length>0"
           color="success"

@@ -25,6 +25,7 @@
       <v-card-text class="card-text--standard">
         <v-tabs
           v-model="tab"
+          density="compact"
           @update:model-value="tabChanged"
         >
           <v-tab value="text">
@@ -36,7 +37,7 @@
         </v-tabs>
         <v-window
           v-model="tab"
-          class="mb-4"
+          class="mt-2 mb-4"
         >
           <v-window-item value="text">
             <v-alert
@@ -73,7 +74,7 @@
             />
           </v-window-item>
         </v-window>
-        <v-row class="mb-4">
+        <v-row class="mt-2 mb-4">
           <v-col
             cols="12"
             sm="6"
@@ -117,7 +118,7 @@
         </v-row>
 
         <template v-if="importPreview.length > 0">
-          <v-divider class="my-4" />
+          <v-divider class="my-2" />
           <span class="v-card-subtitle">
             {{ $t('rule.import.preview') }}
             <v-badge
@@ -137,7 +138,7 @@
           <v-table
             density="compact"
             striped="even"
-            class="mb-4"
+            class="mt-2 mb-4"
           >
             <thead>
               <tr><th>{{ $t('objects.tag') }}</th><th>{{ $t('ruleset.format') }}</th><th>URL</th><th>{{ $t('actions.del') }}</th></tr>
@@ -171,10 +172,10 @@
           </v-table>
         </template>
       </v-card-text>
-      <v-divider />
       <v-card-actions>
         <v-btn
           variant="tonal"
+          color="success"
           :disabled="importRawText.trim().length === 0"
           @click="parseImport"
         >

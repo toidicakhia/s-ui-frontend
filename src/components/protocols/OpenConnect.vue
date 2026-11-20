@@ -158,7 +158,7 @@
         />
       </v-col>
     </v-row>
-    <v-card-actions class="pt-0">
+    <v-card-actions>
       <v-spacer />
       <v-menu
         v-model="menu"

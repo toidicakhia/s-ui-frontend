@@ -25,6 +25,7 @@
       <v-card-text class="card-text--standard">
         <v-tabs
           v-model="tab"
+          density="compact"
           @update:model-value="tabChanged"
         >
           <v-tab value="json">
@@ -38,7 +39,10 @@
           </v-tab>
         </v-tabs>
 
-        <v-window v-model="tab">
+        <v-window
+          v-model="tab"
+          class="mt-2"
+        >
           <v-window-item value="json">
             <v-alert
               variant="text"
@@ -106,7 +110,7 @@
         </v-alert>
 
         <template v-if="parsed">
-          <v-divider class="my-4" />
+          <v-divider class="my-2" />
 
           <v-alert
             v-if="hasConflicts"
@@ -235,8 +239,10 @@
           :disabled="rawJson.trim().length === 0"
           @click="parseJson"
         >
-          {{ $t('rule.import.parse') }}
-          <v-icon icon="mdi-magnify" />
+          <v-icon
+            icon="mdi-magnify"
+            class="mr-1"
+          />{{ $t('rule.import.parse') }}
         </v-btn>
         <v-spacer />
         <v-btn

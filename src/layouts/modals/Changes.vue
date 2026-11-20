@@ -20,7 +20,7 @@
         </v-row>
       </v-card-title>
       <v-divider />
-      <v-card-text>
+      <v-card-text class="card-text--standard">
         <v-row>
           <v-col
             cols="12"

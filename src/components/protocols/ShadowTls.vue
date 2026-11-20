@@ -97,7 +97,7 @@
       :key="key"
       border
       density="compact"
-      style="margin: 5px;"
+      class="nested-card ma-1"
       color="background"
     >
       <v-card-title>

@@ -19,11 +19,12 @@
       />
       <v-card-text class="card-text--standard">
         <v-container
-          style="padding: 0;"
+          class="pa-0"
           :hidden="loading"
         >
           <v-tabs
             v-model="tab"
+            density="compact"
             align-tabs="center"
           >
             <v-tab value="t1">
@@ -36,7 +37,10 @@
               {{ $t('client.links') }}
             </v-tab>
           </v-tabs>
-          <v-window v-model="tab">
+          <v-window
+            v-model="tab"
+            class="mt-2"
+          >
             <v-window-item value="t1">
               <v-row>
                 <v-col

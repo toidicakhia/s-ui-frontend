@@ -208,7 +208,7 @@
       v-for="(p, index) in data.peers"
       :key="index"
     >
-      <v-card style="margin-top: 1rem;">
+      <v-card class="nested-card mt-4">
         <v-card-subtitle>
           {{ $t('types.wg.peer') + ' ' + (Number(index)+1) }} <v-icon
             :aria-label="$t('actions.del')"

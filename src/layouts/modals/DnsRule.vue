@@ -44,7 +44,7 @@
           <v-card
             v-for="(r, ruleIndex) in ruleData.rules"
             :key="ruleIndex"
-            style="background-color: inherit; margin-bottom: 5px;"
+            class="nested-card mb-1"
           >
             <v-card-subtitle>
               {{ $t('objects.rule') + ' ' + (Number(ruleIndex)+1) }}
@@ -55,7 +55,7 @@
                 @click="ruleData.rules.splice(ruleIndex,1)"
               />
             </v-card-subtitle>
-            <v-card-text style="padding: 0;">
+            <v-card-text>
               <RuleOptions
                 :rule="r"
                 :clients="clients"

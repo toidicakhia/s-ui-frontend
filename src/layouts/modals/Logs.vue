@@ -20,7 +20,7 @@
         </v-row>
       </v-card-title>
       <v-divider />
-      <v-card-text>
+      <v-card-text class="card-text--standard">
         <v-row>
           <v-col
             cols="12"
@@ -69,7 +69,7 @@
              URL. Rendering them as markup let anyone who could reach a proxy
              port put script into the operator's browser. -->
         <v-card
-          style="margin-top: .5rem;"
+          class="mt-2"
           color="background"
           dir="ltr"
         >

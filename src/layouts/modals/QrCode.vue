@@ -29,7 +29,7 @@
         type="text, image, divider, text, image"
       />
       <v-card-text
-        style="overflow-y: auto; padding: 0"
+        class="card-text--standard"
         :hidden="loading"
       >
         <v-tabs
@@ -47,7 +47,7 @@
         </v-tabs>
         <v-window
           v-model="tab"
-          style="margin-top: 10px;"
+          class="mt-2"
         >
           <v-window-item value="sub">
             <v-row>

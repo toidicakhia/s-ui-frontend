@@ -1,9 +1,8 @@
 <template>
-  <v-row density="compact">
+  <v-row>
     <v-col
       cols="12"
-      class="v-card-subtitle"
-      style="margin-top: -5px;"
+      class="v-card-subtitle mt-n1"
     >
       {{ label }}
     </v-col>

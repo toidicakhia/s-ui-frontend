@@ -8,7 +8,7 @@
         {{ $t('admin.changeCred') + " " + user.username }}
       </v-card-title>
       <v-divider />
-      <v-card-text>
+      <v-card-text class="card-text--standard">
         <v-row>
           <v-col>
             <v-text-field

@@ -50,8 +50,7 @@
         {{ $t('objects.' + resource) + " : " + tag }}
       </v-card-subtitle>
       <v-card-text
-        class="text-center"
-        style="padding: 0"
+        class="card-text--standard text-center"
       >
         <v-btn-toggle
           v-model="limit"
@@ -78,7 +77,6 @@
         </v-btn-toggle>
         <v-row
           v-if="limit === 0"
-          dense
           align="center"
           justify="center"
           class="mt-2 mb-1 px-2"
@@ -108,7 +106,6 @@
         </v-row>
         <v-row
           v-if="loaded && !loading"
-          dense
           justify="center"
           class="mt-1"
         >

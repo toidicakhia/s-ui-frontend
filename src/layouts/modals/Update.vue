@@ -24,7 +24,10 @@
         </v-row>
       </v-card-title>
       <v-divider />
-      <v-card-text v-if="update">
+      <v-card-text
+        v-if="update"
+        class="card-text--standard"
+      >
         <p class="mb-4">
           <v-chip
             density="compact"

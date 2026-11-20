@@ -9,7 +9,7 @@
       </v-card-title>
       <v-divider />
       <v-card-text class="card-text--standard">
-        <v-container style="padding: 0;">
+        <v-container class="pa-0">
           <v-row>
             <v-col
               cols="12"

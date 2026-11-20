@@ -69,7 +69,7 @@
                     variant="flat"
                   >
                     <v-card-text>
-                      <v-row density="compact">
+                      <v-row>
                         <v-col
                           v-for="item in items.value"
                           :key="item.title ?? item"
@@ -96,7 +96,7 @@
           <v-btn
             variant="tonal"
             hide-details 
-            style="margin-inline-start: 10px;"
+            class="ms-2"
             elevation="3"
             @click="backupModal.visible = true"
           >
@@ -105,7 +105,7 @@
           <v-btn
             variant="tonal"
             hide-details
-            style="margin-inline-start: 10px;"
+            class="ms-2"
             elevation="3"
             @click="logModal.visible = true"
           >
@@ -114,7 +114,7 @@
           <v-btn
             variant="tonal"
             hide-details
-            style="margin-inline-start: 10px;"
+            class="ms-2"
             elevation="3"
             @click="usageStatsModal.visible = true"
           >
@@ -145,7 +145,7 @@
                   icon="mdi-update"
                   color="primary"
                   size="small"
-                  style="margin-inline-start: 10px;"
+                  class="ms-2"
                   @click="reloadSys()"
                 />
               </template>
@@ -157,7 +157,7 @@
                   icon="mdi-information"
                   color="primary"
                   size="small"
-                  style="margin-inline-start: 10px;"
+                  class="ms-2"
                 />
               </template>
             </v-card-title>

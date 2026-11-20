@@ -25,7 +25,7 @@
       />
       <v-card-text class="card-text--standard">
         <v-container
-          style="padding: 0;"
+          class="pa-0"
           :hidden="loading"
         >
           <v-row>
@@ -70,7 +70,7 @@
           </v-tabs>
           <v-window
             v-model="side"
-            style="margin-top: 10px;"
+            class="mt-2"
           >
             <v-window-item value="s">
               <Listen
@@ -173,9 +173,9 @@
                 :dial="inbound.out_json"
                 mode="client"
               />
-              <v-card>
+              <v-card class="nested-card mb-4">
                 <v-card-text>
-                  <v-card-subtitle>
+                  <v-card-subtitle class="mb-2">
                     {{ $t('in.multiDomain') }}
                     <v-chip
                       color="primary"
@@ -196,7 +196,7 @@
                       color="error"
                       @click="inbound.addrs?.splice(index,1)"
                     />
-                    <v-divider />
+                    <v-divider class="my-2" />
                     <AddrVue
                       :addr="addr"
                       :has-tls="HasTls.includes(inbound.type)"

@@ -38,8 +38,7 @@
       </v-col>
     </v-row>
     <div
-      class="v-card-subtitle"
-      style="margin: 10px;"
+      class="v-card-subtitle ma-2"
     >
       Torrc
       <v-chip

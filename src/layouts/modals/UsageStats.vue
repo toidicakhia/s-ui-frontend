@@ -31,7 +31,7 @@
         </v-row>
       </v-card-title>
       <v-divider />
-      <v-card-text>
+      <v-card-text class="card-text--standard">
         <v-table density="compact">
           <tbody>
             <tr

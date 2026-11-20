@@ -2,7 +2,6 @@
   <v-dialog
     transition="dialog-bottom-transition"
     width="800"
-    scrollable
   >
     <v-card
       class="rounded-lg"
@@ -50,7 +49,7 @@
       <v-card-subtitle class="card-subtitle--compact">
         {{ $t('objects.' + resource) + " : " + tag }}
       </v-card-subtitle>
-      <v-card-text>
+      <v-card-text class="card-text--standard">
         <v-alert
           v-if="!loading && sessions.length == 0"
           :text="$t('sessions.empty')"
@@ -131,7 +130,6 @@
         </v-data-table>
       </v-card-text>
       <template v-if="resource == 'user'">
-        <v-divider />
         <v-card-actions>
           <v-btn
             color="error"

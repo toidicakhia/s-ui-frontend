@@ -19,7 +19,7 @@
         </v-row>
       </v-card-title>
       <v-divider />
-      <v-card-text>
+      <v-card-text class="card-text--standard">
         <v-row>
           <v-col cols="auto">
             <v-checkbox
@@ -65,8 +65,8 @@
             </v-btn>
           </v-col>
         </v-row>
+        <v-divider class="my-2" />
         <v-row>
-          <v-divider />
           <v-col
             cols="auto"
             align-self="center"

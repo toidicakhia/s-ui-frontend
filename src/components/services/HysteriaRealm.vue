@@ -15,7 +15,7 @@
       v-for="(user, index) in (data.users || [])"
       :key="index"
       class="border service-card"
-      rounded="xl"
+      rounded="lg"
     >
       <v-row>
         <v-col

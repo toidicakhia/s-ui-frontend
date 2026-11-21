@@ -63,7 +63,7 @@
         v-for="clientUrl, index in data.verify_client_url"
         :key="index"
         class="border service-card"
-        rounded="xl"
+        rounded="lg"
       >
         <v-row>
           <v-col
@@ -113,7 +113,7 @@
         v-for="mesh, index in data.mesh_with"
         :key="index"
         class="border service-card"
-        rounded="xl"
+        rounded="lg"
       >
         <v-row>
           <v-col
@@ -216,7 +216,7 @@
       <v-card
         :title="$t('types.derp.stun')"
         class="border service-card"
-        rounded="xl"
+        rounded="lg"
       >
         <Listen
           :data="stun"

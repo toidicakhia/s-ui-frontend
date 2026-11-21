@@ -10,7 +10,7 @@
     >
       <v-card-title>
         <v-row>
-          <v-col>QrCode</v-col>
+          <v-col>{{ $t('qr.title') }}</v-col>
           <v-spacer />
           <v-col cols="auto">
             <v-icon
@@ -88,7 +88,7 @@
             </v-row>
             <v-row>
               <v-col class="text-center">
-                <v-chip>SING-BOX (scan only)</v-chip><br>
+                <v-chip>{{ $t('qr.singboxScanOnly') }}</v-chip><br>
                 <QrcodeVue
                   :value="singbox"
                   :size="size"
@@ -99,7 +99,7 @@
             </v-row>
             <v-row>
               <v-col class="text-center">
-                <v-chip>HAPP (scan only)</v-chip><br>
+                <v-chip>{{ $t('qr.happScanOnly') }}</v-chip><br>
                 <QrcodeVue
                   :value="happ"
                   :size="size"

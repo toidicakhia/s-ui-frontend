@@ -154,28 +154,35 @@ onMounted(async () => {
 
 const loadData = async () => {
   loading.value = true
-  const msg = await HttpUtils.get<AdminAccount[]>('api/users')
-  loading.value = false
-  if (msg.success) {
-    msg.obj.forEach(u => {
-      const lastLogin = u.lastLogin.split(" ")
-      const localLastLogin = lastLogin.length > 2 ? dateFormatted(Date.parse(lastLogin[0] + " " + lastLogin[1])) : "- -"
-      const loginDateTime = localLastLogin.split(" ")
-      users.value.push({
-        id: u.id,
-        username: u.username,
-        loginDate: loginDateTime[0],
-        loginTime: loginDateTime[1],
-        ip: lastLogin[2]?? "-",
+  try {
+    const msg = await HttpUtils.get<AdminAccount[]>('api/users')
+    if (msg.success) {
+      // Rebuild the list instead of appending: loadData also runs after a
+      // credential change, so pushing would duplicate every card.
+      users.value = msg.obj.map(u => {
+        const lastLogin = u.lastLogin.split(" ")
+        const local = lastLogin.length > 2 ? localDateTime(lastLogin[0] + " " + lastLogin[1]) : null
+        return {
+          id: u.id,
+          username: u.username,
+          loginDate: local?.date ?? "- -",
+          loginTime: local?.time ?? "- -",
+          ip: lastLogin[2] ?? "-",
+        }
       })
-    })
+    }
+  } finally {
+    loading.value = false
   }
 }
 
-const dateFormatted = (dt: number): string => {
+// Format date and time separately: a single toLocaleString() split on spaces
+// leaves a trailing comma on the date and drops the AM/PM marker.
+const localDateTime = (value: string): { date: string; time: string } | null => {
   const locale = i18n.global.locale.value.replace('zh', 'zh-')
-  const date = new Date(dt)
-  return date.toLocaleString(locale)
+  const date = new Date(Date.parse(value))
+  if (Number.isNaN(date.getTime())) return null
+  return { date: date.toLocaleDateString(locale), time: date.toLocaleTimeString(locale) }
 }
 
 const editModal = ref<{ visible: boolean, user: Partial<AdminRow> }>({
@@ -195,6 +202,8 @@ const saveEditModal = async (data:CredentialChange) => {
   loading.value=true
   const response = await HttpUtils.post('api/changePass',data)
   if(response.success){
+    // A username can be changed here, so refresh the cards before closing.
+    await loadData()
     setTimeout(() => {
       loading.value=false
       editModal.value.visible = false

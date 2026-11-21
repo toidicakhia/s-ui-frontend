@@ -546,11 +546,15 @@ const reloadItems = computed({
 })
 
 const reloadData = async () => {
-  const request = [...new Set(reloadItems.value.map(r => r.split('-')[1]))]
-  if (tilesData.value?.sys?.appVersion) request.filter(r => r != 'sys')
+  let request = [...new Set(reloadItems.value.map(r => r.split('-')[1]))]
+  // System info is static for the life of the panel, so once it is loaded it
+  // only needs an explicit refresh through reloadSys(). Keep it in the current
+  // tiles when it is dropped from the poll request.
+  const keepSys = !!tilesData.value?.sys?.appVersion
+  if (keepSys) request = request.filter(r => r != 'sys')
   const data = await HttpUtils.get<TilesData>('api/status',{ r: request.join(',')})
   if (data.success) {
-    tilesData.value = data.obj
+    tilesData.value = keepSys ? { ...data.obj, sys: tilesData.value.sys } : data.obj
   }
 }
 

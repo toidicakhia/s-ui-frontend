@@ -142,6 +142,7 @@ export default {
     edit: "ویرایش",
     del: "حذف",
     clone: "شبیه‌سازی",
+    import: "وارد کردن",
     test: "تست",
     testAll: "تست همه",
     save: "ذخیره",
@@ -164,6 +165,23 @@ export default {
     custom: "آدرس تست دلخواه",
     url: "آدرس تست",
     invalid: "باید یک آدرس http(s) باشد",
+  },
+  wgImport: {
+    title: "وارد کردن پیکربندی WireGuard",
+    hint: "یک فایل .conf وایرگارد را به عنوان یک نقطه پایانی میخواند. برچسب ایجاد شده پس از وارد کردن قابل تغییر است.",
+    text: "محتوای .conf را جایگذاری کنید",
+    file: "یا یک فایل .conf انتخاب کنید",
+    failed: "نتوانست پیکربندی را بخواند",
+    err: {
+      empty: "ابتدا پیکربندی را جایگذاری یا فایلی را انتخاب کنید",
+      missingInterface: "بخش [Interface] یافت نشد",
+      missingPrivateKey: "PrivateKey در [Interface] الزامی است",
+      missingAddress: "Address در [Interface] الزامی است",
+      missingPeers: "حداقل یک بخش [Peer] الزامی است",
+      missingPeerKey: "هر [Peer] به PublicKey نیاز دارد",
+      missingAllowedIps: "هر [Peer] به AllowedIPs نیاز دارد",
+      invalidPort: "ListenPort باید بین ۰ تا ۶۵۵۳۵ باشد",
+    },
   },
   login: {
     title: "ورود",
@@ -856,5 +874,18 @@ export default {
     m: "د",
     s: "ث",
     ms: "م‌ث",
-  }
+  },
+  qr: {
+    title: "کد QR",
+    singboxScanOnly: "SING-BOX (فقط اسکن)",
+    happScanOnly: "HAPP (فقط اسکن)",
+    wireguardTitle: "کد QR وایرگارد",
+  },
+  credential: {
+    password: " رمز عبور",
+    uuid: "UUID",
+    flow: "جریان",
+    auth: "احراز هویت",
+    userKey: "کلید کاربر",
+  },
 }

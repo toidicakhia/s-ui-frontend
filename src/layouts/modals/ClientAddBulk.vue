@@ -245,6 +245,7 @@ export default {
     resetData() {
       this.count = 1
       this.clients = []
+      this.loading = false
       this.bulkData = {
         name: [this.patterns[1], "-", this.patterns[0]],
         desc: [],
@@ -268,31 +269,34 @@ export default {
       }
       this.clients = []
       this.loading = true
-      for(let i=0;i<this.count;i++){
-        const name = this.genByPattern(this.bulkData.name, i)
-        this.clients.push(createClient({
-          enable: true,
-          name: name,
-          config: randomConfigs(name),
-          inbounds: this.bulkData.clientInbounds.length > 0 ? this.bulkData.clientInbounds.sort() : [],
-          links: [],
-          volume: this.bulkData.Volume*(1024 ** 3),
-          expiry: (this.bulkData.delayStart && !this.bulkData.autoReset) ? 0 : this.bulkData.expiry,
-          up: 0,
-          down: 0,
-          desc: this.genByPattern(this.bulkData.desc, i),
-          group: this.bulkData.group,
-          delayStart: this.bulkData.delayStart,
-          autoReset: this.bulkData.autoReset,
-          resetDays: this.bulkData.resetDays,
-        }))
+      try {
+        for(let i=0;i<this.count;i++){
+          const name = this.genByPattern(this.bulkData.name, i)
+          this.clients.push(createClient({
+            enable: true,
+            name: name,
+            config: randomConfigs(name),
+            inbounds: this.bulkData.clientInbounds.length > 0 ? this.bulkData.clientInbounds.sort() : [],
+            links: [],
+            volume: this.bulkData.Volume*(1024 ** 3),
+            expiry: (this.bulkData.delayStart && !this.bulkData.autoReset) ? 0 : this.bulkData.expiry,
+            up: 0,
+            down: 0,
+            desc: this.genByPattern(this.bulkData.desc, i),
+            group: this.bulkData.group,
+            delayStart: this.bulkData.delayStart,
+            autoReset: this.bulkData.autoReset,
+            resetDays: this.bulkData.resetDays,
+          }))
+        }
+        // Check duplicate names
+        const isDuplicateName = Data().checkBulkClientNames(this.clients.map(c => c.name))
+        if (isDuplicateName) return
+        const success = await Data().save("clients", "addbulk", this.clients)
+        if (success) this.closeModal()
+      } finally {
+        this.loading = false
       }
-      // Check duplicate names
-      const isDuplicateName = Data().checkBulkClientNames(this.clients.map(c => c.name))
-      if (isDuplicateName) return
-      const success = await Data().save("clients", "addbulk", this.clients)
-      if (success) this.closeModal()
-      this.loading = false
     },
     genByPattern(pattern: PatternPart[], order :number){
       if (pattern.length == 0) return RandomUtil.randomSeq(8)

@@ -205,13 +205,13 @@
           <template #item.engine="{ value }">
             {{ value ?? '-' }}
           </template>
-          <template #item.actions="{ index }">
+          <template #item.actions="{ item }">
             <v-btn
               :aria-label="$t('actions.edit')"
               icon="mdi-file-edit"
               variant="text"
               density="compact"
-              @click="showHttpClientModal(index)"
+              @click="showHttpClientModal(httpClientIndex(item))"
             >
               <v-icon />
               <v-tooltip
@@ -226,7 +226,7 @@
               variant="text"
               density="compact"
               color="warning"
-              @click="delHttpClient(index)"
+              @click="delHttpClient(httpClientIndex(item))"
             >
               <v-icon />
               <v-tooltip
@@ -629,9 +629,10 @@ const stateChange = computed(() => {
 
 const saveConfig = async () => {
   loading.value = true
-  const success = await Data().save("config", "set", appConfig.value)
-  if (success) {
-    oldConfig.value = JSON.parse(JSON.stringify(Data().config))
+  try {
+    const success = await Data().save("config", "set", appConfig.value)
+    if (success) oldConfig.value = JSON.parse(JSON.stringify(Data().config))
+  } finally {
     loading.value = false
   }
 }
@@ -659,6 +660,10 @@ const httpClients = computed((): HttpClient[] => {
 })
 
 const httpClientTags = computed((): string[] => httpClients.value.map(c => c.tag))
+
+// Vuetify's slot `index` is the displayed (possibly sorted) position, not the
+// index in the config array. Always resolve the row back to its source item.
+const httpClientIndex = (item: HttpClient): number => httpClients.value.findIndex(c => c.tag === item.tag)
 
 const versionNames: Record<string, string> = { 0: 'Auto', 1: 'HTTP/1.1', 2: 'HTTP/2', 3: 'HTTP/3' }
 const versionName = (version?: number): string => versionNames[version ?? 0] ?? 'Auto'

@@ -507,9 +507,10 @@ const stateChange = computed(() => FindDiff.deepCompare(appConfig.value, oldConf
 
 const saveConfig = async () => {
   loading.value = true
-  const success = await Data().save("config", "set", appConfig.value)
-  if (success) {
-    oldConfig.value = JSON.parse(JSON.stringify(Data().config))
+  try {
+    const success = await Data().save("config", "set", appConfig.value)
+    if (success) oldConfig.value = JSON.parse(JSON.stringify(Data().config))
+  } finally {
     loading.value = false
   }
 }
@@ -592,9 +593,12 @@ const draggedItemIndex = ref<number | null>(null)
 const onDragStart = (index: number) => { draggedItemIndex.value = index }
 const onDrop = (index: number) => {
   if (draggedItemIndex.value !== null) {
-    const draggedItem = rules.value[draggedItemIndex.value]
-    rules.value.splice(draggedItemIndex.value, 1)
-    rules.value.splice(index, 0, draggedItem)
+    const from = draggedItemIndex.value
+    const draggedItem = rules.value[from]
+    rules.value.splice(from, 1)
+    // The drop index refers to the pre-removal list. Dragging forward shifts
+    // the target one slot left once the item has been taken out.
+    rules.value.splice(index > from ? index - 1 : index, 0, draggedItem)
     draggedItemIndex.value = null
   }
 }
@@ -602,6 +606,7 @@ const onDrop = (index: number) => {
 const importRulesModal = ref({ visible: false })
 
 function showImportRule() {
+  actionMenu.value = false
   importRulesModal.value.visible = true
 }
 
@@ -629,6 +634,7 @@ function saveImportRule(block: ImportedRouteBlock, mode: 'merge' | 'replace', ap
 const importRulesetsModal = ref({ visible: false })
 
 function showImportRulesets() {
+  actionMenu.value = false
   importRulesetsModal.value.visible = true
 }
 

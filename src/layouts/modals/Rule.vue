@@ -287,7 +287,7 @@
             >
               <v-text-field
                 v-model="ruleData.server"
-                :label="$t('basic.dns.server')"
+                :label="$t('dns.server')"
                 hide-details
               />
             </v-col>

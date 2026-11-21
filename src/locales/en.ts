@@ -877,4 +877,17 @@ export default {
     s: "s",
     ms: "ms",
   },
+  qr: {
+    title: "QR Code",
+    singboxScanOnly: "SING-BOX (scan only)",
+    happScanOnly: "HAPP (scan only)",
+    wireguardTitle: "WireGuard QR Code",
+  },
+  credential: {
+    password: "Password",
+    uuid: "UUID",
+    flow: "Flow",
+    auth: "Auth",
+    userKey: "User Key",
+  },
 }

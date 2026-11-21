@@ -552,10 +552,12 @@ const onDragStart = (index: number) => {
 
 const onDrop = (index: number) => {
   if (draggedItemIndex.value !== null) {
-    // Swap the dragged item with the dropped one
-    const draggedItem = dnsRules.value[draggedItemIndex.value]
-    dnsRules.value.splice(draggedItemIndex.value, 1)
-    dnsRules.value.splice(index, 0, draggedItem)
+    const from = draggedItemIndex.value
+    const draggedItem = dnsRules.value[from]
+    dnsRules.value.splice(from, 1)
+    // `index` refers to the pre-removal list; dragging forward shifts the
+    // target one slot left after the item has been taken out.
+    dnsRules.value.splice(index > from ? index - 1 : index, 0, draggedItem)
     draggedItemIndex.value = null
   }
 }

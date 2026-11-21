@@ -318,31 +318,31 @@
                   <v-text-field
                     v-if="clientConfig[key].password != undefined"
                     v-model="clientConfig[key].password"
-                    label="Password"
+                    :label="$t('credential.password')"
                     hide-details
                   />
                   <v-text-field
                     v-if="clientConfig[key].uuid != undefined"
                     v-model="clientConfig[key].uuid"
-                    label="UUID"
+                    :label="$t('credential.uuid')"
                     hide-details
                   />
                   <v-text-field
                     v-if="key == 'vless'"
                     v-model="clientConfig[key].flow"
-                    label="Flow"
+                    :label="$t('credential.flow')"
                     hide-details
                   />
                   <v-text-field
                     v-if="key == 'hysteria'"
                     v-model="clientConfig[key].auth_str"
-                    label="Auth"
+                    :label="$t('credential.auth')"
                     hide-details
                   />
                   <v-text-field
                     v-if="key == 'snell'"
                     v-model="clientConfig[key].userkey"
-                    label="User Key"
+                    :label="$t('credential.userKey')"
                     hide-details
                   />
                 </v-col>

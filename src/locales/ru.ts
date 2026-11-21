@@ -142,6 +142,7 @@ export default {
     edit: "Редактировать",
     del: "Удалить",
     clone: "Клонировать",
+    import: "Импорт",
     test: "Тест",
     testAll: "Тестировать все",
     save: "Сохранить",
@@ -164,6 +165,23 @@ export default {
     custom: "Свой URL проверки",
     url: "URL проверки",
     invalid: "Нужен URL http(s)",
+  },
+  wgImport: {
+    title: "Импорт конфигурации WireGuard",
+    hint: "Читает .conf WireGuard как конечную точку. Созданный тег можно изменить после импорта.",
+    text: "Вставьте содержимое .conf",
+    file: "или выберите файл .conf",
+    failed: "Не удалось прочитать конфигурацию",
+    err: {
+      empty: "Сначала вставьте конфигурацию или выберите файл",
+      missingInterface: "Раздел [Interface] не найден",
+      missingPrivateKey: "Требуется PrivateKey в [Interface]",
+      missingAddress: "Требуется Address в [Interface]",
+      missingPeers: "Требуется хотя бы один раздел [Peer]",
+      missingPeerKey: "Каждый [Peer] требует PublicKey",
+      missingAllowedIps: "Каждый [Peer] требует AllowedIPs",
+      invalidPort: "ListenPort должен быть от 0 до 65535",
+    },
   },
   login: {
     title: "Вход",
@@ -856,6 +874,19 @@ export default {
     m: "м",
     s: "с",
     ms: "мс",
+  },
+  qr: {
+    title: "QR-код",
+    singboxScanOnly: "SING-BOX (только сканирование)",
+    happScanOnly: "HAPP (только сканирование)",
+    wireguardTitle: "QR-код WireGuard",
+  },
+  credential: {
+    password: "Пароль",
+    uuid: "UUID",
+    flow: "Flow",
+    auth: "Авторизация",
+    userKey: "Ключ пользователя",
   },
 }
  

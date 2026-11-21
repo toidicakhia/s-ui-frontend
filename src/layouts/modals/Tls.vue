@@ -1056,7 +1056,7 @@ export default {
 
         } else {
           push.error({
-            message: i18n.global.t('error') + ": " + msg.obj
+            message: i18n.global.t('failed') + ": " + msg.obj
           })
         }
       }
@@ -1078,7 +1078,7 @@ export default {
         })
       } else {
         push.error({
-          message: i18n.global.t('error') + ": " + msg.obj
+          message: i18n.global.t('failed') + ": " + msg.obj
         })
       }
     },

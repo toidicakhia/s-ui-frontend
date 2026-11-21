@@ -126,8 +126,11 @@ export default {
         { title: 'Tailscale', value: 'tailscale' },
         { title: 'Cloudflare Origin CA', value: 'cloudflare-origin-ca' },
       ]
-      if (Data().os === 'windows' && this.provider.type !== 'acme') {
-        return all.filter(t => t.value !== 'acme')
+      if (Data().os === 'windows') {
+        // A brand new provider is seeded as ACME below; on Windows it must not
+        // be offered. Only an existing ACME provider stays editable.
+        const editingAcme = this.$props.index != -1 && this.provider.type === 'acme'
+        if (!editingAcme) return all.filter(t => t.value !== 'acme')
       }
       return all
     },
@@ -154,7 +157,8 @@ export default {
         this.provider = <certProvider>JSON.parse(this.$props.data)
       } else {
         this.title = "add"
-        this.provider = createCertProvider('acme', "cert-" + RandomUtil.randomSeq(3))
+        const type: CertProviderType = Data().os === 'windows' ? 'tailscale' : 'acme'
+        this.provider = createCertProvider(type, "cert-" + RandomUtil.randomSeq(3))
       }
     },
     // Each type has its own option set, so the fields of the one being left

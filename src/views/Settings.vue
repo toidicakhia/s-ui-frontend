@@ -433,7 +433,10 @@ const restartApp = async () => {
   const msg = await HttpUtils.post('api/restartApp',{})
   if (msg.success) {
     let url = settings.value.webURI
-    if (url !== "") {
+    // A configured panel URI is the address the user reaches the panel from
+    // (typically through a reverse proxy). Only synthesize one when it is not
+    // set -- otherwise the locally built host:port may be unreachable.
+    if (url === "") {
       const isTLS = settings.value.webCertFile !== "" || settings.value.webKeyFile !== ""
       url = buildURL(settings.value.webDomain,settings.value.webPort.toString(),isTLS, settings.value.webPath)
     }

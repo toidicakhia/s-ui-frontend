@@ -194,7 +194,8 @@
           <v-btn
             :aria-label="$t('actions.clone')"
             icon="mdi-content-duplicate"
-            :loading="cloneLoading"
+            :loading="cloneLoading[item.id]"
+            :disabled="cloneLoading[item.id]"
             @click="clone(item.id)"
           >
             <v-icon />
@@ -285,20 +286,23 @@ const toggleEnable = async (item: Inbound, val: boolean) => {
   toggling.value = { ...toggling.value, [item.id]: false }
 }
 
-let cloneLoading = ref(false)
+const cloneLoading = ref<Record<number, boolean>>({})
 
 const clone = async (id: number) => {
-  cloneLoading.value = true
-  const inboundArray = await Data().loadInbounds([id])
-  const inbound = inboundArray[0]
-  let newTag = inbound.type + "-" + RandomUtil.randomSeq(3)
-  const newInbound = createInbound(inbound.type, { ...inbound,
-    id: 0,
-    tag: newTag,
-    listen_port: RandomUtil.randomIntRange(10000, 60000),
-  })
-  await Data().save("inbounds", "new", newInbound)
-  cloneLoading.value = false
+  cloneLoading.value = { ...cloneLoading.value, [id]: true }
+  try {
+    const inboundArray = await Data().loadInbounds([id])
+    const inbound = inboundArray[0]
+    let newTag = inbound.type + "-" + RandomUtil.randomSeq(3)
+    const newInbound = createInbound(inbound.type, { ...inbound,
+      id: 0,
+      tag: newTag,
+      listen_port: RandomUtil.randomIntRange(10000, 60000),
+    })
+    await Data().save("inbounds", "new", newInbound)
+  } finally {
+    cloneLoading.value = { ...cloneLoading.value, [id]: false }
+  }
 }
 
 const stats = ref({

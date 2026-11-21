@@ -10,7 +10,7 @@
     >
       <v-card-title>
         <v-row>
-          <v-col>Wireguard QrCode</v-col>
+          <v-col>{{ $t('qr.wireguardTitle') }}</v-col>
           <v-spacer />
           <v-col cols="auto">
             <v-icon

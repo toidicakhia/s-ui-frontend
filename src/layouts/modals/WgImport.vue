@@ -65,10 +65,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import HttpUtils from '@/plugins/httputil'
 import { i18n } from '@/locales'
 import { WgConfigError, parseWireguardConf } from '@/plugins/wgConfig'
+import RandomUtil from '@/plugins/randomUtil'
 import type { Endpoint } from '@/types/endpoints'
 
 const props = defineProps<{
@@ -83,10 +84,20 @@ const emit = defineEmits<{
 const text = ref('')
 const loading = ref(false)
 const error = ref('')
+// One tag per dialog session: the preview and the imported endpoint must show
+// the same tag, otherwise the user is told one thing and saved another.
+const tag = ref('')
+
+watch(() => props.visible, (visible) => {
+  if (!visible) return
+  text.value = ''
+  error.value = ''
+  tag.value = 'wireguard-' + RandomUtil.randomSeq(3)
+})
 
 const preview = computed(() => {
   try {
-    const endpoint = parseWireguardConf(text.value, 'wireguard-…')
+    const endpoint = parseWireguardConf(text.value, tag.value)
     return {
       tag: endpoint.tag,
       address: endpoint.address?.[0],
@@ -113,14 +124,14 @@ function errorText(e: unknown): string {
   if (e instanceof WgConfigError) {
     return i18n.global.t('wgImport.err.' + e.code)
   }
-  return i18n.global.t('wgImport.err.failed')
+  return i18n.global.t('wgImport.failed')
 }
 
 async function importConfig() {
   error.value = ''
   let endpoint: Endpoint
   try {
-    endpoint = parseWireguardConf(text.value)
+    endpoint = parseWireguardConf(text.value, tag.value)
   } catch (e) {
     error.value = errorText(e)
     return
@@ -137,7 +148,8 @@ async function importConfig() {
     loading.value = false
   }
 
+  // The parent decides whether to dismiss: it only closes on a successful
+  // save, so a duplicate tag or a failed request keeps the dialog open.
   emit('imported', endpoint)
-  close()
 }
 </script>

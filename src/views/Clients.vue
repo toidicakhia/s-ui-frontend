@@ -200,14 +200,14 @@
                 variant="outlined"
                 @click="clearFilter"
               >
-                {{ $t('actions.del') }}
+                {{ $t('reset') }}
               </v-btn>
               <v-btn
                 color="primary"
                 variant="tonal"
                 @click="doFilter"
               >
-                {{ $t('actions.update') }}
+                {{ $t('actions.apply') }}
               </v-btn>
             </v-card-actions>
           </v-card-actions>
@@ -234,6 +234,7 @@
         <template #item.enable="{ item }">
           <v-switch
             :model-value="item.enable"
+            :aria-label="$t('enable')"
             :loading="toggling[item.id]"
             :disabled="toggling[item.id]"
             color="success"
@@ -465,10 +466,12 @@ const inboundTags = computed((): { title: string, value: number }[] => {
   return inbounds.value?.filter(i => i.tag != "" && (i as { users?: unknown }).users).map(i => { return { title: i.tag, value: i.id } })
 })
 
+// Always offer the full set of groups: deriving these from the filtered result
+// would hide existing groups while a filter is active, so the operator could
+// not switch group without first clearing the filter.
 const groups = computed((): string[] => {
   if (!clients.value) return []
-  if (filterSettings?.value.enabled) return Array.from(new Set(filterSettings.value.filteredClients?.map(c => c.group)))
-  return Array.from(new Set(clients.value?.map(c => c.group)))
+  return Array.from(new Set(clients.value.map(c => c.group)))
 })
 
 const actionMenu = ref(false)

@@ -383,13 +383,13 @@ export default {
       const msg = await HttpUtils.get<string[]>('api/keypairs', { k: 'tls-client', o: this.holder.username || this.holder.tag || '' })
       this.loading = false
       if (!msg.success || msg.obj.length == 0) {
-        push.error({ message: i18n.global.t('error') + ': ' + msg.obj })
+        push.error({ message: i18n.global.t('failed') + ': ' + msg.obj })
         return
       }
       const key = pemBlock(msg.obj, 'PRIVATE KEY')
       const certificate = pemBlock(msg.obj, 'CERTIFICATE')
       if (key.length == 0 || certificate.length == 0) {
-        push.error({ message: i18n.global.t('error') + ': ' + msg.obj })
+        push.error({ message: i18n.global.t('failed') + ': ' + msg.obj })
         return
       }
       // The generated pair only exists here, so the form has to hold it as

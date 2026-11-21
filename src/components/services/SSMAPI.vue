@@ -3,12 +3,13 @@
     class="border service-card"
     rounded="lg"
   >
-    <v-card-subtitle>
-      Shadowsocks API
+    <v-card-subtitle class="d-flex align-center justify-space-between">
+      <span>Shadowsocks API</span>
       <v-chip
         color="primary"
         density="compact"
         variant="elevated"
+        :aria-label="$t('actions.add')"
         @click="add_server"
       >
         <v-icon icon="mdi-plus" />
@@ -21,7 +22,6 @@
       <v-col
         cols="auto"
         align-self="center"
-        justify-self="center"
       >
         <v-icon
           :aria-label="$t('actions.del')"

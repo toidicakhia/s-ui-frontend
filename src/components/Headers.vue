@@ -1,17 +1,18 @@
 <template>
-  <v-card>
+  <v-card class="nested-card">
     <v-card-text>
-      <v-card-subtitle>
-        {{ $t('objects.headers') }}
+      <div class="d-flex align-center justify-space-between mb-2">
+        <span class="text-subtitle-2">{{ $t('objects.headers') }}</span>
         <v-chip
           color="primary"
           density="compact"
           variant="elevated"
+          :aria-label="$t('actions.add')"
           @click="add_header"
         >
           <v-icon icon="mdi-plus" />
         </v-chip>
-      </v-card-subtitle>
+      </div>
       <v-row
         v-for="(header, index) in hdrs"
         :key="index"

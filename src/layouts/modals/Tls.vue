@@ -24,13 +24,12 @@
                 hide-details
               />
             </v-col>
-            <v-col align="end">
+            <v-col class="d-flex justify-end align-center">
               <v-btn-toggle
                 v-model="tlsType"
                 class="rounded-xl"
                 density="compact"
                 variant="outlined"
-                shaped
                 mandatory
                 @update:model-value="changeTlsType"
               >
@@ -136,7 +135,6 @@
                   class="rounded-xl"
                   density="compact"
                   variant="outlined"
-                  shaped
                   mandatory
                 >
                   <v-btn
@@ -385,8 +383,12 @@
                this TLS config. Paths and inline text are exclusive, matching
                how the server certificate above is entered. -->
           <template v-if="optionClientAuth">
-            <v-divider class="my-2" />
-            <v-card-subtitle>{{ $t('tls.mutual') }}</v-card-subtitle>
+            <v-divider class="my-2 mx-4" />
+            <v-row>
+              <v-col class="text-subtitle-2">
+                {{ $t('tls.mutual') }}
+              </v-col>
+            </v-row>
             <v-row>
               <v-col
                 cols="12"
@@ -411,7 +413,6 @@
                   class="rounded-xl"
                   density="compact"
                   variant="outlined"
-                  shaped
                   mandatory
                 >
                   <v-btn @click="switchClientTls(true)">

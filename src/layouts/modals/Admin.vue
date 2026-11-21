@@ -16,6 +16,7 @@
               :label="$t('admin.oldPass')"
               :rules="passwordRules"
               type="password"
+              hide-details="auto"
               required
             />
           </v-col>
@@ -26,6 +27,7 @@
               v-model="newData.newUsername"
               :label="$t('admin.newUname')"
               :rules="usernameRules"
+              hide-details="auto"
               required
             />
           </v-col>
@@ -37,6 +39,7 @@
               :label="$t('admin.newPass')"
               :rules="passwordRules"
               type="password"
+              hide-details="auto"
               required
             />
           </v-col>

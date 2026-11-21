@@ -78,6 +78,7 @@
                     v-model="client.name"
                     :label="$t('client.name')"
                     :rules="nameRules"
+                    hide-details="auto"
                     required
                   />
                 </v-col>
@@ -304,7 +305,7 @@
                 <v-col
                   cols="12"
                   md="3"
-                  align="end"
+                  class="text-end"
                   align-self="center"
                 >
                   {{ key }}

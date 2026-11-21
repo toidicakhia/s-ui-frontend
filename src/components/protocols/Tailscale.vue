@@ -10,6 +10,7 @@
           v-model="data.ephemeral"
           color="primary"
           :label="$t('types.ts.ephemeral')"
+          hide-details
         />
       </v-col>
       <v-col
@@ -21,6 +22,7 @@
           v-model="data.accept_routes"
           color="primary"
           :label="$t('types.ts.acceptRoutes')"
+          hide-details
         />
       </v-col>
     </v-row>
@@ -32,6 +34,7 @@
         <v-text-field
           v-model="data.state_directory"
           :label="$t('types.ts.stateDir')"
+          hide-details
         />
       </v-col>
     </v-row>
@@ -43,6 +46,7 @@
         <v-text-field
           v-model="data.auth_key"
           :label="$t('types.ts.authKey')"
+          hide-details
         />
       </v-col>
     </v-row>
@@ -54,6 +58,7 @@
         <v-text-field
           v-model="data.control_url"
           :label="$t('types.ts.controlUrl')"
+          hide-details
         />
       </v-col>
     </v-row>
@@ -67,6 +72,7 @@
         <v-text-field
           v-model="data.hostname"
           :label="$t('types.ts.hostname')"
+          hide-details
         />
       </v-col>
       <v-col
@@ -81,6 +87,7 @@
           min="1"
           :suffix="$t('date.s')"
           :label="$t('types.ts.udpTimeout')"
+          hide-details
         />
       </v-col>
     </v-row>
@@ -93,6 +100,7 @@
         <v-text-field
           v-model="data.exit_node"
           :label="$t('types.ts.exitNode')"
+          hide-details
         />
       </v-col>
       <v-col
@@ -104,6 +112,7 @@
           v-model="data.exit_node_allow_lan_access"
           color="primary"
           :label="$t('types.ts.allowLanAccess')"
+          hide-details
         />
       </v-col>
     </v-row>
@@ -142,6 +151,7 @@
           v-model="data.system_interface"
           color="primary"
           :label="$t('types.ts.systemInterface')"
+          hide-details
         />
       </v-col>
       <v-col
@@ -179,6 +189,7 @@
         <v-text-field
           v-model="advertise_routes"
           :label="$t('types.ts.advRoutes') + ' ' + $t('commaSeparated')"
+          hide-details
         />
       </v-col>
       <v-col
@@ -190,6 +201,7 @@
           v-model="data.advertise_exit_node"
           color="primary"
           :label="$t('types.ts.advExitNode')"
+          hide-details
         />
       </v-col>
     </v-row>

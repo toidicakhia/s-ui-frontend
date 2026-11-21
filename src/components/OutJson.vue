@@ -158,6 +158,7 @@
         <v-text-field
           v-model="server_ports"
           :label="$t('rule.portRange') + ' ' + $t('commaSeparated')"
+          hide-details
         />
       </v-col>
       <v-col
@@ -171,6 +172,7 @@
           type="number"
           min="0"
           :suffix="$t('date.s')"
+          hide-details
         />
       </v-col>
     </v-row>

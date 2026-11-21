@@ -1,11 +1,12 @@
 <template>
   <v-card subtitle="Hysteria Realm">
-    <v-card-title>
-      {{ $t('types.ocm.users') }}
+    <v-card-title class="d-flex align-center justify-space-between text-subtitle-2">
+      <span>{{ $t('types.ocm.users') }}</span>
       <v-chip
         color="primary"
         density="compact"
         variant="elevated"
+        :aria-label="$t('actions.add')"
         @click="addUser"
       >
         <v-icon icon="mdi-plus" />

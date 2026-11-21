@@ -57,7 +57,6 @@
       <v-col
         cols="auto"
         align-self="center"
-        justify-self="center"
       >
         <v-icon
           :aria-label="$t('actions.del')"

@@ -205,10 +205,9 @@
                 </v-col>
                 <v-col
                   cols="12"
-                  align="center"
+                  class="text-center"
                 >
                   <v-btn
-                    hide-details
                     variant="tonal"
                     :loading="loading"
                     @click="linkConvert"

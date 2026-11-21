@@ -46,8 +46,6 @@
     <v-spacer />
     <v-col
       cols="auto"
-      align="end"
-      justify="center"
     >
       <v-menu
         v-model="menu"

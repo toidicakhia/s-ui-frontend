@@ -52,8 +52,7 @@
           </v-col>
           <v-col
             cols="auto"
-            align="center"
-            justify="center"
+            class="d-flex align-center justify-center"
           >
             <v-btn
               :aria-label="$t('actions.update')"

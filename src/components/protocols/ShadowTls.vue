@@ -37,6 +37,7 @@
           label="Wildcard SNI"
           :items="['off', 'authed', 'all']"
           clearable
+          hide-details
         />
       </v-col>
     </v-row>

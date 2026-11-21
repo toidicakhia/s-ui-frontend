@@ -28,12 +28,10 @@
           <v-col
             v-if="logical"
             cols="auto"
-            justify="center"
-            align="center"
+            class="d-flex align-center"
           >
             <v-btn
               color="primary"
-              hide-details
               @click="ruleData.rules.push(<dnsRule>{})"
             >
               {{ $t('actions.add') + " " + $t('objects.rule') }}
@@ -46,11 +44,12 @@
             :key="ruleIndex"
             class="nested-card mb-1"
           >
-            <v-card-subtitle>
-              {{ $t('objects.rule') + ' ' + (Number(ruleIndex)+1) }}
+            <v-card-subtitle class="d-flex align-center justify-space-between">
+              <span>{{ $t('objects.rule') + ' ' + (Number(ruleIndex)+1) }}</span>
               <v-icon
                 v-if="ruleData.rules.length>1"
                 :aria-label="$t('actions.del')"
+                color="error"
                 icon="mdi-delete"
                 @click="ruleData.rules.splice(ruleIndex,1)"
               />
@@ -72,7 +71,7 @@
           :in-tags="inTags"
           :rule-sets="ruleSets"
         />
-        <v-row>
+        <v-row class="mt-4">
           <v-col
             cols="12"
             sm="6"

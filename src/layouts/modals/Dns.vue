@@ -101,12 +101,13 @@
             </v-col>
           </v-row>
           <v-card class="nested-card mb-4">
-            <v-card-subtitle>
-              {{ $t('dns.rule.action.predefined') }}
+            <v-card-subtitle class="d-flex align-center justify-space-between">
+              <span>{{ $t('dns.rule.action.predefined') }}</span>
               <v-chip
                 color="primary"
                 density="compact"
                 variant="elevated"
+                :aria-label="$t('actions.add')"
                 @click="addHostsPredefined"
               >
                 <v-icon icon="mdi-plus" />

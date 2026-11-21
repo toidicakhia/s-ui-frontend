@@ -175,8 +175,8 @@
               />
               <v-card class="nested-card mb-4">
                 <v-card-text>
-                  <v-card-subtitle class="mb-2">
-                    {{ $t('in.multiDomain') }}
+                  <div class="d-flex align-center justify-space-between mb-2">
+                    <span class="text-subtitle-2">{{ $t('in.multiDomain') }}</span>
                     <v-chip
                       color="primary"
                       density="compact"
@@ -186,17 +186,20 @@
                     >
                       <v-icon icon="mdi-plus" />
                     </v-chip>
-                  </v-card-subtitle>
+                  </div>
                   <template
                     v-for="(addr, index) in inbound.addrs"
                     :key="index"
                   >
-                    {{ $t('in.addr') }} #{{ (index+1) }} <v-icon
-                      :aria-label="$t('actions.del')"
-                      icon="mdi-delete"
-                      color="error"
-                      @click="inbound.addrs?.splice(index,1)"
-                    />
+                    <div class="d-flex align-center justify-space-between mt-2">
+                      <span class="text-caption font-weight-medium">{{ $t('in.addr') }} #{{ (index+1) }}</span>
+                      <v-icon
+                        :aria-label="$t('actions.del')"
+                        icon="mdi-delete"
+                        color="error"
+                        @click="inbound.addrs?.splice(index,1)"
+                      />
+                    </div>
                     <v-divider class="my-2" />
                     <AddrVue
                       :addr="addr"

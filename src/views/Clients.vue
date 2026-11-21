@@ -168,6 +168,7 @@
                     density="compact"
                     :label="$t('type')"
                     :items="filterItems"
+                    hide-details
                   />
                 </v-col>
               </v-row>
@@ -179,6 +180,7 @@
                     density="compact"
                     :label="$t('client.group')"
                     :items="[ {title: $t('all'), value: '-'}, ...groups.map(g => ({ title: g.length>0 ? g : $t('none'), value: g}))]"
+                    hide-details
                   />
                 </v-col>
               </v-row>
@@ -189,6 +191,7 @@
                     variant="underlined"
                     density="compact"
                     :label="$t('client.name')"
+                    hide-details
                   />
                 </v-col>
               </v-row>

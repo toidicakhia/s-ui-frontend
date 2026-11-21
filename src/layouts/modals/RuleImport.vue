@@ -41,7 +41,7 @@
 
         <v-window
           v-model="tab"
-          class="mt-2"
+          class="mt-2 mb-4"
         >
           <v-window-item value="json">
             <v-alert
@@ -57,7 +57,6 @@
               rows="12"
               hide-details
               spellcheck="false"
-              class="mb-4"
               :error="!!error"
             />
           </v-window-item>

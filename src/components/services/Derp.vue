@@ -46,12 +46,12 @@
           <v-col
             cols="auto"
             align-self="center"
-            justify-self="center"
           >
             <v-chip
               color="primary"
               density="compact"
               variant="elevated"
+              :aria-label="$t('actions.add')"
               @click="data.verify_client_url?.push({url: ''})"
             >
               <v-icon icon="mdi-plus" />
@@ -69,7 +69,6 @@
           <v-col
             cols="auto"
             align-self="center"
-            justify-self="center"
           >
             <v-icon
               :aria-label="$t('actions.del')"
@@ -96,12 +95,12 @@
           <v-col
             cols="auto"
             align-self="center"
-            justify-self="center"
           >
             <v-chip
               color="primary"
               density="compact"
               variant="elevated"
+              :aria-label="$t('actions.add')"
               @click="data.mesh_with?.push({tls: {}})"
             >
               <v-icon icon="mdi-plus" />
@@ -119,7 +118,6 @@
           <v-col
             cols="auto"
             align-self="center"
-            justify-self="center"
           >
             <v-icon
               :aria-label="$t('actions.del')"
@@ -177,7 +175,6 @@
             class="rounded-xl"
             density="compact"
             variant="outlined"
-            shaped
             mandatory
           >
             <v-btn

@@ -12,7 +12,6 @@
           class="rounded-xl"
           density="compact"
           variant="outlined"
-          shaped
           mandatory
         >
           <v-btn @click="clearText">

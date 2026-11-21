@@ -192,13 +192,17 @@
       </v-menu>
     </v-card-actions>
   </v-card>
-  <v-card v-if="data.peers != undefined">
-    <v-card-subtitle>
-      {{ $t('types.wg.peers') }}
+  <v-card
+    v-if="data.peers != undefined"
+    class="nested-card"
+  >
+    <v-card-subtitle class="d-flex align-center justify-space-between">
+      <span>{{ $t('types.wg.peers') }}</span>
       <v-chip
         color="primary"
         density="compact"
         variant="elevated"
+        :aria-label="$t('actions.add')"
         @click="addPeer"
       >
         <v-icon icon="mdi-plus" />
@@ -208,9 +212,13 @@
       v-for="(p, index) in data.peers"
       :key="index"
     >
-      <v-card class="nested-card mt-4">
-        <v-card-subtitle>
-          {{ $t('types.wg.peer') + ' ' + (Number(index)+1) }} <v-icon
+      <v-card
+        class="nested-card mb-4"
+        :class="{ 'mt-4': index === 0 }"
+      >
+        <v-card-subtitle class="d-flex align-center justify-space-between">
+          <span>{{ $t('types.wg.peer') + ' ' + (Number(index)+1) }}</span>
+          <v-icon
             :aria-label="$t('actions.del')"
             color="error"
             icon="mdi-delete"

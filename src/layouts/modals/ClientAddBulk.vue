@@ -23,6 +23,7 @@
                 max="100"
                 :label="$t('count')"
                 :rules="countRules"
+                hide-details="auto"
               />
             </v-col>
           </v-row>

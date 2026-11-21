@@ -168,9 +168,7 @@
               </template>
             </v-card-title>
             <v-card-text
-              class="card-text--standard"
-              align="center"
-              justify="center"
+              class="card-text--standard text-center"
             >
               <Gauge
                 v-if="i.charAt(0) == 'g'"

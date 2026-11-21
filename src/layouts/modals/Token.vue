@@ -24,6 +24,7 @@
       <v-card-text class="card-text--standard">
         <v-alert
           v-if="newToken.token.length>0"
+          class="mb-4"
           color="success"
           density="compact"
           icon="mdi-alert-circle-outline"
@@ -34,6 +35,7 @@
             readonly
             variant="outlined"
             bg-color="warning"
+            hide-details
           >
             <template #append-inner>
               <v-btn
@@ -113,6 +115,7 @@
           </tbody>
         </v-table>
         <v-btn
+          class="mt-4"
           color="primary"
           @click="showAddToken()"
         >
@@ -137,12 +140,13 @@
               </v-row>
             </v-card-title>
             <v-divider />
-            <v-card-text>
+            <v-card-text class="card-text--standard">
               <v-row>
                 <v-col>
                   <v-text-field
                     v-model="newToken.desc"
                     :label="$t('client.desc')"
+                    hide-details
                   />
                 </v-col>
               </v-row>
@@ -154,6 +158,7 @@
                     min="0"
                     type="number"
                     :suffix="$t('date.d')"
+                    hide-details
                   />
                 </v-col>
               </v-row>

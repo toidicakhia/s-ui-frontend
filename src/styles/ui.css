@@ -12,6 +12,31 @@
   background-color: inherit;
 }
 
+/* Dialog bodies stack several option cards (listen/dial, protocol, TLS, ...)
+   one after another. Vuetify gives cards no margin, so the sections run
+   together with no visible gap. Give each nested card breathing room below it
+   so consecutive cards read as separate blocks. Cards that already carry their
+   own spacing utility keep that value. */
+.v-dialog .card-text--standard .v-card:not([class*="mb-"]):not([class*="ma-"]):not(.service-card) {
+  margin-bottom: 16px;
+}
+
+/* A nested card that closes the dialog body already gets the body's bottom
+   padding; its margin would add a second, empty strip before the actions. */
+.v-dialog .card-text--standard .v-card:not([class*="mb-"]):not([class*="ma-"]):not(.service-card):last-child {
+  margin-bottom: 0;
+}
+
+/* A section card that follows a row of fields starts with its own subtitle, so
+   without a gap that subtitle sits on the last input. Only rows that are direct
+   children of a dialog body, tab pane, or expansion panel need this: rows inside
+   an option card already carry their own bottom padding. */
+.v-card-text.card-text--standard > .v-row + .v-card:not([class*="mt-"]),
+.v-window-item > .v-row + .v-card:not([class*="mt-"]),
+.v-expansion-panel-text__wrapper > .v-row + .v-card:not([class*="mt-"]) {
+  margin-top: 16px;
+}
+
 /* Resource tiles show the protocol/type directly under the title. */
 .v-card-subtitle.card-subtitle--compact {
   margin-top: -15px;
@@ -63,9 +88,17 @@
 }
 
 /* Protocol/TLS option groups place rows directly inside a card. Without their
-   own padding the fields hug the card edges (and any divider below them). */
-.v-card > .v-row {
+   own padding the fields hug the card edges (and any divider below them).
+   Vuetify separates sibling rows by 24px, so pull consecutive rows back
+   together by the padding they add: 16px + 16px - 8px = 24px. Keeping the full
+   padding on every row also keeps the first visible row inset when an earlier
+   conditional row is hidden. Small service cards bring their own padding. */
+.v-card:not(.service-card) > .v-row {
   padding: 16px;
+}
+
+.v-card:not(.service-card) > .v-row + .v-row:not([class*="mt-"]) {
+  margin-top: -8px;
 }
 
 /* Every QR code uses the same corner radius; only the cursor differs between

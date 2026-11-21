@@ -176,7 +176,7 @@
         <!-- Shared transports for everything sing-box downloads: remote
              rule-sets, the API dashboard, certificate providers. Each is
              referenced by its tag. -->
-        <v-row>
+        <v-row class="mb-2">
           <v-col cols="12">
             <v-btn
               color="primary"

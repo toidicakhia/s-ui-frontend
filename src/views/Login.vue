@@ -22,6 +22,7 @@
                 v-model="username"
                 :label="$t('login.username')"
                 :rules="usernameRules"
+                hide-details="auto"
                 required
               />
               <v-text-field
@@ -29,6 +30,7 @@
                 :label="$t('login.password')"
                 :rules="passwordRules"
                 type="password"
+                hide-details="auto"
                 required
               />
               <v-btn

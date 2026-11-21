@@ -139,6 +139,7 @@
         </v-row>
         <v-container
           id="container"
+          class="pa-0"
           style="height: 400px;"
         >
           <v-skeleton-loader

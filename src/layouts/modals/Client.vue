@@ -316,7 +316,7 @@
                     @click="shuffle(key)"
                   />
                 </v-col>
-                <v-col>
+                <v-col class="d-flex flex-column ga-2">
                   <v-text-field
                     v-if="clientConfig[key].password != undefined"
                     v-model="clientConfig[key].password"

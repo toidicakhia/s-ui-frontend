@@ -20,6 +20,7 @@
             >
               <v-text-field
                 v-model="username"
+                class="mb-2"
                 :label="$t('login.username')"
                 :rules="usernameRules"
                 hide-details="auto"

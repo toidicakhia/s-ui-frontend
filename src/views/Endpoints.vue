@@ -7,6 +7,11 @@
     :tags="endpointTags"
     @close="closeModal"
   />
+  <WgImport
+    :visible="importVisible"
+    @update:visible="importVisible = $event"
+    @imported="importWireguard"
+  />
   <Stats
     v-model="stats.visible"
     :visible="stats.visible"
@@ -37,6 +42,16 @@
         @click="showModal(0)"
       >
         {{ $t('actions.add') }}
+      </v-btn>
+    </v-col>
+    <v-col cols="auto">
+      <v-btn
+        color="secondary"
+        variant="outlined"
+        append-icon="mdi-upload"
+        @click="importVisible = true"
+      >
+        {{ $t('actions.import') }}
       </v-btn>
     </v-col>
     <v-col cols="auto">
@@ -258,6 +273,7 @@
 import Data from '@/store/modules/data'
 import HttpUtils from '@/plugins/httputil'
 import EndpointVue from '@/layouts/modals/Endpoint.vue'
+import WgImport from '@/layouts/modals/WgImport.vue'
 import Stats from '@/layouts/modals/Stats.vue'
 import Sessions from '@/layouts/modals/Sessions.vue'
 import QrCode from '@/layouts/modals/WgQrCode.vue'
@@ -338,6 +354,13 @@ const showModal = (id: number) => {
 
 const closeModal = () => {
   modal.value.visible = false
+}
+
+const importVisible = ref(false)
+
+const importWireguard = async (endpoint: Endpoint) => {
+  if (Data().checkTag('endpoint', 0, endpoint.tag)) return
+  if (await Data().save('endpoints', 'new', endpoint)) importVisible.value = false
 }
 
 const stats = ref({

@@ -52,18 +52,20 @@
     <v-col cols="auto">
       <v-btn
         color="primary"
-        class="mx-1"
         @click="showRuleModal(-1)"
       >
         {{ $t('rule.add') }}
       </v-btn>
+    </v-col>
+    <v-col cols="auto">
       <v-btn
         color="primary"
-        class="mx-1"
         @click="showRulesetModal(-1)"
       >
         {{ $t('ruleset.add') }}
       </v-btn>
+    </v-col>
+    <v-col cols="auto">
       <v-menu
         v-model="actionMenu"
         :close-on-content-click="false"
@@ -116,6 +118,8 @@
           </v-list-item>
         </v-list>
       </v-menu>
+    </v-col>
+    <v-col cols="auto">
       <v-btn
         variant="outlined"
         color="warning"

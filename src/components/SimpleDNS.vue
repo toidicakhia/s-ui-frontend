@@ -70,9 +70,9 @@ function updateType(t: string) {
 }
 </script>
 
-<style>
-.noGutters .v-field__input,
-.noGutters .v-field {
+<style scoped>
+.noGutters :deep(.v-field__input),
+.noGutters :deep(.v-field) {
   text-align: center !important;
   padding-inline-end: 0 !important;
 }

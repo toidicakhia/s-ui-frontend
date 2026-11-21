@@ -80,6 +80,7 @@
                     <v-divider />
                     <v-card-text>{{ $t('confirm') }}</v-card-text>
                     <v-card-actions>
+                      <v-spacer />
                       <v-btn
                         color="error"
                         variant="outlined"

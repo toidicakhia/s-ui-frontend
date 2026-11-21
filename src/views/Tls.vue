@@ -165,7 +165,7 @@
   <!-- Certificate providers are part of the base config rather than the TLS
        table, but they only exist to serve the configs above, so they are
        managed here. A TLS config points at one by tag. -->
-  <v-divider class="mt-4" />
+  <v-divider class="my-2" />
   <v-row>
     <v-col
       class="v-card-subtitle"
@@ -173,11 +173,12 @@
     >
       {{ $t('tls.provider.title') }}
     </v-col>
-    <v-col
-      cols="12"
-      justify="center"
-      align="center"
-    >
+  </v-row>
+  <v-row
+    justify="center"
+    align="center"
+  >
+    <v-col cols="auto">
       <v-btn
         color="primary"
         :loading="providerLoading"

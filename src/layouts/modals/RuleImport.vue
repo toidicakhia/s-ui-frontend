@@ -158,7 +158,7 @@
             />
           </v-alert>
 
-          <span class="v-card-subtitle">
+          <span class="text-subtitle-2 mb-2 d-block">
             {{ $t('pages.rules') }}
             <v-badge
               v-if="(parsed.rules?.length ?? 0) > 0"
@@ -189,7 +189,7 @@
             </tbody>
           </v-table>
 
-          <span class="v-card-subtitle">
+          <span class="text-subtitle-2 mb-2 d-block">
             {{ $t('rule.ruleset') }}
             <v-badge
               v-if="(parsed.rule_set?.length ?? 0) > 0"

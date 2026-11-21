@@ -218,8 +218,9 @@
         </v-col>
       </v-row>
       <template v-if="tls.ech != undefined">
+        <v-divider class="my-2 mx-4" />
         <v-row>
-          <v-col class="v-card-subtitle">
+          <v-col class="text-subtitle-2">
             ECH
           </v-col>
         </v-row>

@@ -131,6 +131,7 @@
       </v-card-text>
       <template v-if="resource == 'user'">
         <v-card-actions>
+          <v-spacer />
           <v-btn
             color="error"
             variant="outlined"

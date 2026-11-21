@@ -9,7 +9,7 @@
       <v-card-subtitle class="card-subtitle--compact">
         {{ $t('wgImport.hint') }}
       </v-card-subtitle>
-      <v-card-text>
+      <v-card-text class="card-text--standard">
         <v-textarea
           v-model="text"
           :label="$t('wgImport.text')"

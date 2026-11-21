@@ -28,18 +28,20 @@
     <v-col cols="auto">
       <v-btn
         color="primary"
-        class="mx-1"
         @click="showDnsModal(-1)"
       >
         {{ $t('dns.add') }}
       </v-btn>
+    </v-col>
+    <v-col cols="auto">
       <v-btn
         color="primary"
-        class="mx-1"
         @click="showDnsRuleModal(-1)"
       >
         {{ $t('dns.rule.add') }}
       </v-btn>
+    </v-col>
+    <v-col cols="auto">
       <v-btn
         variant="outlined"
         color="warning"

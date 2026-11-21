@@ -97,7 +97,7 @@
         </v-row>
         <template v-if="preview.length > 0">
           <v-divider class="my-2" />
-          <span class="v-card-subtitle">
+          <span class="text-subtitle-2 mb-2 d-block">
             {{ $t('rule.import.preview') }}
             <v-badge
               color="success"

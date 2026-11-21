@@ -25,11 +25,12 @@
     <v-col cols="auto">
       <v-btn
         color="primary"
-        class="mx-1"
         @click="showChangesModal('')"
       >
         {{ $t('admin.changes') }}
       </v-btn>
+    </v-col>
+    <v-col cols="auto">
       <v-btn
         color="primary"
         @click="showTokenModal()"

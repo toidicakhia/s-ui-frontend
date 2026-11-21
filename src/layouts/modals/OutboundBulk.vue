@@ -24,6 +24,7 @@
             <v-checkbox
               v-model="addUrlTest"
               :label="$t('out.addUrlTest')"
+              hide-details
             />
           </v-col>
           <v-col

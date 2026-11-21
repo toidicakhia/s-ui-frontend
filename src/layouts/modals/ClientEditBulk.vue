@@ -12,9 +12,9 @@
         <v-container class="pa-0">
           <v-card
             :subtitle="$t('actions.action')"
-            class="mb-4"
+            class="nested-card mb-4"
           >
-            <v-card-text>
+            <v-card-text class="card-text--standard">
               <v-row>
                 <v-col
                   cols="12"

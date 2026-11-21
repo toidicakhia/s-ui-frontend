@@ -60,7 +60,7 @@
             variant="tonal"
             :text="$t('update.dockerHint')"
           />
-          <pre class="command">docker compose pull &amp;&amp; docker compose up -d</pre>
+          <pre class="command mt-4 pa-4 rounded">docker compose pull &amp;&amp; docker compose up -d</pre>
         </template>
 
         <template v-else-if="update.method == 'systemd'">
@@ -95,7 +95,7 @@
             variant="tonal"
             :text="$t('update.manualHint')"
           />
-          <pre class="command">s-ui update</pre>
+          <pre class="command mt-4 pa-4 rounded">s-ui update</pre>
         </template>
       </v-card-text>
       <v-card-actions v-if="update?.method == 'systemd' && state == 'idle'">
@@ -177,9 +177,6 @@ onBeforeUnmount(stopPolling)
 <style scoped>
 .command {
   direction: ltr;
-  margin-top: 12px;
-  padding: 8px 12px;
-  border-radius: 4px;
   background: rgba(var(--v-theme-on-surface), 0.08);
   white-space: pre-wrap;
   user-select: all;

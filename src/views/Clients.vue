@@ -158,58 +158,58 @@
           </v-btn>
         </template>
         <v-card>
-          <v-container>
-            <v-row>
-              <v-col>
-                <v-select
-                  v-model="filterSettings.state"
-                  variant="underlined"
-                  density="compact"
-                  :label="$t('type')"
-                  :items="filterItems"
-                />
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-select
-                  v-model="filterSettings.group"
-                  variant="underlined"
-                  density="compact"
-                  :label="$t('client.group')"
-                  :items="[ {title: $t('all'), value: '-'}, ...groups.map(g => ({ title: g.length>0 ? g : $t('none'), value: g}))]"
-                />
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field
-                  v-model="filterSettings.text"
-                  variant="underlined"
-                  density="compact"
-                  :label="$t('client.name')"
-                />
-              </v-col>
-            </v-row>
-          </v-container>
+          <v-card-text class="card-text--standard">
+            <v-container class="pa-0">
+              <v-row>
+                <v-col>
+                  <v-select
+                    v-model="filterSettings.state"
+                    variant="underlined"
+                    density="compact"
+                    :label="$t('type')"
+                    :items="filterItems"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-select
+                    v-model="filterSettings.group"
+                    variant="underlined"
+                    density="compact"
+                    :label="$t('client.group')"
+                    :items="[ {title: $t('all'), value: '-'}, ...groups.map(g => ({ title: g.length>0 ? g : $t('none'), value: g}))]"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    v-model="filterSettings.text"
+                    variant="underlined"
+                    density="compact"
+                    :label="$t('client.name')"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
           <v-card-actions>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                color="primary"
-                variant="outlined"
-                @click="clearFilter"
-              >
-                {{ $t('reset') }}
-              </v-btn>
-              <v-btn
-                color="primary"
-                variant="tonal"
-                @click="doFilter"
-              >
-                {{ $t('actions.apply') }}
-              </v-btn>
-            </v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="primary"
+              variant="outlined"
+              @click="clearFilter"
+            >
+              {{ $t('reset') }}
+            </v-btn>
+            <v-btn
+              color="primary"
+              variant="tonal"
+              @click="doFilter"
+            >
+              {{ $t('actions.apply') }}
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-menu>

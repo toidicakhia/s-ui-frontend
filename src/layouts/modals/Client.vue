@@ -381,6 +381,7 @@
                     :label="$t('client.external') + ' ' + (index+1)"
                     append-icon="mdi-delete"
                     placeholder="<protocol>://<data>"
+                    hide-details
                     @click:append="extLinks.splice(index,1)"
                   />
                 </v-col>
@@ -406,6 +407,7 @@
                     :label="$t('client.sub') + ' ' + (index+1)"
                     append-icon="mdi-delete"
                     placeholder="http[s]://<domain>[:]<port>/<path>"
+                    hide-details
                     @click:append="subLinks.splice(index,1)"
                   />
                 </v-col>

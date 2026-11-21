@@ -14,7 +14,10 @@
     class="fill-height"
     :loading="loading"
   >
-    <v-responsive :class="reloadItems.length>0 ? 'fill-height text-center' : 'align-center'">
+    <v-responsive
+      :class="reloadItems.length>0 ? 'fill-height text-center' : 'align-center'"
+      style="overflow: visible"
+    >
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
           <v-img
@@ -93,28 +96,31 @@
               </v-row>
             </v-card>
           </v-dialog>
-          <v-btn
-            variant="tonal"
-            hide-details 
-            class="ms-2"
-            elevation="3"
-            @click="backupModal.visible = true"
-          >
-            {{ $t('main.backup.title') }}<v-icon icon="mdi-backup-restore" />
-          </v-btn>
+        </v-col>
+        <v-col cols="auto">
           <v-btn
             variant="tonal"
             hide-details
-            class="ms-2"
+            elevation="3"
+            @click="backupModal.visible = true"
+          >
+            {{ $t('main.backup.title') }} <v-icon icon="mdi-backup-restore" />
+          </v-btn>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn
+            variant="tonal"
+            hide-details
             elevation="3"
             @click="logModal.visible = true"
           >
             {{ $t('basic.log.title') }} <v-icon icon="mdi-list-box-outline" />
           </v-btn>
+        </v-col>
+        <v-col cols="auto">
           <v-btn
             variant="tonal"
             hide-details
-            class="ms-2"
             elevation="3"
             @click="usageStatsModal.visible = true"
           >

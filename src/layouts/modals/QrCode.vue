@@ -152,6 +152,9 @@ export default {
       tab: "sub",
       client: <Client>{},
       loading: false,
+      // Reactive so the QR size recomputes on resize/rotation. innerWidth itself
+      // is not reactive, so keep a copy updated by a resize listener.
+      windowWidth: window.innerWidth,
     }
   },
   computed: {
@@ -170,8 +173,8 @@ export default {
       return this.client.links?? []
     },
     size() {
-      if (window.innerWidth > 380) return 300
-      if (window.innerWidth > 330) return 280
+      if (this.windowWidth > 380) return 300
+      if (this.windowWidth > 330) return 280
       return 250
     }
   },
@@ -183,7 +186,16 @@ export default {
       }
     },
   },
+  mounted() {
+    window.addEventListener('resize', this.updateWindowWidth)
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.updateWindowWidth)
+  },
   methods: {
+    updateWindowWidth() {
+      this.windowWidth = window.innerWidth
+    },
     async load() {
       this.loading = true
       const newData = await Data().loadClients(this.$props.id)

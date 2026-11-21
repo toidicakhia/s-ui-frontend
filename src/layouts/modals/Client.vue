@@ -77,7 +77,8 @@
                   <v-text-field
                     v-model="client.name"
                     :label="$t('client.name')"
-                    hide-details
+                    :rules="nameRules"
+                    required
                   />
                 </v-col>
                 <v-col
@@ -379,11 +380,21 @@
                     v-model="lnk.uri"
                     dir="ltr"
                     :label="$t('client.external') + ' ' + (index+1)"
-                    append-icon="mdi-delete"
                     placeholder="<protocol>://<data>"
                     hide-details
-                    @click:append="extLinks.splice(index,1)"
-                  />
+                  >
+                    <template #append>
+                      <v-btn
+                        :aria-label="$t('actions.del')"
+                        density="compact"
+                        variant="text"
+                        icon="mdi-delete"
+                        @click="extLinks.splice(index,1)"
+                      >
+                        <v-icon />
+                      </v-btn>
+                    </template>
+                  </v-text-field>
                 </v-col>
               </v-row>
               <v-row>
@@ -405,11 +416,21 @@
                     v-model="lnk.uri"
                     dir="ltr"
                     :label="$t('client.sub') + ' ' + (index+1)"
-                    append-icon="mdi-delete"
                     placeholder="http[s]://<domain>[:]<port>/<path>"
                     hide-details
-                    @click:append="subLinks.splice(index,1)"
-                  />
+                  >
+                    <template #append>
+                      <v-btn
+                        :aria-label="$t('actions.del')"
+                        density="compact"
+                        variant="text"
+                        icon="mdi-delete"
+                        @click="subLinks.splice(index,1)"
+                      >
+                        <v-icon />
+                      </v-btn>
+                    </template>
+                  </v-text-field>
                 </v-col>
               </v-row>
             </v-window-item>
@@ -443,7 +464,7 @@ import { createClient, randomConfigs, updateConfigs, Link, shuffleConfigs } from
 import DatePick from '@/components/DateTime.vue'
 import { HumanReadable } from '@/plugins/utils'
 import Data from '@/store/modules/data'
-import { locale } from '@/locales'
+import { i18n, locale } from '@/locales'
 import type { PropType } from 'vue'
 
 // The per-protocol credentials of a client. The type is internal to
@@ -469,6 +490,12 @@ export default {
     return {
       client: createClient(),
       title: "add",
+      nameRules: [
+        (value: string) => {
+          if (value?.length > 0) return true
+          return i18n.global.t('login.unRules')
+        },
+      ],
       loading: false,
       tab: "t1",
       clientConfig: <ClientConfig>{},

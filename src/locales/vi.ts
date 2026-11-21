@@ -203,6 +203,7 @@ export default {
     logout: "Đăng xuất",
   },
   admin: {
+    index: "Chỉ số",
     changeCred: "Thay đổi thông tin đăng nhập",
     oldPass: "Mật khẩu hiện tại",
     newUname: "Tên người dùng mới",
@@ -341,6 +342,7 @@ export default {
         caHint: "CA đã ký chứng chỉ máy chủ. Bắt buộc trừ khi đặt vân tay đối tác",
         clientCa: "Chứng chỉ CA của client",
         clientCaPath: "Đường dẫn CA của client",
+      clientCaHint: "CA ký chứng chỉ client. Bắt buộc khi máy chủ yêu cầu client cung cấp chứng chỉ",
         verifyClient: "Xác minh chứng chỉ client",
         verifyClientHint: "Trừ khi chọn None, máy chủ yêu cầu chứng chỉ từ mọi client và khi đó cần CA bên dưới",
         crlPath: "Đường dẫn CRL",
@@ -595,6 +597,12 @@ export default {
     delay: "Độ trễ",
   },
   rule: {
+    action: {
+      bypass: "Bỏ qua",
+      hijackDns: "Chặn DNS",
+      sniff: "Nhận diện",
+      resolve: "Phân giải",
+    },
     add: "Thêm Quy tắc",
     simple: "Đơn giản",
     logical: "Logic",
@@ -756,6 +764,7 @@ export default {
     disableMtuDiscovery: "Tắt dò tìm MTU đường truyền",
   },
   tls : {
+    maxTimeDifference: "Chênh lệch thời gian tối đa",
     clientCa: "Chứng chỉ CA của máy khách",
     clientCert: "Chứng chỉ máy khách",
     clientKey: "Khóa máy khách",
@@ -835,6 +844,7 @@ export default {
     },
   },
   sessions: {
+    closeAllConfirm: "Ngắt tất cả phiên đang hoạt động của người dùng này?",
     title: "Kết nối trực tiếp",
     source: "Nguồn",
     destination: "Đích",

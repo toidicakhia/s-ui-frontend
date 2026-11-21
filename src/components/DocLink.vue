@@ -1,6 +1,7 @@
 <template>
   <a
     :href="url"
+    :aria-label="$t('docs')"
     target="_blank"
     rel="noopener noreferrer"
     class="text-decoration-none"

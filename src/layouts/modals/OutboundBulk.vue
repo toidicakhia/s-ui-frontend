@@ -162,6 +162,7 @@ export default {
     async linkCheck() {
       this.loading = true
       this.outbounds = []
+      this.outChecks = []
       const msg = await HttpUtils.post<Outbound[]>('api/subConvert', { link: this.link })
       if (msg.success) {
         if (msg.obj?.length>0) {
@@ -178,6 +179,7 @@ export default {
               interrupt_exist_connections: false,
               interval: "30s"
             }))
+            this.outChecks.push(0)
           }
         }
       }
@@ -193,14 +195,20 @@ export default {
 
       // save data
       this.loading = true
-      this.outbounds.forEach(async (o:Outbound, index:number) => {
-        if (this.outChecks[index] == 2) return
-        this.outChecks[index] = 3
-        const success = await Data().save("outbounds",  "new", o)
-        if (success) this.outChecks[index] = 1
-        else this.outChecks[index] = 2
-      })
-      this.loading = false
+      try {
+        const results = await Promise.all(this.outbounds.map(async (o:Outbound, index:number) => {
+          if (this.outChecks[index] == 2) return false
+          this.outChecks[index] = 3
+          const success = await Data().save("outbounds", "new", o)
+          this.outChecks[index] = success ? 1 : 2
+          return success
+        }))
+        // Keep the dialog open when any row failed (including duplicate-tag
+        // rows) so the operator can see the failing check marks.
+        if (results.length > 0 && results.every(success => success)) this.closeModal()
+      } finally {
+        this.loading = false
+      }
     }
   },
 }

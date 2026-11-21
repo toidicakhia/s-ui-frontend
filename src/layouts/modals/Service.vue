@@ -37,7 +37,16 @@
               v-model="srv.tag"
               :label="$t('objects.tag')"
               hide-details
+              :error="tagError.length > 0"
             />
+          </v-col>
+        </v-row>
+        <v-row v-if="tagError.length > 0">
+          <v-col
+            cols="12"
+            class="text-error text-caption"
+          >
+            {{ tagError }}
           </v-col>
         </v-row>
 
@@ -97,6 +106,7 @@
           color="primary"
           variant="tonal"
           :loading="loading"
+          :disabled="!validate"
           @click="saveChanges"
         >
           {{ $t('actions.save') }}
@@ -121,6 +131,7 @@ import OomKiller from '@/components/services/OomKiller.vue'
 import HysteriaRealm from '@/components/services/HysteriaRealm.vue'
 import InTLS from '@/components/tls/InTLS.vue'
 import SSMapi from '@/components/services/SSMAPI.vue'
+import { i18n } from '@/locales'
 import Data from '@/store/modules/data'
 export default {
   components: { DocLink, Listen, InTLS, Derp, Ocm, Ccm, SSMapi, Api, OomKiller, HysteriaRealm },
@@ -146,6 +157,17 @@ export default {
       // oom-killer has no listen options at all
       NoListen: [SrvTypes.OOMKiller],
     }
+  },
+  computed: {
+    tagError(): string {
+      const tag = this.srv.tag?.trim() ?? ''
+      if (tag.length == 0) return i18n.global.t('error.invalidData') + ": " + i18n.global.t('objects.tag')
+      return ''
+    },
+    validate(): boolean {
+      if (!this.srv) return false
+      return this.tagError.length == 0
+    },
   },
   watch: {
     visible(v) {

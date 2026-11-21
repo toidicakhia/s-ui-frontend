@@ -115,7 +115,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { i18n } from '@/locales'
 import api from '@/plugins/api'
 import HttpUtils from '@/plugins/httputil'
@@ -170,6 +170,16 @@ const stopPolling = () => {
     pollId = null
   }
 }
+
+// A reopened dialog must not inherit the outcome of a previous update: an old
+// timeout would hide the "Update now" button, and a leftover poll would keep
+// running. Reset both on every open.
+watch(visible, (v) => {
+  if (v) {
+    stopPolling()
+    state.value = 'idle'
+  }
+})
 
 onBeforeUnmount(stopPolling)
 </script>

@@ -203,6 +203,7 @@ export default {
     logout: "登出",
   },
   admin: {
+    index: "索引",
     changeCred: "變更登入憑證",
     oldPass: "目前密碼",
     newUname: "新使用者名稱",
@@ -341,6 +342,7 @@ export default {
         caHint: "簽發伺服器憑證的 CA。未設定對端指紋時必填",
         clientCa: "用戶端 CA 憑證",
         clientCaPath: "用戶端 CA 路徑",
+      clientCaHint: "簽署用戶端憑證的 CA。伺服器要求用戶端提供憑證時必填",
         verifyClient: "驗證用戶端憑證",
         verifyClientHint: "除非選擇「無」，伺服器會向每個用戶端索取憑證，此時需要下方的 CA",
         crlPath: "CRL 路徑",
@@ -595,6 +597,12 @@ export default {
     delay: "延遲",
   },
   rule: {
+    action: {
+      bypass: "略過",
+      hijackDns: "攔截 DNS",
+      sniff: "嗅探",
+      resolve: "解析",
+    },
     add: "新增規則",
     simple: "簡易",
     logical: "邏輯",
@@ -758,6 +766,7 @@ export default {
     disableMtuDiscovery: "停用路徑 MTU 探索",
   },
   tls: {
+    maxTimeDifference: "最大時間差",
     clientCa: "用戶端 CA 憑證",
     clientCert: "用戶端憑證",
     clientKey: "用戶端金鑰",
@@ -837,6 +846,7 @@ export default {
     },
   },
   sessions: {
+    closeAllConfirm: "中斷此使用者的所有活動工作階段？",
     title: "即時連線",
     source: "來源",
     destination: "目的地",

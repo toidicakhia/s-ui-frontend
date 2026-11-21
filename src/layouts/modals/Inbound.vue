@@ -181,6 +181,7 @@
                       color="primary"
                       density="compact"
                       variant="elevated"
+                      :aria-label="$t('actions.add')"
                       @click="add_addr"
                     >
                       <v-icon icon="mdi-plus" />

@@ -264,10 +264,19 @@ export default {
     parseImport() {
       const existingTags = new Set(this.rsTags)
       const seen = new Set<string>()
+      const seenTags = new Set<string>()
       this.importPreview = this.importRawText
         .split('\n').map(l => l.trim()).filter(l => l.length > 0 && l.startsWith('http'))
         .filter(url => { if (seen.has(url)) return false; seen.add(url); return true })
-        .map(url => ({ tag: this.urlToTag(url), url, format: this.importFormat, exists: existingTags.has(this.urlToTag(url)) }))
+        .map(url => {
+          const tag = this.urlToTag(url)
+          // Different URLs can map to the same tag (mirrors sharing a file
+          // name). Keep the first and mark later ones as skipped so saving
+          // never produces two rule-sets with the same tag.
+          const exists = existingTags.has(tag) || seenTags.has(tag)
+          seenTags.add(tag)
+          return { tag, url, format: this.importFormat, exists }
+        })
     },
     save() {
       const toAdd = this.importPreview.filter(i => !i.exists).map(item => {

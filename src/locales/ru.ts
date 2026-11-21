@@ -203,6 +203,7 @@ export default {
     logout: "Выйти",
   },
   admin: {
+    index: "Индекс",
     changeCred: "Изменить учетные данные",
     oldPass: "Текущий пароль",
     newUname: "Новое имя пользователя",
@@ -341,6 +342,7 @@ export default {
         caHint: "УЦ, подписавший сертификат сервера. Обязателен, если не задан отпечаток пира",
         clientCa: "Сертификат УЦ клиентов",
         clientCaPath: "Путь к УЦ клиентов",
+      clientCaHint: "CA, подписывающий сертификаты клиентов. Требуется, когда сервер запрашивает сертификат у клиента",
         verifyClient: "Проверка сертификата клиента",
         verifyClientHint: "Пока здесь не выбрано None, сервер требует сертификат от каждого клиента, и тогда нужен УЦ ниже",
         crlPath: "Путь к CRL",
@@ -595,6 +597,12 @@ export default {
     delay: "Задержка",
   },
   rule: {
+    action: {
+      bypass: "Обойти",
+      hijackDns: "Перехват DNS",
+      sniff: "Сниффер",
+      resolve: "Разрешить",
+    },
     add: "Добавить правило",
     simple: "Простое",
     logical: "Логическое",
@@ -756,6 +764,7 @@ export default {
     disableMtuDiscovery: "Отключить обнаружение MTU",
   },
   tls: {
+    maxTimeDifference: "Максимальная разница во времени",
     clientCa: "CA-сертификаты клиента",
     clientCert: "Сертификат клиента",
     clientKey: "Ключ клиента",
@@ -835,6 +844,7 @@ export default {
     },
   },
   sessions: {
+    closeAllConfirm: "Отключить все активные сессии этого пользователя?",
     title: "Активные соединения",
     source: "Источник",
     destination: "Назначение",

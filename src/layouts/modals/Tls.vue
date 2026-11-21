@@ -314,7 +314,7 @@
               >
                 <v-text-field
                   v-model="max_time"
-                  label="Max Time Diference"
+                  :label="$t('tls.maxTimeDifference')"
                   type="number"
                   min="1"
                   :suffix="$t('date.m')"
@@ -659,7 +659,7 @@
                       <v-switch
                         v-model="optionTime"
                         color="primary"
-                        label="Max Time Difference"
+                        :label="$t('tls.maxTimeDifference')"
                         hide-details
                       />
                     </v-list-item>
@@ -1059,6 +1059,10 @@ export default {
             message: i18n.global.t('failed') + ": " + msg.obj
           })
         }
+      } else {
+        push.error({
+          message: i18n.global.t('failed') + ": " + msg.obj
+        })
       }
     },
     async genRealityKey(){

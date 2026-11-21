@@ -124,6 +124,7 @@
           color="primary"
           variant="tonal"
           :loading="loading"
+          :disabled="!validate"
           @click="saveChanges"
         >
           {{ $t('actions.save') }}
@@ -138,6 +139,9 @@ import RandomUtil from '@/plugins/randomUtil'
 import { ruleset } from '@/types/rules'
 import DocLink from '@/components/DocLink.vue'
 import { downloadHttpClient, httpClientTags, refDetour, refTag } from '@/plugins/httpClient'
+import Data from '@/store/modules/data'
+import { i18n } from '@/locales'
+import { push } from 'notivue'
 import type { PropType } from 'vue'
 export default {
   components: { DocLink },
@@ -156,6 +160,17 @@ export default {
     }
   },
   computed: {
+    // The route's rulesets, minus the one being edited. A tag is how rules
+    // reference a set, so a second one with the same tag would be ambiguous.
+    takenTags(): string[] {
+      const sets = Data().config.route?.rule_set ?? []
+      return sets.filter((_, i) => i != this.$props.index).map(s => s.tag)
+    },
+    validate(): boolean {
+      const tag = this.rule_set.tag ?? ''
+      if (tag.trim().length == 0) return false
+      return !this.takenTags.includes(tag)
+    },
     httpClients(): string[] {
       return httpClientTags()
     },
@@ -214,6 +229,12 @@ export default {
       this.$emit('close')
     },
     saveChanges() {
+      if (!this.$props.visible) return
+      // check duplicate tag
+      if (this.takenTags.includes(this.rule_set.tag)) {
+        push.error({ message: i18n.global.t('error.dplData') + ': ' + i18n.global.t('objects.tag') })
+        return
+      }
       this.loading = true
       this.$emit('save', this.rule_set)
       this.loading = false

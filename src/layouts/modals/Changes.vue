@@ -106,7 +106,7 @@
                   v-if="(item.index ?? 0) > 0"
                   dir="ltr"
                 >
-                  Index: {{ item.index }}
+                  {{ $t('admin.index') }}: {{ item.index }}
                 </v-card>
                 <v-card
                   color="background"

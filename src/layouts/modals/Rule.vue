@@ -115,7 +115,7 @@
         </v-row>
         <v-card
           v-if="ruleData.action == 'route'"
-          subtitle="Route"
+          :subtitle="$t('dns.rule.action.route')"
         >
           <v-row>
             <v-col
@@ -134,7 +134,7 @@
         </v-card>
         <v-card
           v-if="ruleData.action == 'route-options'"
-          subtitle="Route Option"
+          :subtitle="$t('dns.rule.action.routeOptions')"
         >
           <v-row>
             <v-col
@@ -199,7 +199,7 @@
         </v-card>
         <v-card
           v-if="ruleData.action == 'reject'"
-          subtitle="Reject"
+          :subtitle="$t('dns.rule.action.reject')"
         >
           <v-row>
             <v-col
@@ -231,7 +231,7 @@
         </v-card>
         <v-card
           v-if="ruleData.action == 'sniff'"
-          subtitle="Sniff"
+          :subtitle="$t('rule.action.sniff')"
         >
           <v-row>
             <v-col
@@ -263,7 +263,7 @@
         </v-card>
         <v-card
           v-if="ruleData.action == 'resolve'"
-          subtitle="Resolve"
+          :subtitle="$t('rule.action.resolve')"
         >
           <v-row>
             <v-col
@@ -321,6 +321,7 @@ import { PropType } from 'vue'
 import { rule, actionKeys } from '@/types/rules'
 import RuleOptions from '@/components/Rule.vue'
 import DocLink from '@/components/DocLink.vue'
+import { i18n } from '@/locales'
 
 // The form assembles a rule field by field and also addresses fields by key
 // name at runtime, so it carries an index signature alongside what it reads.
@@ -379,13 +380,13 @@ export default {
         outbound: 'direct',
       },
       actions: [
-        { title: 'Route', value: 'route'},
-        { title: 'Route Options', value: 'route-options'},
-        { title: 'Bypass', value: 'bypass'},
-        { title: 'Reject', value: 'reject'},
-        { title: 'Hijack DNS', value: 'hijack-dns'},
-        { title: 'Sniff', value: 'sniff'},
-        { title: 'Resolve', value: 'resolve'}
+        { title: i18n.global.t('dns.rule.action.route'), value: 'route'},
+        { title: i18n.global.t('dns.rule.action.routeOptions'), value: 'route-options'},
+        { title: i18n.global.t('rule.action.bypass'), value: 'bypass'},
+        { title: i18n.global.t('dns.rule.action.reject'), value: 'reject'},
+        { title: i18n.global.t('rule.action.hijackDns'), value: 'hijack-dns'},
+        { title: i18n.global.t('rule.action.sniff'), value: 'sniff'},
+        { title: i18n.global.t('rule.action.resolve'), value: 'resolve'}
       ],
       sniffers: [
         { title: 'HTTP', value: 'http' },
@@ -475,8 +476,6 @@ export default {
         case 'route-options':
           newRule.override_address = (this.ruleData.override_address?.length ?? 0) > 0 ? this.ruleData.override_address : undefined
           newRule.override_port = (this.ruleData.override_port ?? 0) > 0 ? this.ruleData.override_port : undefined
-          newRule.network_strategy = (this.ruleData.network_strategy?.length ?? 0) > 0 ? this.ruleData.network_strategy : undefined
-          newRule.fallback_delay = (this.ruleData.fallback_delay?.length ?? 0) > 0 ? this.ruleData.fallback_delay : undefined
           newRule.udp_disable_domain_unmapping = this.ruleData.udp_disable_domain_unmapping? true : undefined
           newRule.udp_connect = this.ruleData.udp_connect? true : undefined
           newRule.udp_timeout = (this.ruleData.udp_timeout?.length ?? 0) > 0 ? this.ruleData.udp_timeout : undefined

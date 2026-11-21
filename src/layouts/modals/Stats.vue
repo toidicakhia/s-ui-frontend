@@ -338,6 +338,9 @@ export default {
       else this.stopAutoRefresh()
     }
   },
+  beforeUnmount() {
+    this.stopAutoRefresh()
+  },
   methods: {
     async loadData() {
       this.loading = true

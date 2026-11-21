@@ -104,7 +104,50 @@
         >
           {{ $t('actions.close') }}
         </v-btn>
+        <v-menu
+          v-if="actionMode === 'delete_bulk'"
+          v-model="confirmDelete"
+          :close-on-content-click="false"
+          location="top center"
+        >
+          <template #activator="{ props }">
+            <v-btn
+              color="primary"
+              variant="tonal"
+              :loading="loading"
+              :disabled="selectedClients.model != 'all' && selectedClients.values.length == 0"
+              v-bind="props"
+            >
+              {{ $t('actions.save') }}
+            </v-btn>
+          </template>
+          <v-card
+            :title="$t('actions.delbulk')"
+            rounded="lg"
+          >
+            <v-divider />
+            <v-card-text>{{ $t('confirm') }}</v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="error"
+                variant="outlined"
+                @click="confirmDeleteBulk"
+              >
+                {{ $t('yes') }}
+              </v-btn>
+              <v-btn
+                color="success"
+                variant="outlined"
+                @click="confirmDelete = false"
+              >
+                {{ $t('no') }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
         <v-btn
+          v-else
           color="primary"
           variant="tonal"
           :loading="loading"
@@ -142,6 +185,7 @@ export default {
   data() {
     return {
       loading: false,
+      confirmDelete: false,
       actionMode: 'change_limits',
       actionModes: [
         { title: i18n.global.t('bulk.changeLimits'), value: 'change_limits' },
@@ -166,6 +210,7 @@ export default {
     visible(newVal) {
       if (newVal) {
         this.actionMode = 'change_limits'
+        this.confirmDelete = false
         this.editData = { enable: true, addDays: 0, addVolume: 0, inboundTags: [] }
         this.selectedClients = { model: 'none', values: [] }
       }
@@ -176,6 +221,7 @@ export default {
       this.editData.inboundTags = []
     },
     closeModal() {
+      this.confirmDelete = false
       this.$emit('close')
     },
     getTargetClients(): Client[] {
@@ -193,6 +239,10 @@ export default {
       }
     },
     async saveChanges() {
+      if (this.actionMode === 'delete_bulk') {
+        this.confirmDelete = true
+        return
+      }
       this.loading = true
       // Deep copies. getTargetClients returns the store's own objects, so the
       // edits below were applied to the live list the moment they were typed:
@@ -225,14 +275,16 @@ export default {
             c.inbounds = c.inbounds.filter((i: number) => !this.editData.inboundTags.includes(i))
           })
           break
-        case 'delete_bulk': {
-          const success = await Data().save("clients", "delbulk", targetClients.map((c: Client) => c.id))
-          if (success) this.closeModal()
-          this.loading = false
-          return
-        }
       }
       const success = await Data().save("clients", 'editbulk', targetClients)
+      if (success) this.closeModal()
+      this.loading = false
+    },
+    async confirmDeleteBulk() {
+      this.confirmDelete = false
+      this.loading = true
+      const ids = this.getTargetClients().map((c: Client) => c.id)
+      const success = await Data().save("clients", "delbulk", ids)
       if (success) this.closeModal()
       this.loading = false
     },

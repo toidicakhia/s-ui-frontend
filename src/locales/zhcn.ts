@@ -203,6 +203,7 @@ export default {
     logout: "退出登录",
   },
   admin: {
+    index: "索引",
     changeCred: "更改凭据",
     oldPass: "当前密码",
     newUname: "新用户名",
@@ -341,6 +342,7 @@ export default {
         caHint: "签发服务器证书的 CA。未设置对端指纹时必填",
         clientCa: "客户端 CA 证书",
         clientCaPath: "客户端 CA 路径",
+      clientCaHint: "签署客户端证书的 CA。服务器要求客户端提供证书时必需",
         verifyClient: "验证客户端证书",
         verifyClientHint: "除非选择 None，服务器会向每个客户端索要证书，此时需要下方的 CA",
         crlPath: "CRL 路径",
@@ -595,6 +597,12 @@ export default {
     delay: "延迟",
   },
   rule: {
+    action: {
+      bypass: "绕过",
+      hijackDns: "劫持 DNS",
+      sniff: "嗅探",
+      resolve: "解析",
+    },
     add: "添加规则",
     simple: "简单",
     logical: "逻辑",
@@ -756,6 +764,7 @@ export default {
     disableMtuDiscovery: "禁用路径 MTU 探测",
   },
   tls : {
+    maxTimeDifference: "最大时间差",
     clientCa: "客户端 CA 证书",
     clientCert: "客户端证书",
     clientKey: "客户端密钥",
@@ -835,6 +844,7 @@ export default {
     },
   },
   sessions: {
+    closeAllConfirm: "断开该用户的所有活动会话？",
     title: "实时连接",
     source: "来源",
     destination: "目标",

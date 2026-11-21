@@ -77,12 +77,15 @@ export default {
       wgData: <Endpoint>{},
       wgLinks: <string[]>[],
       loading: false,
+      // Reactive so the QR size recomputes on resize/rotation. innerWidth itself
+      // is not reactive, so keep a copy updated by a resize listener.
+      windowWidth: window.innerWidth,
     }
   },
   computed: {
     size() {
-      if (window.innerWidth > 380) return 300
-      if (window.innerWidth > 330) return 280
+      if (this.windowWidth > 380) return 300
+      if (this.windowWidth > 330) return 280
       return 250
     }
   },
@@ -93,7 +96,16 @@ export default {
       }
     },
   },
+  mounted() {
+    window.addEventListener('resize', this.updateWindowWidth)
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.updateWindowWidth)
+  },
   methods: {
+    updateWindowWidth() {
+      this.windowWidth = window.innerWidth
+    },
     async load() {
       this.wgData = this.$props.data
       this.wgLinks = []
@@ -159,7 +171,7 @@ export default {
     download(text: string, i: number) {
       let filename = this.wgData.tag + '_peer_' + (i+1) + '.conf';
       let element = document.createElement('a');
-      element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
       element.setAttribute('download', filename);
 
       element.style.display = 'none';

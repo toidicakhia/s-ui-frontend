@@ -380,15 +380,15 @@ export default {
     },
     answer: {
       get() { return this.ruleData.answer?.length ? this.ruleData.answer.join(',') : "" },
-      set(v:string) { this.ruleData.answer = v.length > 0 ? v.split(',') : undefined }
+      set(v:string) { this.ruleData.answer = v.length > 0 ? v.split(',').map(s => s.trim()).filter(Boolean) : undefined }
     },
     ns: {
       get() { return this.ruleData.ns?.length ? this.ruleData.ns.join(',') : "" },
-      set(v:string) { this.ruleData.ns = v.length > 0 ? v.split(',') : undefined }
+      set(v:string) { this.ruleData.ns = v.length > 0 ? v.split(',').map(s => s.trim()).filter(Boolean) : undefined }
     },
     extra: {
       get() { return this.ruleData.extra?.length ? this.ruleData.extra.join(',') : "" },
-      set(v:string) { this.ruleData.extra = v.length > 0 ? v.split(',') : undefined }
+      set(v:string) { this.ruleData.extra = v.length > 0 ? v.split(',').map(s => s.trim()).filter(Boolean) : undefined }
     },
   },
   watch: {

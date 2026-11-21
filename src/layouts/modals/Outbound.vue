@@ -55,7 +55,16 @@
                     v-model="outbound.tag"
                     :label="$t('objects.tag')"
                     hide-details
+                    :error="tagError.length > 0"
                   />
+                </v-col>
+              </v-row>
+              <v-row v-if="tagError.length > 0">
+                <v-col
+                  cols="12"
+                  class="text-error text-caption"
+                >
+                  {{ tagError }}
                 </v-col>
               </v-row>
               <v-row v-if="!NoServer.includes(outbound.type) && !viaRealm">
@@ -225,6 +234,7 @@
           color="primary"
           variant="tonal"
           :loading="loading"
+          :disabled="!validate"
           @click="saveChanges"
         >
           {{ $t('actions.save') }}
@@ -262,6 +272,7 @@ import Selector from '@/components/protocols/Selector.vue'
 import UrlTest from '@/components/protocols/UrlTest.vue'
 import HttpUtils from '@/plugins/httputil'
 import AnyTls from '@/components/protocols/AnyTls.vue'
+import { i18n } from '@/locales'
 import Data from '@/store/modules/data'
 export default {
   components: { DocLink, Dial, Multiplex, Transport, OutTLS,
@@ -293,6 +304,22 @@ export default {
     viaRealm(): boolean {
       return (this.outbound as { realm?: object }).realm != undefined
     },
+    tagError(): string {
+      const tag = this.outbound.tag?.trim() ?? ''
+      if (tag.length == 0) return i18n.global.t('error.invalidData') + ": " + i18n.global.t('objects.tag')
+      return ''
+    },
+    validate(): boolean {
+      if (!this.outbound) return false
+      if (this.tagError.length > 0) return false
+      // Server-based types need a usable port; direct/selector/urltest/tor and
+      // realm-based outbounds have no server_port field to validate.
+      if (!this.NoServer.includes(this.outbound.type) && !this.viaRealm) {
+        const port = Number(this.outbound.server_port)
+        if (!Number.isInteger(port) || port < 1 || port > 65535) return false
+      }
+      return true
+    },
   },
   watch: {
     visible(newValue) {
@@ -313,6 +340,7 @@ export default {
         this.title = "add"
       }
       this.tab = "t1"
+      this.link = ""
     },
     changeType() {
       // Tag change only in add outbound

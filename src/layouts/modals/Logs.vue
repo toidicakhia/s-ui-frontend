@@ -3,9 +3,11 @@
     transition="dialog-bottom-transition"
     width="90%"
     max-width="1200"
-    :loading="loading"
   >
-    <v-card class="rounded-lg">
+    <v-card
+      class="rounded-lg"
+      :loading="loading"
+    >
       <v-card-title>
         <v-row>
           <v-col>{{ $t('basic.log.title') }}</v-col>
@@ -113,15 +115,19 @@ watch(() => props.visible, (v) => {
   logLevel.value = 'info'
   logCount.value = 10
   if (v) {
+    loading.value = false
     loadData()
   }
 })
 
 async function loadData() {
   loading.value = true
-  const data = await HttpUtils.get<string[]>('api/logs',{ c: logCount.value, l: logLevel.value })
-  if (data.success) {
-    lines.value = data.obj?? []
+  try {
+    const data = await HttpUtils.get<string[]>('api/logs',{ c: logCount.value, l: logLevel.value })
+    if (data.success) {
+      lines.value = data.obj?? []
+    }
+  } finally {
     loading.value = false
   }
 }

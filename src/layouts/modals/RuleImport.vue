@@ -96,6 +96,8 @@
               spellcheck="false"
               placeholder="https://raw.githubusercontent.com/.../rules.json"
               append-icon="mdi-download"
+              :loading="fetching"
+              :disabled="fetching"
               @keydown.enter="fetchFromUrl"
               @click:append="fetchFromUrl"
             />
@@ -357,6 +359,7 @@ export default {
       }
     },
     async fetchFromUrl() {
+      if (this.fetching) return
       this.error = ''
       this.parsed = null
       this.fetching = true

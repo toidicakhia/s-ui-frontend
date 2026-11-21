@@ -34,9 +34,19 @@
             readonly
             variant="outlined"
             bg-color="warning"
-            append-inner-icon="mdi-content-copy"
-            @click:append-inner="copyToClipboard(newToken.token)"
-          />
+          >
+            <template #append-inner>
+              <v-btn
+                :aria-label="$t('copyToClipboard')"
+                density="compact"
+                variant="text"
+                icon="mdi-content-copy"
+                @click="copyToClipboard(newToken.token)"
+              >
+                <v-icon />
+              </v-btn>
+            </template>
+          </v-text-field>
         </v-alert>
         <v-table density="compact">
           <thead>

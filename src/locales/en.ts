@@ -203,6 +203,7 @@ export default {
     logout: "Logout",
   },
   admin: {
+    index: "Index",
     changeCred: "Change credentials",
     oldPass: "Current Password",
     newUname: "New Username",
@@ -341,6 +342,7 @@ export default {
         caHint: "The CA that signed the server certificate. Required unless a peer fingerprint is set",
         clientCa: "Client CA Certificate",
         clientCaPath: "Client CA Path",
+      clientCaHint: "The CA that signs client certificates. Required when the server asks clients for a certificate",
         verifyClient: "Verify Client Certificate",
         verifyClientHint: "A server asks every client for a certificate unless this is None, and then needs the CA below",
         crlPath: "CRL Path",
@@ -595,6 +597,12 @@ export default {
     delay: "Delay",
   },
   rule: {
+    action: {
+      bypass: "Bypass",
+      hijackDns: "Hijack DNS",
+      sniff: "Sniff",
+      resolve: "Resolve",
+    },
     add: "Add Rule",
     simple: "Simple",
     logical: "Logical",
@@ -758,6 +766,7 @@ export default {
     disableMtuDiscovery: "Disable Path MTU Discovery",
   },
   tls: {
+    maxTimeDifference: "Max Time Difference",
     clientCa: "Client CA Certificates",
     clientCert: "Client Certificate",
     clientKey: "Client Key",
@@ -837,6 +846,7 @@ export default {
     },
   },
   sessions: {
+    closeAllConfirm: "Disconnect all active sessions for this user?",
     title: "Live Connections",
     source: "Source",
     destination: "Destination",

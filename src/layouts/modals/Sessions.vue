@@ -132,16 +132,49 @@
       <template v-if="resource == 'user'">
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            color="error"
-            variant="outlined"
-            prepend-icon="mdi-close-network"
-            :loading="closing"
-            :disabled="sessions.length == 0"
-            @click="closeSessions"
+          <v-menu
+            v-model="closeOverlay"
+            :close-on-content-click="false"
+            location="top center"
           >
-            {{ $t('sessions.closeAll') }}
-          </v-btn>
+            <template #activator="{ props: activatorProps }">
+              <v-btn
+                v-bind="activatorProps"
+                color="error"
+                variant="outlined"
+                prepend-icon="mdi-close-network"
+                :loading="closing"
+                :disabled="sessions.length == 0"
+              >
+                {{ $t('sessions.closeAll') }}
+              </v-btn>
+            </template>
+            <v-card
+              :title="$t('sessions.closeAll')"
+              rounded="lg"
+            >
+              <v-divider />
+              <v-card-text>{{ $t('sessions.closeAllConfirm') }}</v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn
+                  color="error"
+                  variant="outlined"
+                  :loading="closing"
+                  @click="confirmCloseSessions"
+                >
+                  {{ $t('yes') }}
+                </v-btn>
+                <v-btn
+                  color="success"
+                  variant="outlined"
+                  @click="closeOverlay = false"
+                >
+                  {{ $t('no') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-menu>
         </v-card-actions>
       </template>
     </v-card>
@@ -152,7 +185,7 @@
 import HttpUtils from '@/plugins/httputil'
 import { HumanReadable } from '@/plugins/utils'
 import { i18n } from '@/locales'
-import { computed, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useDisplay } from 'vuetify'
 
 // One live connection as api/sessions reports it, mirroring the core's
@@ -181,6 +214,7 @@ const { smAndDown } = useDisplay()
 
 const loading = ref(false)
 const closing = ref(false)
+const closeOverlay = ref(false)
 const sessions = ref(<Session[]>[])
 const autoRefresh = ref(localStorage.getItem('sessionsAutoRefresh') === 'true')
 let intervalId: ReturnType<typeof setInterval> | 0 = 0
@@ -226,6 +260,13 @@ const closeSessions = async () => {
   closing.value = false
 }
 
+// Disconnecting every live session is destructive, so the menu only gates the
+// call above: nothing is sent until the operator confirms.
+const confirmCloseSessions = async () => {
+  closeOverlay.value = false
+  await closeSessions()
+}
+
 const fmt = (v: number) => HumanReadable.sizeFormat(v)
 
 const duration = (createdAt: number) => {
@@ -251,6 +292,7 @@ watch(() => props.visible, (v) => {
     if (autoRefresh.value) startAutoRefresh()
   } else {
     sessions.value = []
+    closeOverlay.value = false
     stopAutoRefresh()
   }
 })
@@ -260,6 +302,8 @@ watch(autoRefresh, (v) => {
   if (v && props.visible) startAutoRefresh()
   else stopAutoRefresh()
 })
+
+onBeforeUnmount(stopAutoRefresh)
 </script>
 
 <style scoped>

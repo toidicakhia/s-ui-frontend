@@ -194,6 +194,8 @@ export default {
       this.$emit('close')
     },
     saveChanges() {
+      // tagError validates the trimmed tag; persist the same value.
+      this.client.tag = this.client.tag.trim()
       this.loading = true
       this.$emit('save', this.client)
       this.loading = false

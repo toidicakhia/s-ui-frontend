@@ -102,7 +102,7 @@
           </v-row>
           <v-card class="nested-card mb-4">
             <v-card-subtitle>
-              Predefined
+              {{ $t('dns.rule.action.predefined') }}
               <v-chip
                 color="primary"
                 density="compact"
@@ -255,6 +255,7 @@
         <v-btn
           color="primary"
           variant="tonal"
+          :disabled="!validate"
           @click="save"
         >
           {{ $t('actions.save') }}
@@ -270,6 +271,9 @@ import DocLink from '@/components/DocLink.vue'
 import oTlsVue from '@/components/tls/OutTLS.vue'
 import Headers from '@/components/Headers.vue'
 import RandomUtil from '@/plugins/randomUtil'
+import Data from '@/store/modules/data'
+import { i18n } from '@/locales'
+import { push } from 'notivue'
 import { PropType } from 'vue'
 import { DnsTypes, createDnsServer } from '@/types/dns'
 
@@ -303,6 +307,17 @@ export default {
     }
   },
   computed:{
+    // Existing DNS servers minus the one being edited: rules select a server
+    // by tag, so two servers sharing a tag would be ambiguous.
+    takenTags(): string[] {
+      const servers = Data().config.dns?.servers ?? []
+      return servers.filter((_, i) => i != this.$props.index).map(s => s.tag as string)
+    },
+    validate(): boolean {
+      const tag = this.dnsServer.tag ?? ''
+      if (tag.trim().length == 0) return false
+      return !this.takenTags.includes(tag)
+    },
     hostsPath: {
       get() { return this.dnsServer.path },
       set(v: string) {
@@ -362,6 +377,11 @@ export default {
       this.$emit('close')
     },
     save() {
+      // check duplicate tag
+      if (this.takenTags.includes(this.dnsServer.tag)) {
+        push.error({ message: i18n.global.t('error.dplData') + ': ' + i18n.global.t('objects.tag') })
+        return
+      }
       this.$emit('save', this.dnsServer)
     },
     addHostsPredefined() {

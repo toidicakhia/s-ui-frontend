@@ -22,7 +22,7 @@
                 min="1"
                 max="100"
                 :label="$t('count')"
-                hide-details
+                :rules="countRules"
               />
             </v-col>
           </v-row>
@@ -214,6 +214,12 @@ export default {
   data() {
     return {
       count: 1,
+      countRules: [
+        (value: number) => {
+          if (value >= 1 && value <= 100) return true
+          return i18n.global.t('error.invalidData')
+        },
+      ],
       clients: <Client[]>[],
       bulkData: {
         name: <PatternPart[]>[],
@@ -263,8 +269,8 @@ export default {
     },
     async saveChanges() {
       if (!this.$props.visible) return
-      if (this.bulkData.name.findIndex(n => typeof(n) == 'object') == -1) {
-        push.error(i18n.global.t('error.dplData'))
+      if (this.count < 1 || this.count > 100) {
+        push.error(i18n.global.t('error.invalidData'))
         return
       }
       this.clients = []

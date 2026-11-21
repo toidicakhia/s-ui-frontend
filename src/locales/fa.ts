@@ -203,6 +203,7 @@ export default {
     logout: "خروج",
   },
   admin: {
+    index: "شماره",
     changeCred: "ویرایش داده‌ها",
     oldPass: "رمز کنونی",
     newUname: "نام کاربری جدید",
@@ -341,6 +342,7 @@ export default {
         caHint: "مرجعی که گواهی سرور را امضا کرده است. مگر اینکه اثر انگشت همتا تنظیم شود، الزامی است",
         clientCa: "گواهی CA کلاینت‌ها",
         clientCaPath: "مسیر CA کلاینت‌ها",
+      clientCaHint: "CA ای که گواهی مشتری را امضا می کند. زمانی که سرور از مشتری گواهی میخواهد الزامی است",
         verifyClient: "بررسی گواهی کلاینت",
         verifyClientHint: "سرور تا وقتی این گزینه None نباشد از هر کلاینت گواهی می‌خواهد و در آن صورت به CA زیر نیاز دارد",
         crlPath: "مسیر CRL",
@@ -595,6 +597,12 @@ export default {
     delay: "تأخیر"
   },
   rule: {
+    action: {
+      bypass: "عبور",
+      hijackDns: "رهگیری DNS",
+      sniff: "شناسایی",
+      resolve: "حل",
+    },
     add: "ایجاد قانون",
     simple: "ساده",
     logical: "منطقی",
@@ -756,6 +764,7 @@ export default {
     disableMtuDiscovery: "غیرفعال کردن کشف MTU مسیر",
   },
   tls: {
+    maxTimeDifference: "حداکثر اختلاف زمانی",
     clientCa: "گواهی‌های CA کلاینت",
     clientCert: "گواهی کلاینت",
     clientKey: "کلید کلاینت",
@@ -835,6 +844,7 @@ export default {
     },
   },
   sessions: {
+    closeAllConfirm: "همه جلسات فعال این کاربر قطع شوند؟",
     title: "اتصال‌های زنده",
     source: "مبدا",
     destination: "مقصد",

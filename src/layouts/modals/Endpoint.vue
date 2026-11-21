@@ -38,7 +38,16 @@
               v-model="endpoint.tag"
               :label="$t('objects.tag')"
               hide-details
+              :error="tagError.length > 0"
             />
+          </v-col>
+        </v-row>
+        <v-row v-if="tagError.length > 0">
+          <v-col
+            cols="12"
+            class="text-error text-caption"
+          >
+            {{ tagError }}
           </v-col>
         </v-row>
         <Wireguard
@@ -97,6 +106,7 @@
           color="primary"
           variant="tonal"
           :loading="loading"
+          :disabled="!validate"
           @click="saveChanges"
         >
           {{ $t('actions.save') }}
@@ -148,6 +158,21 @@ export default {
     isOpenVpn(): boolean {
       return [EpTypes.OpenVPNClient, EpTypes.OpenVPNServer].includes(this.endpoint.type)
     },
+    tagError(): string {
+      const tag = this.endpoint.tag?.trim() ?? ''
+      if (tag.length == 0) return i18n.global.t('error.invalidData') + ": " + i18n.global.t('objects.tag')
+      return ''
+    },
+    validate(): boolean {
+      if (!this.endpoint) return false
+      if (this.tagError.length > 0) return false
+      // A WireGuard endpoint cannot be saved without a keypair; a failed
+      // key generation must not leave an empty key on a valid endpoint.
+      if (this.endpoint.type == EpTypes.Wireguard) {
+        if (!this.endpoint.private_key || !this.endpoint.ext?.public_key) return false
+      }
+      return true
+    },
   },
   watch: {
     visible(v) {
@@ -179,7 +204,8 @@ export default {
       let prevConfig = {}
       switch (this.endpoint.type) {
         case EpTypes.Wireguard: {
-          const wgKeys = (await this.genWgKey())
+          const wgKeys = await this.genWgKey()
+          if (!wgKeys) return
           const randomIPoctet = RandomUtil.randomIntRange(1, 255)
           prevConfig = {
             tag: tag,
@@ -259,26 +285,28 @@ export default {
       this.loading = true
       const msg = await HttpUtils.get<string[]>('api/keypairs', { k: "wireguard" })
       this.loading = false
-      let result = { private_key: "", public_key: "" }
-      if (msg.success) {
-        msg.obj.forEach(line => {
-          if (line.startsWith("PrivateKey")){
-            result.private_key = line.substring(12)
-          }
-          if (line.startsWith("PublicKey")){
-            result.public_key = line.substring(11)
-          }
-        })
-      } else {
+      if (!msg.success) {
         push.error({
           message: i18n.global.t('failed') + ": " + msg.obj
         })
+        // Returning empty keys here would overwrite valid keys in every caller.
+        return null
       }
+      const result = { private_key: "", public_key: "" }
+      msg.obj.forEach(line => {
+        if (line.startsWith("PrivateKey")){
+          result.private_key = line.substring(12)
+        }
+        if (line.startsWith("PublicKey")){
+          result.public_key = line.substring(11)
+        }
+      })
       return result
     },
     async newWgKey(){
       this.loading = true
       const newKeys = await this.genWgKey()
+      if (!newKeys) return
       this.endpoint.private_key = newKeys.private_key
       if (!this.endpoint.ext) this.endpoint.ext = {keys: []}
       this.endpoint.ext.public_key = newKeys.public_key
@@ -297,6 +325,7 @@ export default {
       if (this.endpoint.type != EpTypes.Wireguard) return
       this.loading = true
       const newKeys = await this.genWgKey()
+      if (!newKeys) return
       if (!this.endpoint.ext) this.endpoint.ext = {keys: []}
       this.endpoint.ext.keys.push(newKeys)
       this.endpoint.peers.push({
@@ -321,6 +350,7 @@ export default {
     async refreshWgPeerKey(index: number) {
       this.loading = true
       const newKeys = await this.genWgKey()
+      if (!newKeys) return
       if (!this.endpoint.ext) this.endpoint.ext = {keys: []}
       const indexKeys = this.endpoint.ext.keys.findIndex((key: { public_key: string }) => key.public_key == this.endpoint.peers[index].public_key)
       this.endpoint.ext.keys[indexKeys == -1 ? this.endpoint.ext.keys.length : indexKeys] = newKeys

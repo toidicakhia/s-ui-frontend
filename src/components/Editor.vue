@@ -100,19 +100,19 @@ export default {
 .code-editor {
   direction: ltr !important;
   display: flex;
-  border: 1px solid v-bind('theme.current.colors["outline"]');
-  border-radius: 4px;
-  overflow: hidden;
+  /* The outlined textarea already draws the border. Keeping one on the
+     wrapper as well gave a double border whose corners were cut by overflow. */
   font-size: 14px; /* Consistent font size */
 }
 
 .line-numbers {
-  width: 40px;
+  /* Wide enough for four-digit line numbers in large configs. */
+  width: 48px;
   background: v-bind('theme.current.colors["surface"]');
   text-align: right;
   padding: 12px 8px 12px 4px; /* Match textarea padding */
   line-height: 1.5; /* Match textarea line height */
-  overflow-y: hidden; /* Prevent independent scrolling */
+  overflow: hidden; /* Prevent independent scrolling */
   user-select: none;
   display: flex;
   flex-direction: column;

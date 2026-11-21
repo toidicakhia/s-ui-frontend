@@ -356,7 +356,7 @@
                 <v-col cols="auto">
                   {{ index + 1 }}
                 </v-col>
-                <v-col style="direction: ltr; overflow-y: hidden;">
+                <v-col style="direction: ltr; overflow-wrap: anywhere;">
                   {{ lnk.uri }}
                 </v-col>
               </v-row>

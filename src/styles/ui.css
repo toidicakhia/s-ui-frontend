@@ -24,9 +24,11 @@
   padding: 8px 16px 16px;
 }
 
-/* Resource tile action bars sit flush with the card edges. */
+/* Resource tile action bars sit tight to the card edges. Keep a horizontal
+   inset so the buttons clear the card's rounded corners (and keep their focus
+   rings) while still staying flush at the top and bottom. */
 .v-card-actions.card-actions--flush {
-  padding: 0;
+  padding: 0 16px;
 }
 
 /* Follow-up icon buttons in a tile action bar stay tight to the first one. */

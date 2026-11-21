@@ -249,7 +249,7 @@
       lg="2"
     >
       <v-card
-        rounded="xl"
+        rounded="lg"
         elevation="5"
         min-width="200"
         :title="item.tag"
@@ -341,7 +341,7 @@
       @drop="onDrop(index)"
     >
       <v-card
-        rounded="xl"
+        rounded="lg"
         elevation="5"
         min-width="200"
         :title="index+1"

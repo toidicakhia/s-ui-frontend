@@ -112,7 +112,7 @@
                   color="background"
                   dir="ltr"
                 >
-                  <pre>{{ item.obj }}</pre>
+                  <pre class="pa-2">{{ item.obj }}</pre>
                 </v-card>
               </td>
             </tr>
@@ -206,3 +206,13 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+/* Change details are pretty-printed JSON; long values must wrap instead of
+   being cut by the surrounding card's overflow:hidden. */
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+</style>

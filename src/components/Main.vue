@@ -183,8 +183,13 @@
                   </v-col>
                   <v-col
                     cols="9"
-                    style="text-wrap: nowrap; overflow: hidden"
+                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
                   >
+                    <v-tooltip
+                      activator="parent"
+                      location="top"
+                      :text="tilesData.sys?.hostName"
+                    />
                     {{ tilesData.sys?.hostName }}
                   </v-col>
                   <v-col cols="3">

@@ -71,7 +71,7 @@
       lg="2"
     >
       <v-card
-        rounded="xl"
+        rounded="lg"
         elevation="5"
         min-width="200"
         :title="item.tag"

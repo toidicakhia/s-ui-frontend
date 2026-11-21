@@ -266,67 +266,6 @@
               md="4"
             >
               <v-text-field
-                v-model="settings.subListen"
-                :label="$t('setting.addr')"
-                hide-details
-              />
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-            >
-              <v-text-field
-                v-model.number="subPort"
-                type="number"
-                min="1"
-                :label="$t('setting.port')"
-                hide-details
-              />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-            >
-              <v-text-field
-                v-model="settings.subKeyFile"
-                :label="$t('setting.sslKey')"
-                hide-details
-              />
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-            >
-              <v-text-field
-                v-model="settings.subCertFile"
-                :label="$t('setting.sslCert')"
-                hide-details
-              />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-            >
-              <v-text-field
-                v-model="settings.subDomain"
-                :label="$t('setting.domain')"
-                hide-details
-              />
-            </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-            >
-              <v-text-field
                 v-model="settings.subPath"
                 :label="$t('setting.path')"
                 hide-details
@@ -414,12 +353,7 @@ const settings = ref({
   trafficAge: "30",
   statsBucketSeconds: "60",
 	timeLocation: "Asia/Tehran",
-  subListen: "",
-	subPort: "2096",
 	subPath: "/sub/",
-	subDomain: "",
-	subCertFile: "",
-	subKeyFile: "",
 	subUpdates: "12",
 	subEncode: "true",
 	subShowInfo: "false",
@@ -557,11 +491,6 @@ const trafficAge = computed({
 const statsBucketSeconds = computed({
   get: () => { return settings.value.statsBucketSeconds.length>0 ? parseInt(settings.value.statsBucketSeconds) : 60 },
   set: (v:number) => { settings.value.statsBucketSeconds = v>0 ? v.toString() : "60" }
-})
-
-const subPort = computed({
-  get: () => { return settings.value.subPort.length>0 ? parseInt(settings.value.subPort) : 2096 },
-  set: (v:number) => { settings.value.subPort = v>0 ? v.toString() : "2096" }
 })
 
 const subUpdates = computed({

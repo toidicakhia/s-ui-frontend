@@ -890,6 +890,8 @@ export default {
   qr: {
     title: "QR Code",
     singboxScanOnly: "SING-BOX (scan only)",
+    singboxProfile: "Profile",
+    singboxAllInbounds: "All nodes",
     happScanOnly: "HAPP (scan only)",
     wireguardTitle: "WireGuard QR Code",
   },

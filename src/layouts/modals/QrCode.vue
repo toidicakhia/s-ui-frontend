@@ -89,6 +89,16 @@
             <v-row>
               <v-col class="text-center">
                 <v-chip>{{ $t('qr.singboxScanOnly') }}</v-chip><br>
+                <v-select
+                  v-if="singboxProfiles.length > 1"
+                  v-model="singboxProfile"
+                  class="mx-auto mt-2"
+                  density="compact"
+                  hide-details
+                  :items="singboxProfiles"
+                  :label="$t('qr.singboxProfile')"
+                  style="max-width: 300px;"
+                />
                 <QrcodeVue
                   :value="singbox"
                   :size="size"
@@ -139,6 +149,7 @@ import Clipboard from 'clipboard'
 import { i18n } from '@/locales'
 import { push } from 'notivue'
 import { Client } from '@/types/clients'
+import { Inbound } from '@/types/inbounds'
 
 export default {
   components: { QrcodeVue },
@@ -151,6 +162,9 @@ export default {
     return {
       tab: "sub",
       client: <Client>{},
+      inbounds: <Inbound[]>[],
+      // 0 means the combined profile; any other value is an inbound id.
+      singboxProfile: 0,
       loading: false,
       // Reactive so the QR size recomputes on resize/rotation. innerWidth itself
       // is not reactive, so keep a copy updated by a resize listener.
@@ -161,9 +175,31 @@ export default {
     clientSub() {
       return Data().subURI + this.client.name
     },
+    singboxProfiles() {
+      const profiles: { title: string; value: number }[] = []
+      if (this.inbounds.length == 0) {
+        return profiles
+      }
+      profiles.push({ title: i18n.global.t('qr.singboxAllInbounds'), value: 0 })
+      for (const inbound of this.inbounds) {
+        if (inbound.enable === false) continue
+        profiles.push({ title: inbound.tag, value: inbound.id })
+      }
+      return profiles
+    },
+    singboxProfileName() {
+      if (this.singboxProfile == 0) {
+        return this.client.name
+      }
+      const inbound = this.inbounds.find(i => i.id == this.singboxProfile)
+      return inbound ? this.client.name + ' - ' + inbound.tag : this.client.name
+    },
     singbox() {
-      const url = Data().subURI + this.client.name + "?format=json"
-      return "sing-box://import-remote-profile?url=" +  encodeURIComponent(url) + "#" + this.client.name
+      let url = Data().subURI + this.client.name + "?format=json"
+      if (this.singboxProfile > 0) {
+        url += "&inbound=" + this.singboxProfile
+      }
+      return "sing-box://import-remote-profile?url=" +  encodeURIComponent(url) + "#" + encodeURIComponent(this.singboxProfileName)
     },
     // Happ takes the subscription URL as it is, unencoded, after happ://add/.
     happ() {
@@ -182,6 +218,7 @@ export default {
     visible(v) {
       if (v) {
         this.tab = "sub"
+        this.singboxProfile = 0
         this.load()
       }
     },
@@ -200,6 +237,11 @@ export default {
       this.loading = true
       const newData = await Data().loadClients(this.$props.id)
       this.client = newData
+      // loadInbounds treats an empty list as "all inbounds", so a client with
+      // none must not ask for its (empty) assignment.
+      this.inbounds = newData.inbounds?.length
+        ? await Data().loadInbounds(newData.inbounds)
+        : []
       this.loading = false
     },
     copyToClipboard(txt:string) {

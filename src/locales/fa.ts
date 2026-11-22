@@ -888,6 +888,8 @@ export default {
   qr: {
     title: "کد QR",
     singboxScanOnly: "SING-BOX (فقط اسکن)",
+    singboxProfile: "پروفایل",
+    singboxAllInbounds: "همه نودها",
     happScanOnly: "HAPP (فقط اسکن)",
     wireguardTitle: "کد QR وایرگارد",
   },

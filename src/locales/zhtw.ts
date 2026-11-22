@@ -890,6 +890,8 @@ export default {
   qr: {
     title: "QR 碼",
     singboxScanOnly: "SING-BOX（僅掃描）",
+    singboxProfile: "設定",
+    singboxAllInbounds: "所有節點",
     happScanOnly: "HAPP（僅掃描）",
     wireguardTitle: "WireGuard QR 碼",
   },

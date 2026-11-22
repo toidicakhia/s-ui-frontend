@@ -888,6 +888,8 @@ export default {
   qr: {
     title: "Mã QR",
     singboxScanOnly: "SING-BOX (chỉ quét)",
+    singboxProfile: "Hồ sơ",
+    singboxAllInbounds: "Tất cả node",
     happScanOnly: "HAPP (chỉ quét)",
     wireguardTitle: "Mã QR WireGuard",
   },

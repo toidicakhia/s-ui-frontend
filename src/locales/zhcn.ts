@@ -888,6 +888,8 @@ export default {
   qr: {
     title: "二维码",
     singboxScanOnly: "SING-BOX（仅扫描）",
+    singboxProfile: "配置",
+    singboxAllInbounds: "所有节点",
     happScanOnly: "HAPP（仅扫描）",
     wireguardTitle: "WireGuard 二维码",
   },

@@ -888,6 +888,8 @@ export default {
   qr: {
     title: "QR-код",
     singboxScanOnly: "SING-BOX (только сканирование)",
+    singboxProfile: "Профиль",
+    singboxAllInbounds: "Все узлы",
     happScanOnly: "HAPP (только сканирование)",
     wireguardTitle: "QR-код WireGuard",
   },

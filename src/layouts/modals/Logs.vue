@@ -74,7 +74,7 @@
           color="background"
           dir="ltr"
         >
-          <pre class="log-lines ma-0 mt-2 pa-4">{{ lines.join('\n') }}</pre>
+          <pre class="log-lines ma-0 pa-4">{{ lines.join('\n') }}</pre>
         </v-card>
       </v-card-text>
     </v-card>

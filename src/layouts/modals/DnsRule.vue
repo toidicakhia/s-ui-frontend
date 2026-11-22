@@ -42,7 +42,7 @@
           <v-card
             v-for="(r, ruleIndex) in ruleData.rules"
             :key="ruleIndex"
-            class="nested-card mb-1"
+            class="nested-card"
           >
             <v-card-subtitle class="d-flex align-center justify-space-between">
               <span>{{ $t('objects.rule') + ' ' + (Number(ruleIndex)+1) }}</span>
@@ -71,7 +71,7 @@
           :in-tags="inTags"
           :rule-sets="ruleSets"
         />
-        <v-row class="mt-4">
+        <v-row>
           <v-col
             cols="12"
             sm="6"

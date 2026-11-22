@@ -23,7 +23,7 @@
       </v-card-title>
       <v-divider />
       <v-card-text class="card-text--standard">
-        <v-row class="mt-1">
+        <v-row>
           <v-col cols="12">
             <v-select
               v-model="selected"
@@ -36,7 +36,7 @@
             />
           </v-col>
         </v-row>
-        <v-row class="mb-2">
+        <v-row>
           <v-col
             cols="12"
             sm="6"
@@ -65,10 +65,7 @@
           </v-col>
         </v-row>
         <v-divider class="my-2" />
-        <v-row
-          class="mb-2"
-          align="center"
-        >
+        <v-row align="center">
           <v-col
             cols="12"
             sm="6"
@@ -115,7 +112,6 @@
           <v-table
             density="compact"
             striped="even"
-            class="mb-4"
           >
             <thead>
               <tr><th>{{ $t('objects.tag') }}</th><th>URL</th></tr>

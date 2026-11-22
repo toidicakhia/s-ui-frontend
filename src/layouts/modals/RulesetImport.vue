@@ -74,7 +74,7 @@
             />
           </v-window-item>
         </v-window>
-        <v-row class="mt-2 mb-4">
+        <v-row>
           <v-col
             cols="12"
             sm="6"
@@ -138,7 +138,6 @@
           <v-table
             density="compact"
             striped="even"
-            class="mt-2 mb-4"
           >
             <thead>
               <tr><th>{{ $t('objects.tag') }}</th><th>{{ $t('ruleset.format') }}</th><th>URL</th><th>{{ $t('actions.del') }}</th></tr>

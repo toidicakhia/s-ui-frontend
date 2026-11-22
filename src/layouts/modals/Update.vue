@@ -28,7 +28,7 @@
         v-if="update"
         class="card-text--standard"
       >
-        <p class="mb-4">
+        <p class="mt-0 mb-4">
           <v-chip
             density="compact"
             color="primary"
@@ -60,7 +60,7 @@
             variant="tonal"
             :text="$t('update.dockerHint')"
           />
-          <pre class="command mt-4 pa-4 rounded">docker compose pull &amp;&amp; docker compose up -d</pre>
+          <pre class="command mt-4 mb-0 pa-4 rounded">docker compose pull &amp;&amp; docker compose up -d</pre>
         </template>
 
         <template v-else-if="update.method == 'systemd'">
@@ -95,7 +95,7 @@
             variant="tonal"
             :text="$t('update.manualHint')"
           />
-          <pre class="command mt-4 pa-4 rounded">s-ui update</pre>
+          <pre class="command mt-4 mb-0 pa-4 rounded">s-ui update</pre>
         </template>
       </v-card-text>
       <v-card-actions v-if="update?.method == 'systemd' && state == 'idle'">

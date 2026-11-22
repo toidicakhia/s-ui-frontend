@@ -173,7 +173,7 @@
                 :dial="inbound.out_json"
                 mode="client"
               />
-              <v-card class="nested-card mb-4">
+              <v-card class="nested-card">
                 <v-card-text>
                   <div class="d-flex align-center justify-space-between mb-2">
                     <span class="text-subtitle-2">{{ $t('in.multiDomain') }}</span>

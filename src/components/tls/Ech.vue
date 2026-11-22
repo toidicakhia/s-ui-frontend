@@ -111,10 +111,10 @@
       <v-card :title="$t('tls.echPublicName')">
         <v-divider />
         <v-card-text>
-          <p class="mb-3">
+          <p class="mt-0 mb-3">
             {{ $t('tls.echPublicNameAbout') }}
           </p>
-          <p class="mb-4 text-medium-emphasis">
+          <p class="mt-0 mb-4 text-medium-emphasis">
             {{ $t('tls.echQueryAbout') }}
           </p>
           <v-text-field

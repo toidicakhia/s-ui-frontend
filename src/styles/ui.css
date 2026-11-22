@@ -51,9 +51,20 @@
 
 /* Resource tile action bars sit tight to the card edges. Keep a horizontal
    inset so the buttons clear the card's rounded corners (and keep their focus
-   rings) while still staying flush at the top and bottom. */
+   rings) while still staying flush at the top and bottom. Four 48px icon
+   buttons need 248px, more than a tile's 200px minimum, so they used to shrink
+   and the last one was clipped; 40px buttons with a tighter inset let four fit,
+   and the bar wraps on anything narrower still. */
 .v-card-actions.card-actions--flush {
-  padding: 0 16px;
+  padding: 0 8px;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.v-card-actions.card-actions--flush > .v-btn--icon {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
 }
 
 /* Resource tiles share a row, so a value that wraps in one tile must not push

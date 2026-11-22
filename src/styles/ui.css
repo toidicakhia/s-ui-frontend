@@ -56,6 +56,25 @@
   padding: 0 16px;
 }
 
+/* Resource tiles share a row, so a value that wraps in one tile must not push
+   its action bar below the rest. Let the column stretch the card to the row
+   height and pin the bar to the bottom, keeping every tile's buttons on one
+   line. */
+.v-row > .v-col:has(> .v-card > .v-card-actions.card-actions--flush) {
+  display: flex;
+}
+
+.v-row > .v-col > .v-card:has(> .v-card-actions.card-actions--flush) {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  width: 100%;
+}
+
+.v-card > .v-card-actions.card-actions--flush {
+  margin-top: auto;
+}
+
 /* Follow-up icon buttons in a tile action bar stay tight to the first one. */
 .v-btn.action-btn--flush {
   margin-inline-start: 0;

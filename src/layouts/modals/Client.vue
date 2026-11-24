@@ -1,466 +1,456 @@
 <template>
-  <v-dialog
-    transition="dialog-bottom-transition"
-    width="800"
+  <AppDialog
+    :visible="visible"
+    :title="$t('actions.' + title) + ' ' + $t('objects.client')"
+    icon="mdi-account-edit-outline"
+    :width="820"
+    :loading="loading"
+    @close="closeModal"
   >
-    <v-card
-      class="rounded-lg"
-      :loading="loading"
-    >
-      <v-card-title>
-        {{ $t('actions.' + title) + " " + $t('objects.client') }}
-      </v-card-title>
-      <v-divider />
-      <v-skeleton-loader
-        v-if="loading"
-        class="mx-auto border"
-        width="95%"
-        type="card, text, divider, list-item-two-line"
-      />
-      <v-card-text class="card-text--standard">
-        <v-container
-          class="pa-0"
-          :hidden="loading"
-        >
-          <v-tabs
-            v-model="tab"
-            density="compact"
-            align-tabs="center"
-          >
-            <v-tab value="t1">
-              {{ $t('client.basics') }}
-            </v-tab>
-            <v-tab value="t2">
-              {{ $t('client.config') }}
-            </v-tab>
-            <v-tab value="t3">
-              {{ $t('client.links') }}
-            </v-tab>
-          </v-tabs>
-          <v-window
-            v-model="tab"
-            class="mt-2"
-          >
-            <v-window-item value="t1">
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-switch
-                    v-model="client.enable"
-                    color="primary"
-                    :label="$t('enable')"
-                    hide-details
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-combobox
-                    v-model="client.group"
-                    :items="groups"
-                    :label="$t('client.group')"
-                    hide-details
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-text-field
-                    v-model="client.name"
-                    :label="$t('client.name')"
-                    :rules="nameRules"
-                    hide-details="auto"
-                    required
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-text-field
-                    v-model="client.desc"
-                    :label="$t('client.desc')"
-                    hide-details
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-text-field
-                    v-model="client.remark"
-                    :label="$t('client.remark')"
-                    hide-details
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-text-field
-                    v-model.number="Volume"
-                    type="number"
-                    min="0"
-                    :label="$t('stats.volume')"
-                    suffix="GiB"
-                    hide-details
-                  />
-                </v-col>
-                <v-col
-                  v-if="!(client.delayStart && !client.autoReset)"
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <DatePick
-                    :expiry="expDate"
-                    @submit="setDate"
-                  />
-                </v-col>
-                <v-col
-                  v-if="client.autoReset || client.delayStart"
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-text-field
-                    v-model.number="resetDays"
-                    type="number"
-                    min="1"
-                    :label="$t('client.resetDays')"
-                    hide-details
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-switch
-                    v-model="delayStart"
-                    color="primary"
-                    :disabled="client.up+client.down>0"
-                    :label="$t('client.delayStart')"
-                    hide-details
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-switch
-                    v-model="autoReset"
-                    color="primary"
-                    :label="$t('client.autoReset')"
-                    hide-details
-                  />
-                </v-col>
-              </v-row>
-              <v-row v-if="id > 0">
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                  class="d-flex flex-column"
-                >
-                  <div class="d-flex justify-space-between align-center">
-                    <div>
-                      {{ $t('stats.usage') }}: {{ total }}<sup
-                        v-if="percent>0"
-                        dir="ltr"
-                      >({{ percent }}%)</sup>
-                    </div>
-                    <v-btn
-                      :aria-label="$t('reset')"
-                      density="compact"
-                      variant="text"
-                      icon="mdi-restore"
-                      @click="resetUsage"
-                    >
-                      <v-tooltip
-                        activator="parent"
-                        location="top"
-                      >
-                        {{ $t('reset') }}
-                      </v-tooltip>
-                      <v-icon />
-                    </v-btn>
-                  </div>
-                  <v-progress-linear
-                    v-if="client.volume>0"
-                    v-model="percent"
-                    :color="percentColor"
-                    bottom
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-icon
-                    icon="mdi-upload"
-                    color="warning"
-                  /><span class="text-warning">{{ up }}</span>
-                  / 
-                  <v-icon
-                    icon="mdi-download"
-                    color="success"
-                  /><span class="text-success">{{ down }}</span>
-                </v-col>
-              </v-row>
-              <v-row v-if="id >0 && client.autoReset">
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <div class="text-medium-emphasis">
-                    {{ $t('client.nextReset') }}
-                  </div>
-                  <div dir="ltr">
-                    {{ nextResetFormatted }}
-                  </div>
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <div class="text-medium-emphasis">
-                    {{ $t('main.stats.totalUsage') }}
-                  </div>
-                  <div>
-                    <v-icon
-                      icon="mdi-upload"
-                      color="warning"
-                    /><span class="text-warning">{{ totalUp }}</span>
-                    /
-                    <v-icon
-                      icon="mdi-download"
-                      color="success"
-                    /><span class="text-success">{{ totalDown }}</span>
-                  </div>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-select
-                    v-model="clientInbounds"
-                    :items="inboundTags"
-                    :label="$t('client.inboundTags')"
-                    clearable
-                    multiple
-                    chips
-                    hide-details
-                  >
-                    <template #append>
-                      <v-icon
-                        v-tooltip:top="$t('all')"
-                        :aria-label="$t('all')"
-                        icon="mdi-set-all"
-                        @click="setAllInbounds"
-                      />
-                    </template>
-                  </v-select>
-                </v-col>
-              </v-row>
-            </v-window-item>
-            <v-window-item value="t2">
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="4"
-                >
-                  <v-btn
-                    variant="tonal"
-                    @click="shuffle()"
-                  >
-                    {{ $t('reset') + ' - ' + $t('all') }}<v-icon icon="mdi-refresh" />
-                  </v-btn>
-                </v-col>
-              </v-row>
-              <v-row
-                v-for="key in Object.keys(clientConfig)"
-                :key="key"
-              >
-                <v-col
-                  cols="12"
-                  md="3"
-                  class="text-end"
-                  align-self="center"
-                >
-                  {{ key }}
-                  <v-icon
-                    v-tooltip:top="$t('reset')"
-                    :aria-label="$t('reset')"
-                    icon="mdi-refresh"
-                    @click="shuffle(key)"
-                  />
-                </v-col>
-                <v-col class="d-flex flex-column ga-2">
-                  <v-text-field
-                    v-if="clientConfig[key].password != undefined"
-                    v-model="clientConfig[key].password"
-                    :label="$t('credential.password')"
-                    hide-details
-                  />
-                  <v-text-field
-                    v-if="clientConfig[key].uuid != undefined"
-                    v-model="clientConfig[key].uuid"
-                    :label="$t('credential.uuid')"
-                    hide-details
-                  />
-                  <v-text-field
-                    v-if="key == 'vless'"
-                    v-model="clientConfig[key].flow"
-                    :label="$t('credential.flow')"
-                    hide-details
-                  />
-                  <v-text-field
-                    v-if="key == 'hysteria'"
-                    v-model="clientConfig[key].auth_str"
-                    :label="$t('credential.auth')"
-                    hide-details
-                  />
-                  <v-text-field
-                    v-if="key == 'snell'"
-                    v-model="clientConfig[key].userkey"
-                    :label="$t('credential.userKey')"
-                    hide-details
-                  />
-                </v-col>
-              </v-row>
-            </v-window-item>
-            <v-window-item value="t3">
-              <v-row
-                v-for="(lnk, index) in links"
-                :key="index"
-              >
-                <v-col cols="auto">
-                  {{ index + 1 }}
-                </v-col>
-                <v-col style="direction: ltr; overflow-wrap: anywhere;">
-                  {{ lnk.uri }}
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-btn
-                    color="primary"
-                    @click="extLinks.push({ type: 'external', uri: ''})"
-                  >
-                    {{ $t('actions.add') }} {{ $t('client.external') }}
-                  </v-btn>
-                </v-col>
-              </v-row>
-              <v-row
-                v-for="(lnk, index) in extLinks"
-                :key="index"
-              >
-                <v-col>
-                  <v-text-field
-                    v-model="lnk.uri"
+    <v-skeleton-loader
+      v-if="loading"
+      class="mx-auto border"
+      width="95%"
+      type="card, text, divider, list-item-two-line"
+    />
+    <div :hidden="loading">
+      <v-tabs
+        v-model="tab"
+        density="compact"
+        align-tabs="center"
+        inset
+      >
+        <v-tab value="t1">
+          {{ $t('client.basics') }}
+        </v-tab>
+        <v-tab value="t2">
+          {{ $t('client.config') }}
+        </v-tab>
+        <v-tab value="t3">
+          {{ $t('client.links') }}
+        </v-tab>
+      </v-tabs>
+      <v-window
+        v-model="tab"
+      >
+        <v-window-item value="t1">
+          <v-row>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-switch
+                v-model="client.enable"
+                color="primary"
+                :label="$t('enable')"
+                hide-details
+              />
+            </v-col>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-combobox
+                v-model="client.group"
+                :items="groups"
+                :label="$t('client.group')"
+                hide-details
+              />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-text-field
+                v-model="client.name"
+                :label="$t('client.name')"
+                :rules="nameRules"
+                hide-details="auto"
+                required
+              />
+            </v-col>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-text-field
+                v-model="client.desc"
+                :label="$t('client.desc')"
+                hide-details
+              />
+            </v-col>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-text-field
+                v-model="client.remark"
+                :label="$t('client.remark')"
+                hide-details
+              />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-text-field
+                v-model.number="Volume"
+                type="number"
+                min="0"
+                :label="$t('stats.volume')"
+                suffix="GiB"
+                hide-details
+              />
+            </v-col>
+            <v-col
+              v-if="!(client.delayStart && !client.autoReset)"
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <DatePick
+                :expiry="expDate"
+                @submit="setDate"
+              />
+            </v-col>
+            <v-col
+              v-if="client.autoReset || client.delayStart"
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-text-field
+                v-model.number="resetDays"
+                type="number"
+                min="1"
+                :label="$t('client.resetDays')"
+                hide-details
+              />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-switch
+                v-model="delayStart"
+                color="primary"
+                :disabled="client.up+client.down>0"
+                :label="$t('client.delayStart')"
+                hide-details
+              />
+            </v-col>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-switch
+                v-model="autoReset"
+                color="primary"
+                :label="$t('client.autoReset')"
+                hide-details
+              />
+            </v-col>
+          </v-row>
+          <v-row v-if="id > 0">
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+              class="d-flex flex-column"
+            >
+              <div class="d-flex justify-space-between align-center">
+                <div>
+                  {{ $t('stats.usage') }}: {{ total }}<sup
+                    v-if="percent>0"
                     dir="ltr"
-                    :label="$t('client.external') + ' ' + (index+1)"
-                    placeholder="<protocol>://<data>"
-                    hide-details
+                  >({{ percent }}%)</sup>
+                </div>
+                <v-btn
+                  :aria-label="$t('reset')"
+                  density="compact"
+                  variant="text"
+                  icon="mdi-restore"
+                  @click="resetUsage"
+                >
+                  <v-tooltip
+                    activator="parent"
+                    location="top"
                   >
-                    <template #append>
-                      <v-btn
-                        :aria-label="$t('actions.del')"
-                        density="compact"
-                        variant="text"
-                        icon="mdi-delete"
-                        @click="extLinks.splice(index,1)"
-                      >
-                        <v-icon />
-                      </v-btn>
-                    </template>
-                  </v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-btn
-                    color="primary"
-                    @click="subLinks.push({ type: 'sub', uri: ''})"
-                  >
-                    {{ $t('actions.add') }} {{ $t('client.sub') }}
-                  </v-btn>
-                </v-col>
-              </v-row>
-              <v-row
-                v-for="(lnk, index) in subLinks"
-                :key="index"
+                    {{ $t('reset') }}
+                  </v-tooltip>
+                  <v-icon />
+                </v-btn>
+              </div>
+              <v-progress-linear
+                v-if="client.volume>0"
+                v-model="percent"
+                :color="percentColor"
+                bottom
+              />
+            </v-col>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-icon
+                icon="mdi-upload"
+                color="warning"
+              /><span class="text-warning">{{ up }}</span>
+              /
+              <v-icon
+                icon="mdi-download"
+                color="success"
+              /><span class="text-success">{{ down }}</span>
+            </v-col>
+          </v-row>
+          <v-row v-if="id >0 && client.autoReset">
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <div class="text-medium-emphasis">
+                {{ $t('client.nextReset') }}
+              </div>
+              <div dir="ltr">
+                {{ nextResetFormatted }}
+              </div>
+            </v-col>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <div class="text-medium-emphasis">
+                {{ $t('main.stats.totalUsage') }}
+              </div>
+              <div>
+                <v-icon
+                  icon="mdi-upload"
+                  color="warning"
+                /><span class="text-warning">{{ totalUp }}</span>
+                /
+                <v-icon
+                  icon="mdi-download"
+                  color="success"
+                /><span class="text-success">{{ totalDown }}</span>
+              </div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-select
+                v-model="clientInbounds"
+                :items="inboundTags"
+                :label="$t('client.inboundTags')"
+                clearable
+                multiple
+                chips
+                hide-details
               >
-                <v-col>
-                  <v-text-field
-                    v-model="lnk.uri"
-                    dir="ltr"
-                    :label="$t('client.sub') + ' ' + (index+1)"
-                    placeholder="http[s]://<domain>[:]<port>/<path>"
-                    hide-details
+                <template #append>
+                  <v-icon
+                    v-tooltip:top="$t('all')"
+                    :aria-label="$t('all')"
+                    icon="mdi-set-all"
+                    @click="setAllInbounds"
+                  />
+                </template>
+              </v-select>
+            </v-col>
+          </v-row>
+        </v-window-item>
+        <v-window-item value="t2">
+          <v-row>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-btn
+                variant="tonal"
+                @click="shuffle()"
+              >
+                {{ $t('reset') + ' - ' + $t('all') }}<v-icon icon="mdi-refresh" />
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row
+            v-for="key in Object.keys(clientConfig)"
+            :key="key"
+          >
+            <v-col
+              cols="12"
+              md="3"
+              class="text-end"
+              align-self="center"
+            >
+              {{ key }}
+              <v-icon
+                v-tooltip:top="$t('reset')"
+                :aria-label="$t('reset')"
+                icon="mdi-refresh"
+                @click="shuffle(key)"
+              />
+            </v-col>
+            <v-col class="d-flex flex-column ga-2">
+              <v-text-field
+                v-if="clientConfig[key].password != undefined"
+                v-model="clientConfig[key].password"
+                :label="$t('credential.password')"
+                hide-details
+              />
+              <v-text-field
+                v-if="clientConfig[key].uuid != undefined"
+                v-model="clientConfig[key].uuid"
+                :label="$t('credential.uuid')"
+                hide-details
+              />
+              <v-text-field
+                v-if="key == 'vless'"
+                v-model="clientConfig[key].flow"
+                :label="$t('credential.flow')"
+                hide-details
+              />
+              <v-text-field
+                v-if="key == 'hysteria'"
+                v-model="clientConfig[key].auth_str"
+                :label="$t('credential.auth')"
+                hide-details
+              />
+              <v-text-field
+                v-if="key == 'snell'"
+                v-model="clientConfig[key].userkey"
+                :label="$t('credential.userKey')"
+                hide-details
+              />
+            </v-col>
+          </v-row>
+        </v-window-item>
+        <v-window-item value="t3">
+          <v-row
+            v-for="(lnk, index) in links"
+            :key="index"
+          >
+            <v-col cols="auto">
+              {{ index + 1 }}
+            </v-col>
+            <v-col style="direction: ltr; overflow-wrap: anywhere;">
+              {{ lnk.uri }}
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn
+                color="primary"
+                @click="extLinks.push({ type: 'external', uri: ''})"
+              >
+                {{ $t('actions.add') }} {{ $t('client.external') }}
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row
+            v-for="(lnk, index) in extLinks"
+            :key="index"
+          >
+            <v-col>
+              <v-text-field
+                v-model="lnk.uri"
+                dir="ltr"
+                :label="$t('client.external') + ' ' + (index+1)"
+                placeholder="<protocol>://<data>"
+                hide-details
+              >
+                <template #append>
+                  <v-btn
+                    :aria-label="$t('actions.del')"
+                    density="compact"
+                    variant="text"
+                    icon="mdi-delete"
+                    @click="extLinks.splice(index,1)"
                   >
-                    <template #append>
-                      <v-btn
-                        :aria-label="$t('actions.del')"
-                        density="compact"
-                        variant="text"
-                        icon="mdi-delete"
-                        @click="subLinks.splice(index,1)"
-                      >
-                        <v-icon />
-                      </v-btn>
-                    </template>
-                  </v-text-field>
-                </v-col>
-              </v-row>
-            </v-window-item>
-          </v-window>
-        </v-container>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn
-          color="primary"
-          variant="outlined"
-          @click="closeModal"
-        >
-          {{ $t('actions.close') }}
-        </v-btn>
-        <v-btn
-          color="primary"
-          variant="tonal"
-          :loading="loading"
-          @click="saveChanges"
-        >
-          {{ $t('actions.save') }}
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+                    <v-icon />
+                  </v-btn>
+                </template>
+              </v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn
+                color="primary"
+                @click="subLinks.push({ type: 'sub', uri: ''})"
+              >
+                {{ $t('actions.add') }} {{ $t('client.sub') }}
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row
+            v-for="(lnk, index) in subLinks"
+            :key="index"
+          >
+            <v-col>
+              <v-text-field
+                v-model="lnk.uri"
+                dir="ltr"
+                :label="$t('client.sub') + ' ' + (index+1)"
+                placeholder="http[s]://<domain>[:]<port>/<path>"
+                hide-details
+              >
+                <template #append>
+                  <v-btn
+                    :aria-label="$t('actions.del')"
+                    density="compact"
+                    variant="text"
+                    icon="mdi-delete"
+                    @click="subLinks.splice(index,1)"
+                  >
+                    <v-icon />
+                  </v-btn>
+                </template>
+              </v-text-field>
+            </v-col>
+          </v-row>
+        </v-window-item>
+      </v-window>
+    </div>
+
+    <template #actions>
+      <v-btn
+        variant="text"
+        @click="closeModal"
+      >
+        {{ $t('actions.close') }}
+      </v-btn>
+      <v-btn
+        color="primary"
+        variant="flat"
+        :loading="loading"
+        @click="saveChanges"
+      >
+        {{ $t('actions.save') }}
+      </v-btn>
+    </template>
+  </AppDialog>
 </template>
 
 <script lang="ts">
+import AppDialog from '@/components/ui/AppDialog.vue'
 import { createClient, randomConfigs, updateConfigs, Link, shuffleConfigs } from '@/types/clients'
 import DatePick from '@/components/DateTime.vue'
 import { HumanReadable } from '@/plugins/utils'
@@ -479,7 +469,7 @@ interface InboundTag {
 }
 
 export default {
-  components: { DatePick },
+  components: { AppDialog, DatePick },
   props: {
     visible: { type: Boolean, required: true },
     id: { type: Number, required: true },

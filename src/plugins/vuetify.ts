@@ -18,17 +18,38 @@ import { createVuetify } from 'vuetify'
 export default createVuetify({
   defaults: {
     VRow: { density: 'compact' },
+    // Outlined fields with a 48px control height read more clearly on the
+    // light and dark surfaces than the old filled blocks, and leave room for
+    // the floating label without eating into dense forms.
     VTextField: {
-      variant: 'solo-filled',
+      variant: 'outlined',
+      density: 'comfortable',
+      color: 'primary',
     },
     VSelect: {
-      variant: 'solo-filled',
+      variant: 'outlined',
+      density: 'comfortable',
+      color: 'primary',
     },
     VCombobox: {
-      variant: 'solo-filled',
+      variant: 'outlined',
+      density: 'comfortable',
+      color: 'primary',
+    },
+    VAutocomplete: {
+      variant: 'outlined',
+      density: 'comfortable',
+      color: 'primary',
     },
     VTextarea: {
-      variant: 'solo-filled',
+      variant: 'outlined',
+      density: 'comfortable',
+      color: 'primary',
+    },
+    VFileInput: {
+      variant: 'outlined',
+      density: 'comfortable',
+      color: 'primary',
     },
   },
   theme: {

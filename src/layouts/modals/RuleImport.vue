@@ -26,6 +26,7 @@
         <v-tabs
           v-model="tab"
           density="compact"
+          inset
           @update:model-value="tabChanged"
         >
           <v-tab value="json">
@@ -41,7 +42,6 @@
 
         <v-window
           v-model="tab"
-          class="mt-2"
         >
           <v-window-item value="json">
             <v-alert

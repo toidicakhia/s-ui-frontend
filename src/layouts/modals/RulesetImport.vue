@@ -26,6 +26,7 @@
         <v-tabs
           v-model="tab"
           density="compact"
+          inset
           @update:model-value="tabChanged"
         >
           <v-tab value="text">
@@ -37,7 +38,7 @@
         </v-tabs>
         <v-window
           v-model="tab"
-          class="mt-2 mb-4"
+          class="mb-4"
         >
           <v-window-item value="text">
             <v-alert

@@ -19,6 +19,7 @@
             v-model="tab"
             density="compact"
             align-tabs="center"
+            inset
           >
             <v-tab value="t1">
               {{ $t('client.basics') }}
@@ -29,7 +30,6 @@
           </v-tabs>
           <v-window
             v-model="tab"
-            class="mt-2"
           >
             <v-window-item value="t1">
               <v-row>

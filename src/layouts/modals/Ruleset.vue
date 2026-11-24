@@ -1,140 +1,112 @@
 <template>
-  <v-dialog
-    transition="dialog-bottom-transition"
-    width="800"
+  <AppDialog
+    :visible="visible"
+    :title="$t('actions.' + title) + ' ' + $t('objects.ruleset')"
+    icon="mdi-file-tree-outline"
+    :width="760"
+    @close="closeModal"
   >
-    <v-card class="rounded-lg">
-      <v-card-title class="d-flex align-center">
-        {{ $t('actions.' + title) + " " + $t('objects.ruleset') }}
-        <v-spacer />
-        <DocLink section="ruleset" />
-      </v-card-title>
-      <v-divider />
-      <v-card-text class="card-text--standard">
-        <v-row>
-          <v-col
-            cols="12"
-            sm="6"
-            md="4"
-          >
-            <v-select
-              v-model="rule_set.type"
-              hide-details
-              :label="$t('type')"
-              :items="[{title: $t('ruleset.local'), value: 'local'},{ title: $t('ruleset.remote'), value: 'remote'}]"
-              @update:model-value="updateType($event)"
-            />
-          </v-col>
-          <v-col
-            cols="12"
-            sm="6"
-            md="4"
-          >
-            <v-text-field
-              v-model="rule_set.tag"
-              :label="$t('objects.tag')"
-              hide-details
-            />
-          </v-col>
-          <v-col
-            cols="12"
-            sm="6"
-            md="4"
-          >
-            <v-select
-              v-model="rule_set.format"
-              hide-details
-              :label="$t('ruleset.format')"
-              :items="['source', 'binary']"
-            />
-          </v-col>
-        </v-row>
-        <v-row v-if="rule_set.type == 'local'">
-          <v-col cols="12">
-            <v-text-field
-              v-model="rule_set.path"
-              :label="$t('transport.path')"
-              hide-details
-            />
-          </v-col>
-        </v-row>
-        <v-row v-else>
-          <v-col cols="12">
-            <v-text-field
-              v-model="rule_set.url"
-              label="URL"
-              hide-details
-            />
-          </v-col>
+    <template #header-actions>
+      <DocLink section="ruleset" />
+    </template>
+
+    <FormSection
+      :title="$t('objects.ruleset')"
+      icon="mdi-tag-outline"
+    >
+      <div class="form-grid">
+        <v-select
+          v-model="rule_set.type"
+          hide-details
+          :label="$t('type')"
+          :items="[{title: $t('ruleset.local'), value: 'local'},{ title: $t('ruleset.remote'), value: 'remote'}]"
+          @update:model-value="updateType($event)"
+        />
+        <v-text-field
+          v-model="rule_set.tag"
+          :label="$t('objects.tag')"
+          hide-details
+        />
+        <v-select
+          v-model="rule_set.format"
+          hide-details
+          :label="$t('ruleset.format')"
+          :items="['source', 'binary']"
+        />
+      </div>
+    </FormSection>
+
+    <FormSection
+      :title="rule_set.type == 'remote' ? $t('ruleset.remote') : $t('ruleset.local')"
+      icon="mdi-link-variant"
+    >
+      <div class="form-grid">
+        <v-text-field
+          v-if="rule_set.type == 'local'"
+          v-model="rule_set.path"
+          class="form-grid__full"
+          :label="$t('transport.path')"
+          hide-details
+        />
+        <template v-else>
+          <v-text-field
+            v-model="rule_set.url"
+            class="form-grid__full"
+            label="URL"
+            hide-details
+          />
           <!-- Download over a shared client, or over a single outbound. The
                two are alternatives, so choosing one clears the other. -->
-          <v-col
-            cols="12"
-            sm="6"
-            md="4"
-          >
-            <v-select
-              v-model="http_client"
-              hide-details
-              :label="$t('basic.httpClient.title')"
-              :items="httpClients"
-              :no-data-text="$t('basic.httpClient.none')"
-              clearable
-            />
-          </v-col>
-          <v-col
-            cols="12"
-            sm="6"
-            md="4"
-          >
-            <v-select
-              v-model="download_detour"
-              hide-details
-              :label="$t('objects.outbound')"
-              :items="outTags"
-              clearable
-            />
-          </v-col>
-          <v-col
-            cols="12"
-            sm="6"
-            md="4"
-          >
-            <v-text-field
-              v-model.number="update_intervals"
-              :suffix="$t('date.d')"
-              type="number"
-              min="0"
-              :label="$t('ruleset.interval')"
-              hide-details
-            />
-          </v-col>
-        </v-row>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn
-          color="primary"
-          variant="outlined"
-          @click="closeModal"
-        >
-          {{ $t('actions.close') }}
-        </v-btn>
-        <v-btn
-          color="primary"
-          variant="tonal"
-          :loading="loading"
-          :disabled="!validate"
-          @click="saveChanges"
-        >
-          {{ $t('actions.save') }}
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+          <v-select
+            v-model="http_client"
+            hide-details
+            :label="$t('basic.httpClient.title')"
+            :items="httpClients"
+            :no-data-text="$t('basic.httpClient.none')"
+            clearable
+          />
+          <v-select
+            v-model="download_detour"
+            hide-details
+            :label="$t('objects.outbound')"
+            :items="outTags"
+            clearable
+          />
+          <v-text-field
+            v-model.number="update_intervals"
+            :suffix="$t('date.d')"
+            type="number"
+            min="0"
+            :label="$t('ruleset.interval')"
+            hide-details
+          />
+        </template>
+      </div>
+    </FormSection>
+
+    <template #actions>
+      <v-btn
+        variant="text"
+        @click="closeModal"
+      >
+        {{ $t('actions.close') }}
+      </v-btn>
+      <v-btn
+        color="primary"
+        variant="flat"
+        :loading="loading"
+        :disabled="!validate"
+        @click="saveChanges"
+      >
+        {{ $t('actions.save') }}
+      </v-btn>
+    </template>
+  </AppDialog>
 </template>
 
 <script lang="ts">
+import AppDialog from '@/components/ui/AppDialog.vue'
+import FormSection from '@/components/ui/FormSection.vue'
 import RandomUtil from '@/plugins/randomUtil'
 import { ruleset } from '@/types/rules'
 import DocLink from '@/components/DocLink.vue'
@@ -144,7 +116,7 @@ import { i18n } from '@/locales'
 import { push } from 'notivue'
 import type { PropType } from 'vue'
 export default {
-  components: { DocLink },
+  components: { AppDialog, FormSection, DocLink },
   props: {
     visible: { type: Boolean, required: true },
     data: { type: String, required: true },

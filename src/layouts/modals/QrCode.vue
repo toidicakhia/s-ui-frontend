@@ -35,6 +35,7 @@
         <v-tabs
           v-model="tab"
           density="compact"
+          inset
           fixed-tabs
           align-tabs="center"
         >
@@ -47,7 +48,6 @@
         </v-tabs>
         <v-window
           v-model="tab"
-          class="mt-2"
         >
           <v-window-item value="sub">
             <v-row>

@@ -1,72 +1,63 @@
 <template>
-  <v-dialog
-    transition="dialog-bottom-transition"
-    width="400"
+  <AppDialog
+    :visible="visible"
+    :title="$t('admin.changeCred') + ' ' + user.username"
+    icon="mdi-shield-account-outline"
+    :width="440"
+    @close="closeModal"
   >
-    <v-card class="rounded-lg">
-      <v-card-title>
-        {{ $t('admin.changeCred') + " " + user.username }}
-      </v-card-title>
-      <v-divider />
-      <v-card-text class="card-text--standard">
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model="newData.oldPass"
-              :label="$t('admin.oldPass')"
-              :rules="passwordRules"
-              type="password"
-              hide-details="auto"
-              required
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model="newData.newUsername"
-              :label="$t('admin.newUname')"
-              :rules="usernameRules"
-              hide-details="auto"
-              required
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model="newData.newPass"
-              :label="$t('admin.newPass')"
-              :rules="passwordRules"
-              type="password"
-              hide-details="auto"
-              required
-            />
-          </v-col>
-        </v-row>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn
-          color="primary"
-          variant="outlined"
-          @click="closeModal"
-        >
-          {{ $t('actions.close') }}
-        </v-btn>
-        <v-btn
-          color="primary"
-          variant="tonal"
-          @click="saveChanges"
-        >
-          {{ $t('actions.save') }}
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+    <div class="form-stack">
+      <v-text-field
+        v-model="newData.oldPass"
+        :label="$t('admin.oldPass')"
+        :rules="passwordRules"
+        prepend-inner-icon="mdi-lock-outline"
+        type="password"
+        autocomplete="current-password"
+        hide-details="auto"
+        required
+      />
+      <v-text-field
+        v-model="newData.newUsername"
+        :label="$t('admin.newUname')"
+        :rules="usernameRules"
+        prepend-inner-icon="mdi-account-outline"
+        autocomplete="username"
+        hide-details="auto"
+        required
+      />
+      <v-text-field
+        v-model="newData.newPass"
+        :label="$t('admin.newPass')"
+        :rules="passwordRules"
+        prepend-inner-icon="mdi-lock-reset"
+        type="password"
+        autocomplete="new-password"
+        hide-details="auto"
+        required
+      />
+    </div>
+    <template #actions>
+      <v-btn
+        variant="text"
+        @click="closeModal"
+      >
+        {{ $t('actions.close') }}
+      </v-btn>
+      <v-btn
+        color="primary"
+        variant="flat"
+        :disabled="!canSave"
+        @click="saveChanges"
+      >
+        {{ $t('actions.save') }}
+      </v-btn>
+    </template>
+  </AppDialog>
 </template>
 
 <script lang="ts">
+import AppDialog from '@/components/ui/AppDialog.vue'
 import { i18n } from '@/locales'
 import type { PropType } from 'vue'
 
@@ -77,6 +68,7 @@ interface AdminUser {
 }
 
 export default {
+  components: { AppDialog },
   props: {
     visible: { type: Boolean, required: true },
     user: { type: Object as PropType<AdminUser>, required: true },
@@ -104,6 +96,11 @@ export default {
       ]
     }
   },
+  computed: {
+    canSave(): boolean {
+      return this.newData.oldPass != '' && this.newData.newUsername != '' && this.newData.newPass != ''
+    },
+  },
   watch: {
     visible(newValue) {
       if (newValue) {
@@ -123,7 +120,7 @@ export default {
       this.$emit('close')
     },
     saveChanges() {
-      if (this.newData.oldPass == '' || this.newData.newUsername == '' || this.newData.newPass == '') return
+      if (!this.canSave) return
       this.$emit('save', this.newData)
     },
   },

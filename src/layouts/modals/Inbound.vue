@@ -58,6 +58,7 @@
             v-if="HasInData.includes(inbound.type)"
             v-model="side"
             density="compact"
+            inset
             fixed-tabs
             align-tabs="center"
           >
@@ -70,7 +71,6 @@
           </v-tabs>
           <v-window
             v-model="side"
-            class="mt-2"
           >
             <v-window-item value="s">
               <Listen

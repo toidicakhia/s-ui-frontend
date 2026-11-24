@@ -136,6 +136,9 @@ export const defaultInTls: iTls = {
 
 export interface oTls {
   enabled?: boolean
+  // The TLS implementation the client asks sing-box to use. Left out, sing-box
+  // picks the platform engine.
+  engine?: tlsEngine
   disable_sni?: boolean
   server_name?: string
   insecure?: boolean
@@ -154,6 +157,8 @@ export interface oTls {
   fragment?: boolean
   fragment_fallback_delay?: string
   record_fragment?: boolean
+  kernel_tx?: boolean
+  kernel_rx?: boolean
   handshake_timeout?: string
   // Sends a forged ClientHello carrying this SNI ahead of the real one, so an
   // SNI filter sees a permitted hostname. Client only, and rejected by reality.
@@ -175,6 +180,26 @@ export interface oTls {
     short_id: string
   }
 }
+
+export type tlsEngine = 'go' | 'apple' | 'windows'
+
+// The client TLS stack. go is the portable one; apple and windows use the
+// platform implementation and are only available on those systems.
+export const tlsEngines: { title: string, value: tlsEngine }[] = [
+  { title: "Go", value: 'go' },
+  { title: "Apple", value: 'apple' },
+  { title: "Windows", value: 'windows' },
+]
+
+// Elliptic curves the handshake may use, in sing-box spelling. The hybrid
+// X25519MLKEM768 gives post-quantum key exchange where both ends support it.
+export const curvePreferences: { title: string, value: string }[] = [
+  { title: "X25519", value: 'X25519' },
+  { title: "X25519MLKEM768", value: 'X25519MLKEM768' },
+  { title: "P256", value: 'P256' },
+  { title: "P384", value: 'P384' },
+  { title: "P521", value: 'P521' },
+]
 
 export type spoofMethod = 'wrong-sequence' | 'wrong-checksum' | 'wrong-ack' | 'wrong-md5' | 'wrong-timestamp'
 

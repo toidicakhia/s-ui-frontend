@@ -451,6 +451,7 @@ export default {
     },
     vless: {
       flow: "Flow",
+      flowHint: "XTLS Vision needs TLS over plain TCP, without a transport",
       udpEnc: "UDP Packet Encoding",
     },
     vmess: {
@@ -787,6 +788,8 @@ export default {
     minVer: "Minimum Version",
     maxVer: "Maximum Version",
     cs: "Cipher suits",
+    curves: "Curve Preferences",
+    engine: "TLS Engine",
     privKey: "Private Key",
     pubKey: "Public Key",
     disableSni: "Disable SNI",

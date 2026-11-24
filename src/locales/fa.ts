@@ -451,6 +451,7 @@ export default {
     },
     vless: {
       flow: "جریان",
+      flowHint: "XTLS Vision به TLS روی TCP ساده و بدون ترانسپورت نیاز دارد",
       udpEnc: "کدگذاری بسته UDP",
     },
     vmess: {
@@ -785,6 +786,8 @@ export default {
     minVer: "کمینه نسخه",
     maxVer: "بیشینه نسخه",
     cs: "مدل‌های رمزنگاری",
+    curves: "اولویت منحنی‌ها",
+    engine: "موتور TLS",
     privKey: "کلید خصوصی",
     pubKey: "کلید عمومی",
     disableSni: "غیرفعال‌سازی SNI",

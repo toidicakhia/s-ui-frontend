@@ -17,10 +17,12 @@
         md="4"
       >
         <v-select
-          v-model="data.flow"
+          v-model="flow"
           hide-details
           :label="$t('types.vless.flow')"
-          :items="['','xtls-rprx-vision']"
+          :items="flowItems"
+          :hint="$t('types.vless.flowHint')"
+          persistent-hint
         />
       </v-col>
     </v-row>
@@ -49,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import Network from '@/components/Network.vue'
 import { Outbound } from '@/types/outbounds'
 
@@ -58,6 +60,8 @@ interface VlessData {
   uuid?: string
   flow?: string
   packet_encoding?: string
+  tls?: { enabled?: boolean }
+  transport?: { type?: string }
 }
 
 // The parent owns the object and this component edits it in place, so it is a
@@ -73,4 +77,26 @@ const packet_encoding = computed({
   get: (): string => data.value.packet_encoding != undefined ? data.value.packet_encoding : 'none',
   set: (newValue: string) => { data.value.packet_encoding = newValue != "none" ? newValue : undefined },
 })
+
+// XTLS Vision is a TLS-over-TCP flow. sing-box rejects it on a transport such
+// as ws or grpc, and it has nothing to wrap without TLS, so it is only offered
+// for a plain TCP connection that enables TLS.
+const flowEligible = computed((): boolean => data.value.tls?.enabled === true
+  && (data.value.transport?.type ?? '') == '')
+
+const flowItems = computed((): string[] => flowEligible.value
+  ? ['', 'xtls-rprx-vision']
+  : [''])
+
+const flow = computed({
+  get: (): string => data.value.flow ?? '',
+  set: (newValue: string) => { data.value.flow = newValue.length > 0 ? newValue : undefined },
+})
+
+// The TLS switch sits in another component and the transport in another, so a
+// flow left behind after either changes would reach sing-box and stop the
+// outbound from starting. Clear it as soon as it stops being valid.
+watch(flowEligible, (eligible) => {
+  if (!eligible) data.value.flow = undefined
+}, { immediate: true })
 </script>

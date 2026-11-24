@@ -181,6 +181,39 @@
           />
         </v-col>
       </v-row>
+      <v-row v-if="tls.curve_preferences != undefined">
+        <v-col
+          cols="12"
+          md="8"
+        >
+          <v-select
+            v-model="tls.curve_preferences"
+            hide-details
+            :label="$t('tls.curves')"
+            multiple
+            :items="curvePreferences"
+          />
+        </v-col>
+      </v-row>
+      <v-row
+        v-if="tls.engine != undefined && tls.reality == undefined"
+        align="center"
+      >
+        <v-col
+          cols="12"
+          sm="6"
+          md="4"
+        >
+          <v-select
+            v-model="tls.engine"
+            hide-details
+            clearable
+            :label="$t('tls.engine')"
+            :items="tlsEngines"
+            @click:clear="delete tls.engine"
+          />
+        </v-col>
+      </v-row>
       <v-row v-if="tls.utls != undefined">
         <v-col
           cols="12"
@@ -304,6 +337,32 @@
             type="number"
             min="1"
             :suffix="$t('date.s')"
+            hide-details
+          />
+        </v-col>
+      </v-row>
+      <v-row v-if="(tls.kernel_tx != undefined || tls.kernel_rx != undefined) && tls.reality == undefined">
+        <v-col
+          cols="12"
+          sm="6"
+          md="4"
+        >
+          <v-switch
+            v-model="tls.kernel_tx"
+            color="primary"
+            :label="$t('tls.ktls') + ' ' + $t('tls.kernelTx')"
+            hide-details
+          />
+        </v-col>
+        <v-col
+          cols="12"
+          sm="6"
+          md="4"
+        >
+          <v-switch
+            v-model="tls.kernel_rx"
+            color="primary"
+            :label="$t('tls.ktls') + ' ' + $t('tls.kernelRx')"
             hide-details
           />
         </v-col>
@@ -448,9 +507,25 @@
             </v-list-item>
             <v-list-item>
               <v-switch
+                v-model="optionCurves"
+                color="primary"
+                :label="$t('tls.curves')"
+                hide-details
+              />
+            </v-list-item>
+            <v-list-item>
+              <v-switch
                 v-model="optionFP"
                 color="primary"
                 label="UTLS"
+                hide-details
+              />
+            </v-list-item>
+            <v-list-item v-if="tls.reality == undefined">
+              <v-switch
+                v-model="optionEngine"
+                color="primary"
+                :label="$t('tls.engine')"
                 hide-details
               />
             </v-list-item>
@@ -475,6 +550,14 @@
                 v-model="optionFragment"
                 color="primary"
                 :label="$t('tls.fragment')"
+                hide-details
+              />
+            </v-list-item>
+            <v-list-item v-if="tls.reality == undefined">
+              <v-switch
+                v-model="optionKtls"
+                color="primary"
+                :label="$t('tls.ktls')"
                 hide-details
               />
             </v-list-item>
@@ -504,7 +587,7 @@
 <script lang="ts">
 import { PropType } from 'vue'
 import HttpUtils from '@/plugins/httputil';
-import { oTls, defaultOutTls, spoofMethods } from '@/types/tls'
+import { oTls, defaultOutTls, spoofMethods, curvePreferences, tlsEngines } from '@/types/tls'
 
 // The object that owns the client TLS block: an outbound, one of an inbound's
 // extra addresses, or a DERP mesh node. Only what this form reads is listed.
@@ -540,6 +623,8 @@ export default {
       ],
       tlsVersions: [ '1.0', '1.1', '1.2', '1.3' ],
       spoofMethods,
+      curvePreferences,
+      tlsEngines,
       cipher_suites: [
         { title: "RSA-AES128-CBC-SHA", value: "TLS_RSA_WITH_AES_128_CBC_SHA" },
         { title: "RSA-AES256-CBC-SHA", value: "TLS_RSA_WITH_AES_256_CBC_SHA" },
@@ -561,6 +646,11 @@ export default {
       ],
       fingerprints: [
         { title: "Chrome", value: "chrome" },
+        { title: "Chrome PSK", value: "chrome_psk" },
+        { title: "Chrome PSK Shuffle", value: "chrome_psk_shuffle" },
+        { title: "Chrome Padding PSK Shuffle", value: "chrome_padding_psk_shuffle" },
+        { title: "Chrome PQ", value: "chrome_pq" },
+        { title: "Chrome PQ PSK", value: "chrome_pq_psk" },
         { title: "Firefox", value: "firefox" },
         { title: "Microsoft Edge", value: "edge" },
         { title: "Apple Safari", value: "safari" },
@@ -633,16 +723,35 @@ export default {
       get(): boolean { return this.tls.cipher_suites != undefined },
       set(v:boolean) { this.holder.tls.cipher_suites = v ? defaultOutTls.cipher_suites : undefined }
     },
+    optionCurves: {
+      get(): boolean { return this.tls.curve_preferences != undefined },
+      set(v:boolean) { this.holder.tls.curve_preferences = v ? [] : undefined }
+    },
     optionFP: {
       get(): boolean { return this.tls.utls != undefined },
       set(v:boolean) { this.holder.tls.utls = v ? defaultOutTls.utls : undefined }
+    },
+    optionEngine: {
+      get(): boolean { return this.tls.engine != undefined },
+      set(v:boolean) {
+        if (v) {
+          this.holder.tls.engine = 'go'
+        } else {
+          delete this.holder.tls.engine
+        }
+      }
     },
     optionReality: {
       get(): boolean { return this.tls.reality != undefined },
       set(v:boolean) {
         this.holder.tls.reality = v ? defaultOutTls.reality : undefined
-        // reality rejects a spoofed ClientHello, so the two cannot coexist.
-        if (v) this.optionSpoof = false
+        // reality owns the handshake: it rejects a spoofed ClientHello and
+        // ignores the platform TLS engines and kTLS.
+        if (v) {
+          this.optionSpoof = false
+          this.optionEngine = false
+          this.optionKtls = false
+        }
       }
     },
     handshakeTimeout: {
@@ -702,6 +811,18 @@ export default {
     fragmentFallbackDelay: {
       get(): number { return parseInt(this.tls.fragment_fallback_delay?.replace('ms','')?? '500')?? 500 },
       set(v:number) { this.holder.tls.fragment_fallback_delay = v>0 ? `${v}ms` : undefined }
+    },
+    optionKtls: {
+      get(): boolean { return this.tls.kernel_tx != undefined || this.tls.kernel_rx != undefined },
+      set(v:boolean) {
+        if (v) {
+          this.holder.tls.kernel_tx = false
+          this.holder.tls.kernel_rx = false
+        } else {
+          delete this.holder.tls.kernel_tx
+          delete this.holder.tls.kernel_rx
+        }
+      }
     },
     pin_sha256: {
       get(): string { return this.tls.certificate_public_key_sha256?.join(',') ?? '' },

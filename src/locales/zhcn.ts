@@ -451,6 +451,7 @@ export default {
     },
     vless: {
       flow: "流控",
+      flowHint: "XTLS Vision 需要基于纯 TCP 的 TLS，且不能使用传输层",
       udpEnc: "UDP 数据包编码",
     },
     vmess: {
@@ -785,6 +786,8 @@ export default {
     minVer: "最低版本",
     maxVer: "最高版本",
     cs: "密码套件",
+    curves: "曲线偏好",
+    engine: "TLS 引擎",
     privKey: "私钥",
     pubKey: "公钥",
     disableSni: "禁用 SNI",

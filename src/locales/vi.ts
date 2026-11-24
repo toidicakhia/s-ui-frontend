@@ -451,6 +451,7 @@ export default {
     },
     vless: {
       flow: "Luồng",
+      flowHint: "XTLS Vision cần TLS trên TCP thuần, không dùng transport",
       udpEnc: "Mã hóa Gói UDP",
     },
     vmess: {
@@ -785,6 +786,8 @@ export default {
     minVer: "Phiên bản Tối thiểu",
     maxVer: "Phiên bản Tối đa",
     cs: "Các bộ mã hóa",
+    curves: "Bộ đường cong ưu tiên",
+    engine: "Engine TLS",
     privKey: "Khóa riêng",
     pubKey: "Khóa Công khai",
     disableSni: "Tắt SNI",

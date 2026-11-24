@@ -105,6 +105,19 @@
                   :items="cipher_suites"
                 />
               </v-col>
+              <v-col
+                v-if="inTls.curve_preferences != undefined"
+                cols="12"
+                md="8"
+              >
+                <v-select
+                  v-model="inTls.curve_preferences"
+                  hide-details
+                  :label="$t('tls.curves')"
+                  multiple
+                  :items="curvePreferences"
+                />
+              </v-col>
             </template>
           </v-row>
           <template v-if="tlsType == 0">
@@ -525,6 +538,96 @@
               />
             </v-col>
           </v-row>
+          <!-- Client-side TLS stack options. They belong to the client half,
+               because the server never picks the engine or fragments its own
+               handshake. Reality owns the client stack, so these are offered
+               for plain TLS alone. -->
+          <template v-if="tlsType == 0">
+            <v-row v-if="outTls.engine != undefined">
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-select
+                  v-model="outTls.engine"
+                  hide-details
+                  clearable
+                  :label="$t('tls.engine')"
+                  :items="tlsEngines"
+                  @click:clear="delete outTls.engine"
+                />
+              </v-col>
+            </v-row>
+            <v-row v-if="outTls.kernel_tx != undefined || outTls.kernel_rx != undefined">
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-switch
+                  v-model="outTls.kernel_tx"
+                  color="primary"
+                  :label="$t('tls.ktls') + ' ' + $t('tls.kernelTx')"
+                  hide-details
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-switch
+                  v-model="outTls.kernel_rx"
+                  color="primary"
+                  :label="$t('tls.ktls') + ' ' + $t('tls.kernelRx')"
+                  hide-details
+                />
+              </v-col>
+            </v-row>
+            <v-row v-if="outTls.fragment != undefined">
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-switch
+                  v-model="outTls.fragment"
+                  color="primary"
+                  :label="$t('tls.fragment')"
+                  hide-details
+                />
+              </v-col>
+              <v-col
+                v-if="outTls.fragment"
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-switch
+                  v-model="outTls.record_fragment"
+                  color="primary"
+                  :label="$t('tls.recordFragment')"
+                  hide-details
+                />
+              </v-col>
+              <v-col
+                v-if="outTls.fragment"
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  v-model.number="fragmentFallbackDelay"
+                  :label="$t('tls.fragmentDelay')"
+                  hide-details
+                  type="number"
+                  min="0"
+                  :suffix="$t('date.ms')"
+                />
+              </v-col>
+            </v-row>
+          </template>
           <!-- Client side only, and refused by reality, so it is offered for
                plain TLS alone. The forged hostname has to differ from the SNI
                above for sing-box to accept it. -->
@@ -616,9 +719,25 @@
                     </v-list-item>
                     <v-list-item>
                       <v-switch
+                        v-model="optionCurves"
+                        color="primary"
+                        :label="$t('tls.curves')"
+                        hide-details
+                      />
+                    </v-list-item>
+                    <v-list-item>
+                      <v-switch
                         v-model="optionFP"
                         color="primary"
                         label="UTLS"
+                        hide-details
+                      />
+                    </v-list-item>
+                    <v-list-item>
+                      <v-switch
+                        v-model="optionEngine"
+                        color="primary"
+                        :label="$t('tls.engine')"
                         hide-details
                       />
                     </v-list-item>
@@ -651,6 +770,22 @@
                         v-model="optionSpoof"
                         color="primary"
                         :label="$t('tls.spoof')"
+                        hide-details
+                      />
+                    </v-list-item>
+                    <v-list-item>
+                      <v-switch
+                        v-model="optionClientKtls"
+                        color="primary"
+                        :label="$t('tls.ktls') + ' (' + $t('in.cSide') + ')'"
+                        hide-details
+                      />
+                    </v-list-item>
+                    <v-list-item>
+                      <v-switch
+                        v-model="optionFragment"
+                        color="primary"
+                        :label="$t('tls.fragment')"
                         hide-details
                       />
                     </v-list-item>
@@ -706,7 +841,7 @@
 </template>
 
 <script lang="ts">
-import { tls, iTls, defaultInTls, oTls, defaultOutTls, spoofMethods } from '@/types/tls'
+import { tls, iTls, defaultInTls, oTls, defaultOutTls, spoofMethods, curvePreferences, tlsEngines } from '@/types/tls'
 import DocLink from '@/components/DocLink.vue'
 import EchVue from '@/components/tls/Ech.vue'
 import HttpUtils from '@/plugins/httputil'
@@ -737,6 +872,8 @@ export default {
         { title: "Http/1.1", value: 'http/1.1' },
       ],
       tlsVersions: [ '1.0', '1.1', '1.2', '1.3' ],
+      curvePreferences,
+      tlsEngines,
       cipher_suites: [
         { title: "RSA-AES128-CBC-SHA", value: "TLS_RSA_WITH_AES_128_CBC_SHA" },
         { title: "RSA-AES256-CBC-SHA", value: "TLS_RSA_WITH_AES_256_CBC_SHA" },
@@ -771,6 +908,11 @@ export default {
       spoofMethods,
       fingerprints: [
         { title: "Chrome", value: "chrome" },
+        { title: "Chrome PSK", value: "chrome_psk" },
+        { title: "Chrome PSK Shuffle", value: "chrome_psk_shuffle" },
+        { title: "Chrome Padding PSK Shuffle", value: "chrome_padding_psk_shuffle" },
+        { title: "Chrome PQ", value: "chrome_pq" },
+        { title: "Chrome PQ PSK", value: "chrome_pq_psk" },
         { title: "Firefox", value: "firefox" },
         { title: "Microsoft Edge", value: "edge" },
         { title: "Apple Safari", value: "safari" },
@@ -888,9 +1030,23 @@ export default {
       get(): boolean { return this.inTls.cipher_suites != undefined },
       set(v:boolean) { this.inTls.cipher_suites = v ? defaultInTls.cipher_suites : undefined }
     },
+    optionCurves: {
+      get(): boolean { return this.inTls.curve_preferences != undefined },
+      set(v:boolean) { this.inTls.curve_preferences = v ? [] : undefined }
+    },
     optionFP: {
       get(): boolean { return this.outTls.utls != undefined },
       set(v:boolean) { this.outTls.utls = v ? defaultOutTls.utls : undefined }
+    },
+    optionEngine: {
+      get(): boolean { return this.outTls.engine != undefined },
+      set(v:boolean) {
+        if (v) {
+          this.outTls.engine = 'go'
+        } else {
+          delete this.outTls.engine
+        }
+      }
     },
     // Written on the server side alone; out_json hands the same value to the
     // client, as it does for the versions and cipher suites.
@@ -921,6 +1077,34 @@ export default {
           this.outTls.spoof_method = undefined
         }
       }
+    },
+    optionClientKtls: {
+      get(): boolean { return this.outTls.kernel_tx != undefined || this.outTls.kernel_rx != undefined },
+      set(v: boolean) {
+        if (v) {
+          this.outTls.kernel_tx = false
+          this.outTls.kernel_rx = false
+        } else {
+          delete this.outTls.kernel_tx
+          delete this.outTls.kernel_rx
+        }
+      }
+    },
+    optionFragment: {
+      get(): boolean { return this.outTls.fragment != undefined },
+      set(v: boolean) {
+        if (v) {
+          this.outTls.fragment = false
+        } else {
+          delete this.outTls.fragment
+          delete this.outTls.fragment_fallback_delay
+          delete this.outTls.record_fragment
+        }
+      }
+    },
+    fragmentFallbackDelay: {
+      get(): number { return parseInt(this.outTls.fragment_fallback_delay?.replace('ms', '') ?? '500') || 500 },
+      set(v: number) { this.outTls.fragment_fallback_delay = v > 0 ? `${v}ms` : undefined }
     },
     optionStore: {
       get(): boolean { return this.inTls.store != undefined },
